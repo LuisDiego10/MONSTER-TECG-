@@ -1,4 +1,4 @@
-"Esbirros":[
+{"Esbirros":[
     {
         "nombre": "Diablillo Guerrero",
         "daño": 24,
@@ -98,5 +98,7 @@
         "nombre": "Zombie Guerrero",
         "daño": 2,
         "vida": 22
-    }
+    }],
+"Secretos":[
 ]
+}

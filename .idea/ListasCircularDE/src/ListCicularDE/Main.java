@@ -8,7 +8,5 @@ public class Main {
         dato.insertFactEnd("Elemento3");
         dato.showElements();
         dato.setSizeLCDE();
-
     }
-
 }

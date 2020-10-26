@@ -63,4 +63,18 @@ public class ListCircularDE {
             System.out.println("The LCDE no content elements");
         }
     }
+    public String getFact(String fact2){
+        String found = "Not found";
+        if(!noContent()){
+            Node aux =start;
+            for (int i=0;i <sizeLCDE;i++){
+                if (fact2.equals(aux.fact)){
+                    found=fact2;
+                    break;
+                }
+                aux=aux.nextNode;
+            }
+        }
+        return found;
+    }
 }

@@ -8,5 +8,7 @@ public class Main {
         dato.insertFactEnd("Elemento3");
         dato.showElements();
         dato.setSizeLCDE();
+        System.out.println(dato.getFact("Elemento1"));
+        System.out.println(dato.getFact("Elementodf"));
     }
 }

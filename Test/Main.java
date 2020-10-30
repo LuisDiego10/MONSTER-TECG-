@@ -1,3 +1,4 @@
+import Card.Card;
 import ListCicularDE.*;
 import Pila.StackP;
 
@@ -16,8 +17,8 @@ public class Main {
         System.out.println(dato.getFact("Elementon"));
         System.out.println(dato.getFact("Elementodf"));
 
-        StackP pila =new StackP();
-        pila.push("HOLA");
+        StackP pila =new StackP(16);
+        pila.push(new Card());
         System.out.println(pila.peek());
         System.out.println(pila.empty());
         System.out.println(pila.pop());

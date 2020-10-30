@@ -1,5 +1,7 @@
 package Pila;
 
+import Card.Card;
+
 /**
  * Principal StackP
  * Declare the attributes and contains the methods for the stack
@@ -8,7 +10,7 @@ package Pila;
  * @since 30/10/2020
  */
 public class StackP {
-    String arr[];
+    Card[] arr;
     int maxSize;
     int top;
     /**
@@ -17,9 +19,9 @@ public class StackP {
      * @version 1.0
      * @since 30/10/2020
      */
-    public StackP(){
-        maxSize=16;
-        arr=new String[maxSize];
+    public StackP(int size){
+        maxSize=size;
+        arr=new Card[maxSize];
         top=0;
 
     }
@@ -32,11 +34,7 @@ public class StackP {
      * @since 30/10/2020
      */
     public boolean empty(){
-        if (top==0){
-            return true;
-        }else{
-            return false;
-        }
+        return (top == 0);
     }
     /**
      * Push method
@@ -46,7 +44,7 @@ public class StackP {
      * @version 1.0
      * @since 30/10/2020
      */
-    public void push(String card){
+    public void push(Card card){
         if (top<maxSize){
             arr[top]=card;
             top++;
@@ -60,7 +58,7 @@ public class StackP {
      * @version 1.0
      * @since 30/10/2020
      */
-    public String peek(){
+    public Card peek(){
         if (top>0){
             return arr[top-1];
         }else {
@@ -76,8 +74,8 @@ public class StackP {
      * @version 1.0
      * @since 30/10/2020
      */
-    public String pop(){
-        String temp = null;
+    public Card pop(){
+        Card temp = null;
         if (top>0){
             temp=arr[top-1];
             arr[top-1]=null;
@@ -95,9 +93,20 @@ public class StackP {
      */
     public String showElements() {
         String message="These are the elements that the stack contains";
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
+        if(arr.length!=0){
+            for (int i = 0; i < arr.length; i++) {
+                System.out.println(arr[i]);
+            }}
     return message;
+    }
+
+    /**
+     *  Test method
+     * eliminated before realease
+     * @version 0.0
+     * @since 30/10/2020
+     */
+    public Card[] getArr() {
+        return arr;
     }
 }

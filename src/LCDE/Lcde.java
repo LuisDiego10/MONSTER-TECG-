@@ -109,9 +109,11 @@ public class Lcde {
             start = (start).nextNode;
             prev1.nextNode = start;
             (start).prevNode = prev1;
+            end = prev1;
         } else if (currentNode.nextNode == start) {
             prev1.nextNode = start;
             (start).prevNode = prev1;
+
         } else {
             Node aux = currentNode.nextNode;
             prev1.nextNode = aux;
@@ -132,7 +134,7 @@ public class Lcde {
             System.out.printf("%s ", aux.fact.getName());
             aux = aux.nextNode;
         }
-        System.out.printf("%s ", aux.fact.getName());
+        System.out.printf("%s \n ", aux.fact.getName());
     }
 
     /**
@@ -162,5 +164,23 @@ public class Lcde {
             return start;
         }
         return currentNode;
+    }
+    /**
+     *  test method
+     * deleted before release
+     * @version 0.0
+     * @since 30/10/2020
+     */
+    public Node getStart() {
+        return start;
+    }
+    /**
+     *  test method
+     * deleted before release
+     * @version 0.0
+     * @since 30/10/2020
+     */
+    public Node getEnd() {
+        return end;
     }
 }

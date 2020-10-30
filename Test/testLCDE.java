@@ -1,3 +1,5 @@
+import Card.Card;
+import Factory.Factory;
 import LCDE.Lcde;
 import Pila.StackP;
 
@@ -10,58 +12,60 @@ import Pila.StackP;
  */
 public class testLCDE {
 
-//    public static void main(String[] args){
-//
-//        // Start with the empty list
-//        Lcde listaDos = new Lcde();
-//        // Created linked list will be 4.5.6.7.8
-//        listaDos.insert(4);
-//        listaDos.insert(5);
-//        listaDos.insert(6);
-//        listaDos.insert(7);
-//        listaDos.insert(8);
-//
-//        System.out.print("\n List1 Before Deletion: ");
-//        listaDos.display();
-//
-//        System.out.print("\n List2 Before Deletion: ");
-//        listaDos.display();
-//
-//
-//        // Delete the node which is not present in list
-//        listaDos.deleteNode( 61);
-//        System.out.print("\nList After Deletion: ");
-//        listaDos.display();
-//
-//        // Delete the first node
-//        listaDos.deleteNode( 4);
-//        System.out.printf("\nList After Deleting %d: ", 4);
-//        listaDos.display();
-//
-//        // Delete the last node
-//        listaDos.deleteNode( 8);
-//        System.out.printf("\nList After Deleting %d: ", 8);
-//        listaDos.display();
-//
-//        // Delete the middle node
-//        listaDos.deleteNode( 6);
-//        System.out.printf("\nList After Deleting %d: ", 6);
-//        listaDos.display();
-//
-//        //get a node
-//        System.out.printf("\n previous node value of %d",listaDos.getNode(5).prevNode.getFact());
-//        StackP pila =new StackP();
-//        pila.push("1");
-//        pila.push("2");
-//        pila.push("3");
-//        pila.push("4");
-//        pila.push("5");
-//        System.out.println(pila.peek());
-//        System.out.println(pila.empty());
-//        System.out.println(pila.pop());
-//        System.out.println(pila.peek());
-//        System.out.println(pila.showElements());
-//    }
+    public static void main(String[] args){
+
+        // Start with the empty list
+        Lcde listaDos = new Lcde();
+        // Created linked list will be 4.5.6.7.8
+        for (Card card:Factory.RandomDeck().getArr()){
+            listaDos.insert(card);
+        }
+
+        listaDos.deleteNode("PoderSupremo");
+        System.out.print("\n List1 Before Deletion: PoderSupremo" );
+        listaDos.display();
+
+
+        // Delete the node which is not present in list
+        listaDos.deleteNode("alcitran");
+        System.out.print("\nList After Deletion alcitran: ");
+        listaDos.display();
+
+        // Delete the first node
+        listaDos.deleteNode(listaDos.getStart().fact.name);
+        System.out.print("\nList After Deleting the start: ");
+        listaDos.display();
+
+        // Delete the last node
+        listaDos.deleteNode(listaDos.getEnd().fact.name);
+        System.out.printf("\nList After Deleting %d: ", 8);
+        listaDos.display();
+
+
+        //get a node
+
+        System.out.printf("\nfound node: PoderSupremo or Duplicar");
+        listaDos.getNode("PoderSupremo");
+        listaDos.getNode("Duplicar");
+
+
+        StackP pila = Factory.RandomDeck();
+        pila.peek();
+        pila.peek();
+        pila.peek();
+        pila.peek();
+        pila.push(new Card());
+        pila.push(new Card());
+        pila.push(new Card());
+        pila.push(new Card());
+        pila.push(new Card());
+        System.out.println(pila.showElements());
+        System.out.println(pila.peek());
+        System.out.println(pila.empty());
+        System.out.println(pila.pop());
+        System.out.println(pila.peek());
+        System.out.println(pila.showElements());
+    }
 
 }
 

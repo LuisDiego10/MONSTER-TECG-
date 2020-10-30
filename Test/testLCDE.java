@@ -1,8 +1,15 @@
 import LCDE.Lcde;
+import Pila.StackP;
 
 import javax.swing.*;
 import java.util.ArrayList;
-
+/**
+ * Class test
+ * Class used to perform the tests
+ * @author Diego
+ * @version 1.0
+ * @since 30/10/2020
+ */
 public class testLCDE {
 
     public static void main(String[] args){
@@ -44,6 +51,17 @@ public class testLCDE {
 
         //get a node
         System.out.printf("\n previous node value of %d",listaDos.getNode(5).prevNode.getFact());
+        StackP pila =new StackP();
+        pila.push("1");
+        pila.push("2");
+        pila.push("3");
+        pila.push("4");
+        pila.push("5");
+        System.out.println(pila.peek());
+        System.out.println(pila.empty());
+        System.out.println(pila.pop());
+        System.out.println(pila.peek());
+        System.out.println(pila.showElements());
     }
 
 }

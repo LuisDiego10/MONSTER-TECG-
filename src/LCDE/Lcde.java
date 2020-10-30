@@ -1,5 +1,11 @@
 package LCDE;
-
+/**
+ * Principal class Lcde
+ * Declare the attributes and contains the methods for the circular doubly linked list(LCDE)
+ * @author Diego
+ * @version 1.0
+ * @since 30/10/2020
+ */
 public class Lcde {
     public int sizeLCDE=0;
     Node start= null;
@@ -7,14 +13,26 @@ public class Lcde {
 
     public Lcde(){
     }
-
+    /**
+     * Constructor class StackP
+     * @param node
+     * @author Diego
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public Lcde(int node){
         Node newNode= new Node(node);
         start= newNode;
         end= newNode;
         sizeLCDE++;
     }
-
+    /**
+     * Class Lcde
+     * Class for target the nodes
+     * @author Diego
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public Lcde(int[] nodos){
         start = new Node(nodos[0]);
         end = start;
@@ -25,9 +43,14 @@ public class Lcde {
             insert(nodos[i]);
         }
     }
-
-
-
+    /**
+     * Class insert
+     * Class for insert nodes
+     * @author Diego
+     * @param value
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public void insert(int value){
         if (start == null) {
             Node newNode = new Node();
@@ -45,7 +68,15 @@ public class Lcde {
         lastNode.nextNode = newNode;
         sizeLCDE++;
     }
-
+    /**
+     * Class deleteNode
+     * Class for delete nodes
+     * @author Diego
+     * @param valueFind
+     * @return start node
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public Node deleteNode(int valueFind) {
         if (start == null)
             return null;
@@ -77,7 +108,13 @@ public class Lcde {
         }
         return start;
     }
-
+    /**
+     * Class display
+     * Class for show elements in LCDE
+     * @author Diego
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public void display() {
         Node aux = start;
         while (aux.nextNode != start) {
@@ -86,7 +123,14 @@ public class Lcde {
         }
         System.out.printf("%d ", aux.fact);
     }
-
+    /**
+     * Class getNode
+     * Class get a specific node
+     * @author Diego
+     * @param factkey
+     * @version 1.0
+     * @since 30/10/2020
+     */
     public Node getNode(int factkey){
         if (start == null){
             System.out.print("list is empty");

@@ -1,4 +1,5 @@
-{"Esbirros":[
+{
+"Esbirros":[
     {
         "nombre": "Diablillo Guerrero",
         "daño": 24,
@@ -100,5 +101,48 @@
         "vida": 22
     }],
 "Secretos":[
+]
+"Hechizos":[
+	{
+        "nombre": "Congelacion",
+        "Coste": 300,
+		"Efecto": "Congelar"
+    },{
+        "nombre": "Curación",
+        "Coste": 300,
+		"Efecto": "curar"
+    },{
+        "nombre": "PoderSupremo",
+        "Coste": 300,
+		"Efecto": "Invocacion"
+    },{
+        "nombre": "AhoraEsMia",
+        "Coste": 300,
+		"Efecto": "robo"
+    },{
+        "nombre": "Escudo",
+        "Coste": 300,
+		"Efecto": "ProteccionEsbirro"
+    },{
+        "nombre": "Invalidar",
+        "Coste": 300,
+		"Efecto": "ProteccionSecreto"
+    },{
+        "nombre": "Anulacion",
+        "Coste": 300,
+		"Efecto": "AnularHechizo"
+    },{
+        "nombre": "Contrarrestar",
+        "Coste": 300,
+		"Efecto": "DevuelveDañorecibido"
+    },{
+        "nombre": "Duplicar",
+        "Coste": 300,
+		"Efecto": "duplicaDaño"
+    },{
+        "nombre": "Economizador",
+        "Coste": 300,
+		"Efecto": "ahorrarmana"
+    },
 ]
 }

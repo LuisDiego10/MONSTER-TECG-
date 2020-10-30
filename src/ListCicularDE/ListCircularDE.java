@@ -1,10 +1,16 @@
 package ListCicularDE;
 
+import java.util.Objects;
+
 public class ListCircularDE {
     //Properties
-    int sizeLCDE=0;
-    Node start;
-    Node end;
+    static int sizeLCDE=0;
+    public static Node start= null;
+    public static Node end= null;
+
+    public ListCircularDE(){
+
+    }
     //Method to compare if the list is empty
     public boolean noContent(){
         return (sizeLCDE==0);
@@ -48,7 +54,7 @@ public class ListCircularDE {
         }
     }
     //Method to observe size of LCDE
-    public void setSizeLCDE(){
+    public void getSizeLCDE(){
         System.out.println("The size of LCDE is: "+ sizeLCDE);
     }
     //Method to show elements of LCDE

@@ -1,4 +1,6 @@
 package LCDE;
+import Card.Card;
+
 /**
  * Principal class Lcde
  * Declare the attributes and contains the methods for the circular doubly linked list(LCDE)
@@ -13,19 +15,23 @@ public class Lcde {
 
     public Lcde(){
     }
+
     /**
      * Constructor class StackP
-     * @param node
+     * @param node, object that contain the data to store.
      * @author Diego
      * @version 1.0
      * @since 30/10/2020
      */
-    public Lcde(int node){
+
+
+    public Lcde(Card node){
         Node newNode= new Node(node);
         start= newNode;
         end= newNode;
         sizeLCDE++;
     }
+
     /**
      * Class Lcde
      * Class for target the nodes
@@ -33,7 +39,8 @@ public class Lcde {
      * @version 1.0
      * @since 30/10/2020
      */
-    public Lcde(int[] nodos){
+
+    public Lcde(Card[] nodos){
         start = new Node(nodos[0]);
         end = start;
         start.nextNode=start;
@@ -43,6 +50,7 @@ public class Lcde {
             insert(nodos[i]);
         }
     }
+
     /**
      * Class insert
      * Class for insert nodes
@@ -51,7 +59,8 @@ public class Lcde {
      * @version 1.0
      * @since 30/10/2020
      */
-    public void insert(int value){
+
+    public void insert(Card value){
         if (start == null) {
             Node newNode = new Node();
             newNode.fact = value;
@@ -68,22 +77,24 @@ public class Lcde {
         lastNode.nextNode = newNode;
         sizeLCDE++;
     }
+
     /**
      * Class deleteNode
      * Class for delete nodes
      * @author Diego
-     * @param valueFind
+     * @param valueFind, key of the data stored in the node, in this case is the card name
      * @return start node
      * @version 1.0
      * @since 30/10/2020
      */
-    public Node deleteNode(int valueFind) {
+
+    public Node deleteNode(String valueFind) {
         if (start == null)
             return null;
         Node currentNode = start, prev1 = null;
-        while (currentNode.fact != valueFind) {
+        while (!currentNode.fact.name.equals(valueFind)) {
             if (currentNode.nextNode == start) {
-                System.out.printf("\nList doesn't have node with value = %d", valueFind);
+                System.out.printf("\nList doesn't have node with value = %s", valueFind);
                 return start;
             }
             prev1 = currentNode;
@@ -118,28 +129,29 @@ public class Lcde {
     public void display() {
         Node aux = start;
         while (aux.nextNode != start) {
-            System.out.printf("%d ", aux.fact);
+            System.out.printf("%s ", aux.fact.getName());
             aux = aux.nextNode;
         }
-        System.out.printf("%d ", aux.fact);
+        System.out.printf("%s ", aux.fact.getName());
     }
+
     /**
      * Class getNode
      * Class get a specific node
      * @author Diego
-     * @param factkey
+     * @param factkey, key of the data stored in node, in this case is the card name
      * @version 1.0
      * @since 30/10/2020
      */
-    public Node getNode(int factkey){
+    public Node getNode(String factkey){
         if (start == null){
             System.out.print("list is empty");
 
             return null;}
         Node currentNode = start, prev1 = null;
-        while (currentNode.fact != factkey) {
+        while (!currentNode.fact.getName().equals(factkey)) {
             if (currentNode.nextNode == start) {
-                System.out.printf("\nList doesn't have node with value = %d", factkey);
+                System.out.printf("\nList doesn't have node with value = %s", factkey);
                 return start;
             }
             prev1 = currentNode;

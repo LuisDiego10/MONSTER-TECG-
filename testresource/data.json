@@ -1,0 +1,148 @@
+{
+"Esbirros":[
+    {
+        "nombre": "Diablillo Guerrero",
+        "daño": 24,
+        "vida": 14
+    },
+    {
+        "nombre": "Slime Guerrero",
+        "daño": 5,
+        "vida": 24
+    },
+    {
+        "nombre": "Insecto Lider",
+        "daño": 0,
+        "vida": 14
+    },
+    {
+        "nombre": "Robot Menor",
+        "daño": 41,
+        "vida": 36
+    },
+    {
+        "nombre": "Slime Menor",
+        "daño": 41,
+        "vida": 16
+    },
+    {
+        "nombre": "Diablillo Rey",
+        "daño": 36,
+        "vida": 7
+    },
+    {
+        "nombre": "Zombie Guerrero",
+        "daño": 38,
+        "vida": 22
+    },
+    {
+        "nombre": "Robot Guerrero",
+        "daño": 3,
+        "vida": 4
+    },
+    {
+        "nombre": "Orco Lider",
+        "daño": 33,
+        "vida": 15
+    },
+    {
+        "nombre": "Ogro Rey",
+        "daño": 15,
+        "vida": 11
+    },
+    {
+        "nombre": "Diablillo Menor",
+        "daño": 8,
+        "vida": 11
+    },
+    {
+        "nombre": "Ogro Menor",
+        "daño": 23,
+        "vida": 34
+    },
+    {
+        "nombre": "Ogro Guerrero",
+        "daño": 38,
+        "vida": 17
+    },
+    {
+        "nombre": "Orco Lider",
+        "daño": 12,
+        "vida": 17
+    },
+    {
+        "nombre": "Diablillo Guerrero",
+        "daño": 13,
+        "vida": 16
+    },
+    {
+        "nombre": "Diablillo Lider",
+        "daño": 14,
+        "vida": 38
+    },
+    {
+        "nombre": "Robot Lider",
+        "daño": 36,
+        "vida": 24
+    },
+    {
+        "nombre": "Zombie Lider",
+        "daño": 37,
+        "vida": 11
+    },
+    {
+        "nombre": "Slime Rey",
+        "daño": 46,
+        "vida": 31
+    },
+    {
+        "nombre": "Zombie Guerrero",
+        "daño": 2,
+        "vida": 22
+    }],
+"Secretos":[
+]
+"Hechizos":[
+	{
+        "nombre": "Congelacion",
+        "Coste": 300,
+		"Efecto": "Congelar"
+    },{
+        "nombre": "Curación",
+        "Coste": 300,
+		"Efecto": "curar"
+    },{
+        "nombre": "PoderSupremo",
+        "Coste": 300,
+		"Efecto": "Invocacion"
+    },{
+        "nombre": "AhoraEsMia",
+        "Coste": 300,
+		"Efecto": "robo"
+    },{
+        "nombre": "Escudo",
+        "Coste": 300,
+		"Efecto": "ProteccionEsbirro"
+    },{
+        "nombre": "Invalidar",
+        "Coste": 300,
+		"Efecto": "ProteccionSecreto"
+    },{
+        "nombre": "Anulacion",
+        "Coste": 300,
+		"Efecto": "AnularHechizo"
+    },{
+        "nombre": "Contrarrestar",
+        "Coste": 300,
+		"Efecto": "DevuelveDañorecibido"
+    },{
+        "nombre": "Duplicar",
+        "Coste": 300,
+		"Efecto": "duplicaDaño"
+    },{
+        "nombre": "Economizador",
+        "Coste": 300,
+		"Efecto": "ahorrarmana"
+    },
+]
+}

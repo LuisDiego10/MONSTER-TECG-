@@ -1,4 +1,6 @@
 package LCDE;
+import Card.*;
+
 /**
  * Class Node
  * Declare the attributes for Node and constructor
@@ -7,16 +9,18 @@ package LCDE;
  * @since 30/10/2020
  */
 public class Node{
-    public int fact;
+    public Card fact;
     public Node nextNode;
     public Node prevNode;
-    public Node(int value){
+
+    public Node(Card value){
         fact= value;
     }
     public Node(){
 
     }
-    public int getFact(){
+    public Card getFact(){
         return fact;
     }
+
 }

@@ -1,6 +1,9 @@
 package Card;
 
-class Card {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Card {
+    @JsonProperty("nombre")
     public String name;
     private int manaCost=300;
 
@@ -10,57 +13,21 @@ class Card {
     public void Action(){
 
     }
-}
-class Minion extends Card{
-    public int healt;
-    int damage;
-    public Minion(String minionName, int life, int minionDamage){
-        name= minionName;
-        healt= life;
-        damage= minionDamage;
+
+    public String getName() {
+        return name;
     }
 
-    public int getHealt() {
-        return healt;
+    public int getManaCost() {
+        return manaCost;
     }
 
-    public void setHealt(int healt) {
-        this.healt = healt;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
     }
 }
-class Secret extends Card{
-    String condition;
-    String efect;
-    public Secret(String secretName, String secretCondition, String secretEfect){
-        name= secretName;
-        condition= secretCondition;
-        efect= secretEfect;
-    }
 
-    public String getCondition() {
-        return condition;
-    }
-
-    public String getEfect() {
-        return efect;
-    }
-}
-class Spell extends Card{
-    String efect;
-    public Spell(String spellName, String spellEfect){
-        name= spellName;
-        efect= spellEfect;
-    }
-
-    public String getEfect() {
-        return efect;
-    }
-}

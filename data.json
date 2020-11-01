@@ -2,113 +2,155 @@
 "Esbirros":[
     {
         "nombre": "Diablillo Guerrero",
-        "daÃ±o": 24,
+        "daño": 24,
         "vida": 14
     },
     {
         "nombre": "Slime Guerrero",
-        "daÃ±o": 5,
+        "daño": 5,
         "vida": 24
     },
     {
         "nombre": "Insecto Lider",
-        "daÃ±o": 0,
+        "daño": 0,
         "vida": 14
     },
     {
         "nombre": "Robot Menor",
-        "daÃ±o": 41,
+        "daño": 41,
         "vida": 36
     },
     {
         "nombre": "Slime Menor",
-        "daÃ±o": 41,
+        "daño": 41,
         "vida": 16
     },
     {
         "nombre": "Diablillo Rey",
-        "daÃ±o": 36,
+        "daño": 36,
         "vida": 7
     },
     {
         "nombre": "Zombie Guerrero",
-        "daÃ±o": 38,
+        "daño": 38,
         "vida": 22
     },
     {
         "nombre": "Robot Guerrero",
-        "daÃ±o": 3,
+        "daño": 3,
         "vida": 4
     },
     {
         "nombre": "Orco Lider",
-        "daÃ±o": 33,
+        "daño": 33,
         "vida": 15
     },
     {
         "nombre": "Ogro Rey",
-        "daÃ±o": 15,
+        "daño": 15,
         "vida": 11
     },
     {
         "nombre": "Diablillo Menor",
-        "daÃ±o": 8,
+        "daño": 8,
         "vida": 11
     },
     {
         "nombre": "Ogro Menor",
-        "daÃ±o": 23,
+        "daño": 23,
         "vida": 34
     },
     {
         "nombre": "Ogro Guerrero",
-        "daÃ±o": 38,
+        "daño": 38,
         "vida": 17
     },
     {
         "nombre": "Orco Lider",
-        "daÃ±o": 12,
+        "daño": 12,
         "vida": 17
     },
     {
         "nombre": "Diablillo Guerrero",
-        "daÃ±o": 13,
+        "daño": 13,
         "vida": 16
     },
     {
         "nombre": "Diablillo Lider",
-        "daÃ±o": 14,
+        "daño": 14,
         "vida": 38
     },
     {
         "nombre": "Robot Lider",
-        "daÃ±o": 36,
+        "daño": 36,
         "vida": 24
     },
     {
         "nombre": "Zombie Lider",
-        "daÃ±o": 37,
+        "daño": 37,
         "vida": 11
     },
     {
         "nombre": "Slime Rey",
-        "daÃ±o": 46,
+        "daño": 46,
         "vida": 31
     },
     {
         "nombre": "Zombie Guerrero",
-        "daÃ±o": 2,
+        "daño": 2,
         "vida": 22
     }],
 "Secretos":[
-]
+	{
+		"nombre": "Refuerzos",
+		"Coste": 300,
+		"Efecto": "Invocar esbirro"
+	},{
+		"nombre": "Ojo por ojo",
+		"Coste": 300,
+		"Efecto": "Eliminar esbirro"
+	},{
+		"nombre": "Limpieza",
+		"Coste": 300,
+		"Efecto": "Eliminar cartas secretas"
+	},{
+		"nombre": "Comercio",
+		"Coste": 300,
+		"Efecto": "Intercambiar carta"
+	},{
+		"nombre": "Fortaleza",
+		"Coste": 300,
+		"Efecto": "+100 de Vida"
+	},{
+		"nombre": "Sacrificio",
+		"Coste": 300,
+		"Efecto": "Recuperar mana esbirro muerto"
+	},{
+		"nombre": "Cementerio",
+		"Coste": 300,
+		"Efecto": "Esbirro vuelve a mano"
+	},{
+		"nombre": "Trampa temporal",
+		"Coste": 300,
+		"Efecto": "Devolver esbirro a enemigo"
+	},{
+		"nombre": "Gas",
+		"Coste": 300,
+		"Efecto": "Esconder cartas"
+	},{
+		"nombre": "Trampa zombie",
+		"Coste": 300,
+		"Efecto": "Vuelven esbirros zombies"
+	}
+		
+],
 "Hechizos":[
 	{
         "nombre": "Congelacion",
         "Coste": 300,
 		"Efecto": "Congelar"
     },{
-        "nombre": "CuraciÃ³n",
+        "nombre": "Curación",
         "Coste": 300,
 		"Efecto": "curar"
     },{
@@ -134,11 +176,11 @@
     },{
         "nombre": "Contrarrestar",
         "Coste": 300,
-		"Efecto": "DevuelveDaÃ±orecibido"
+		"Efecto": "Devuelvedañorecibido"
     },{
         "nombre": "Duplicar",
         "Coste": 300,
-		"Efecto": "duplicaDaÃ±o"
+		"Efecto": "duplicadaño"
     },{
         "nombre": "Economizador",
         "Coste": 300,

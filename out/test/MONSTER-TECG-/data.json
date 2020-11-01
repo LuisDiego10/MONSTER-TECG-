@@ -101,49 +101,7 @@
         "vida": 22
     }],
 "Secretos":[
-	{
-		"nombre": "Refuerzos",
-		"Coste": 300,
-		"Efecto": "Invocar esbirro"
-	},{
-		"nombre": "Ojo por ojo",
-		"Coste": 300,
-		"Efecto": "Eliminar esbirro"
-	},{
-		"nombre": "Limpieza",
-		"Coste": 300,
-		"Efecto": "Eliminar cartas secretas"
-	},{
-		"nombre": "Comercio",
-		"Coste": 300,
-		"Efecto": "Intercambiar carta"
-	},{
-		"nombre": "Fortaleza",
-		"Coste": 300,
-		"Efecto": "+100 de Vida"
-	},{
-		"nombre": "Sacrificio",
-		"Coste": 300,
-		"Efecto": "Recuperar mana esbirro muerto"
-	},{
-		"nombre": "Cementerio",
-		"Coste": 300,
-		"Efecto": "Esbirro vuelve a mano"
-	},{
-		"nombre": "Trampa temporal",
-		"Coste": 300,
-		"Efecto": "Devolver esbirro a enemigo"
-	},{
-		"nombre": "Gas",
-		"Coste": 300,
-		"Efecto": "Esconder cartas"
-	},{
-		"nombre": "Trampa zombie",
-		"Coste": 300,
-		"Efecto": "Vuelven esbirros zombies"
-	}
-		
-],
+]
 "Hechizos":[
 	{
         "nombre": "Congelacion",

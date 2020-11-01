@@ -53,7 +53,7 @@ public class Server {
             }
         });
 
-        ImageIcon logo =new ImageIcon("C:\\Users\\guiso\\Downloads\\monstertecg!.png");
+        ImageIcon logo =new ImageIcon("monstertecg!.png");
         JLabel etiqueta_ce=new JLabel();
         etiqueta_ce.setBounds(240,10,75,70);
         etiqueta_ce.setIcon(new ImageIcon(logo.getImage().getScaledInstance(80,70, Image.SCALE_SMOOTH)));

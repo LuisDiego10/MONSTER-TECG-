@@ -3,9 +3,14 @@ package Server;
 import Card.Card;
 import LCDE.Lcde;
 import Pila.StackP;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Aux Class for server app.
@@ -82,5 +87,8 @@ public class Userdata{
     public Card[] playerTable= new Card[6];
     public StackP playerDeck;
     public Lcde playerHand;
+
 }
+
+
 }

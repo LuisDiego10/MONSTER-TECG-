@@ -1,6 +1,6 @@
 package Factory;
-import LCDE.Lcde;
 import Pila.StackP;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Card.*;
 import org.apache.logging.log4j.Logger;
@@ -46,6 +46,12 @@ public class Factory {
         return playerDeck;
     }
 
+    public static String Serializer(Object Serial) throws JsonProcessingException {
 
+
+
+
+        return mapp.writeValueAsString(Serial);
+    }
 
 }

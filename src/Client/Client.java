@@ -2,7 +2,7 @@ package Client;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import Server.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 public class Client {
     /**
@@ -25,6 +24,8 @@ public class Client {
     private static DataInputStream in;
     private static String name;
     private static Logger logger = null;
+    private static Userdata data;
+    private static Server server;
 
     /**
      * Display a start menu to enter name and port.
@@ -57,15 +58,16 @@ public class Client {
         intro4.setBounds(33,160,200,30);
         JTextField intro5=new JTextField();
         intro5.setBounds(195,164,150,23);
-        JButton introButton=new JButton("CONNECT SERVER");
-        introButton.addActionListener(new ActionListener() {
+        JButton connectButton=new JButton("CONNECT SERVER");
+        connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 logger = LogManager.getLogger(intro3.getText());
                 logger.info("Client logger");
                 String serverport=intro5.getText();
-                int port= Integer.parseInt(serverport);
+                int port=996;;
                 try{
+                    if (!serverport.equals("")){port= Integer.parseInt(serverport);}
                     Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
                     createAccount(clientSocket,intro3.getText());
                     chatScreen.setVisible(false);
@@ -87,7 +89,41 @@ public class Client {
 
             }
         });
-        introButton.setBounds(115,220,150,50);
+        connectButton.setBounds(25,220,150,50);
+        JButton hostButton=new JButton("HOST SERVER");
+        hostButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                logger = LogManager.getLogger(intro3.getText());
+                logger.info("Client logger");
+                String serverport=intro5.getText();
+                int port=996;
+                try{
+                    if (!serverport.equals("")){port= Integer.parseInt(serverport);}
+                    chatScreen.setVisible(false);
+                    chatScreen.dispose();
+                    server= new Server(port);
+                    server.start();
+                    Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
+                    createAccount(clientSocket,intro3.getText());
+                    Client.display();
+                } catch (UnknownHostException e) {
+                    logger.error("not supported port:"+serverport);
+                    intro1.setBackground(Color.white);
+                    intro1.setText("Error,try again");
+                    intro1.setBounds(200,100,250,30);
+                } catch (IOException e) {
+                    intro1.setBackground(Color.white);
+                    intro1.setText("Error,try again");
+                    intro1.setBounds(200,100,250,30);
+                    logger.error("Unknown error or no port/ name");
+                    logger.error("error info:\n"+ e.getMessage());
+
+                }
+
+            }
+        });
+        hostButton.setBounds(225,220,150,50);
         chatScreen.add(etiqueta_u);
         chatScreen.add(etiqueta_p);
         chatScreen.add(etiqueta_ce,BorderLayout.CENTER);
@@ -96,7 +132,8 @@ public class Client {
         chatScreen.add(intro3);
         chatScreen.add(intro4);
         chatScreen.add(intro5);
-        chatScreen.add(introButton);
+        chatScreen.add(connectButton);
+        chatScreen.add(hostButton);
         chatScreen.setSize(390,380);
         chatScreen.setLayout(null);
         chatScreen.setVisible(true);
@@ -138,8 +175,6 @@ public class Client {
         chatScreen.setVisible(true);
         out.writeUTF(name);
         chatScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-
     }
 
     /**
@@ -199,6 +234,7 @@ class SocketListen extends Thread{
                 String msg;
                 msg=input.readUTF();
                 logger.debug("socket receive"+msg);
+
             } catch (SocketException e) {
                 logger.error("socket error , exception: \n"+ e);
                 logger.debug("socket close");

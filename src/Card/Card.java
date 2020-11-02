@@ -3,7 +3,7 @@ package Card;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Card {
-    @JsonProperty("nombre")
+    @JsonProperty("name")
     public String name;
     private int manaCost=300;
 

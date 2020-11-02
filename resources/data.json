@@ -2,188 +2,188 @@
 "minion":[
     {
         "name": "Diablillo Guerrero",
-        "daño": 24,
-        "vida": 14
+        "damage": 24,
+        "health": 14
     },
     {
         "name": "Slime Guerrero",
-        "daño": 5,
-        "vida": 24
+        "damage": 5,
+        "health": 24
     },
     {
         "name": "Insecto Lider",
-        "daño": 0,
-        "vida": 14
+        "damage": 0,
+        "health": 14
     },
     {
         "name": "Robot Menor",
-        "daño": 41,
-        "vida": 36
+        "damage": 41,
+        "health": 36
     },
     {
         "name": "Slime Menor",
-        "daño": 41,
-        "vida": 16
+        "damage": 41,
+        "health": 16
     },
     {
         "name": "Diablillo Rey",
-        "daño": 36,
-        "vida": 7
+        "damage": 36,
+        "health": 7
     },
     {
         "name": "Zombie Guerrero",
-        "daño": 38,
-        "vida": 22
+        "damage": 38,
+        "health": 22
     },
     {
         "name": "Robot Guerrero",
-        "daño": 3,
-        "vida": 4
+        "damage": 3,
+        "health": 4
     },
     {
         "name": "Orco Lider",
-        "daño": 33,
-        "vida": 15
+        "damage": 33,
+        "health": 15
     },
     {
         "name": "Ogro Rey",
-        "daño": 15,
-        "vida": 11
+        "damage": 15,
+        "health": 11
     },
     {
         "name": "Diablillo Menor",
-        "daño": 8,
-        "vida": 11
+        "damage": 8,
+        "health": 11
     },
     {
         "name": "Ogro Menor",
-        "daño": 23,
-        "vida": 34
+        "damage": 23,
+        "health": 34
     },
     {
         "name": "Ogro Guerrero",
-        "daño": 38,
-        "vida": 17
+        "damage": 38,
+        "health": 17
     },
     {
         "name": "Orco Lider",
-        "daño": 12,
-        "vida": 17
+        "damage": 12,
+        "health": 17
     },
     {
         "name": "Diablillo Guerrero",
-        "daño": 13,
-        "vida": 16
+        "damage": 13,
+        "health": 16
     },
     {
         "name": "Diablillo Lider",
-        "daño": 14,
-        "vida": 38
+        "damage": 14,
+        "health": 38
     },
     {
         "name": "Robot Lider",
-        "daño": 36,
-        "vida": 24
+        "damage": 36,
+        "health": 24
     },
     {
         "name": "Zombie Lider",
-        "daño": 37,
-        "vida": 11
+        "damage": 37,
+        "health": 11
     },
     {
         "name": "Slime Rey",
-        "daño": 46,
-        "vida": 31
+        "damage": 46,
+        "health": 31
     },
     {
         "name": "Zombie Guerrero",
-        "daño": 2,
-        "vida": 22
+        "damage": 2,
+        "health": 22
     }],
 "secrets":[
 	{
 		"name": "Refuerzos",
-		"Coste": 300,
-		"Efecto": "Invocar esbirro"
+		"cost": 300,
+		"effect": "Invocar esbirro"
 	},{
 		"name": "Ojo por ojo",
-		"Coste": 300,
-		"Efecto": "Eliminar esbirro"
+		"cost": 300,
+		"effect": "Eliminar esbirro"
 	},{
 		"name": "Limpieza",
-		"Coste": 300,
-		"Efecto": "Eliminar cartas secretas"
+		"cost": 300,
+		"effect": "Eliminar cartas secretas"
 	},{
 		"name": "Comercio",
-		"Coste": 300,
-		"Efecto": "Intercambiar carta"
+		"cost": 300,
+		"effect": "Intercambiar carta"
 	},{
 		"name": "Fortaleza",
-		"Coste": 300,
-		"Efecto": "+100 de Vida"
+		"cost": 300,
+		"effect": "+100 de Vida"
 	},{
 		"name": "Sacrificio",
-		"Coste": 300,
-		"Efecto": "Recuperar mana esbirro muerto"
+		"cost": 300,
+		"effect": "Recuperar mana esbirro muerto"
 	},{
 		"name": "Cementerio",
-		"Coste": 300,
-		"Efecto": "Esbirro vuelve a mano"
+		"cost": 300,
+		"effect": "Esbirro vuelve a mano"
 	},{
 		"name": "Trampa temporal",
-		"Coste": 300,
-		"Efecto": "Devolver esbirro a enemigo"
+		"cost": 300,
+		"effect": "Devolver esbirro a enemigo"
 	},{
 		"name": "Gas",
-		"Coste": 300,
-		"Efecto": "Esconder cartas"
+		"cost": 300,
+		"effect": "Esconder cartas"
 	},{
 		"name": "Trampa zombie",
-		"Coste": 300,
-		"Efecto": "Vuelven esbirros zombies"
+		"cost": 300,
+		"effect": "Vuelven esbirros zombies"
 	}
 		
 ],
 "spell":[
 	{
         "name": "Congelacion",
-        "Coste": 300,
-		"Efecto": "Congelar"
+        "cost": 300,
+		"effect": "Congelar"
     },{
         "name": "Curación",
-        "Coste": 300,
-		"Efecto": "curar"
+        "cost": 300,
+		"effect": "curar"
     },{
         "name": "PoderSupremo",
-        "Coste": 300,
-		"Efecto": "Invocacion"
+        "cost": 300,
+		"effect": "Invocacion"
     },{
         "name": "AhoraEsMia",
-        "Coste": 300,
-		"Efecto": "robo"
+        "cost": 300,
+		"effect": "robo"
     },{
         "name": "Escudo",
-        "Coste": 300,
-		"Efecto": "ProteccionEsbirro"
+        "cost": 300,
+		"effect": "ProteccionEsbirro"
     },{
         "name": "Invalidar",
-        "Coste": 300,
-		"Efecto": "ProteccionSecreto"
+        "cost": 300,
+		"effect": "ProteccionSecreto"
     },{
         "name": "Anulacion",
-        "Coste": 300,
-		"Efecto": "AnularHechizo"
+        "cost": 300,
+		"effect": "AnularHechizo"
     },{
         "name": "Contrarrestar",
-        "Coste": 300,
-		"Efecto": "Devuelvedañorecibido"
+        "cost": 300,
+		"effect": "Devuelvedañorecibido"
     },{
         "name": "Duplicar",
-        "Coste": 300,
-		"Efecto": "duplicadaño"
+        "cost": 300,
+		"effect": "duplicadaño"
     },{
         "name": "Economizador",
-        "Coste": 300,
-		"Efecto": "ahorrarmana"
+        "cost": 300,
+		"effect": "ahorrarmana"
     }]
 }

@@ -172,6 +172,7 @@ class SocketListen extends Thread{
             try {
                 String msg;
                 msg=input.readUTF();
+
                 Client.log.addElement(msg);
             } catch (IOException e) {
                 e.printStackTrace();

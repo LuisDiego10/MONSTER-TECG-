@@ -27,6 +27,7 @@ public class Factory {
         return deck;
     }
     public static StackP RandomDeck(){
+        System.out.print(cards);
         Random randInt= new Random();
         StackP playerDeck= new StackP(20);
         for(int i=0;i<20;i++){

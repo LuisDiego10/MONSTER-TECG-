@@ -7,7 +7,7 @@ public class Minion extends Card{
     int damage;
 
 
-    public Minion(@JsonProperty("name")String minionName,@JsonProperty("vida") int life, @JsonProperty("daño") int minionDamage){
+    public Minion(@JsonProperty("name")String minionName,@JsonProperty("health") int life, @JsonProperty("damage") int minionDamage){
         name= minionName;
         healt= life;
         damage= minionDamage;

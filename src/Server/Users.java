@@ -1,5 +1,9 @@
 package Server;
 
+import Card.Card;
+import LCDE.Lcde;
+import Pila.StackP;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -11,29 +15,26 @@ public class Users extends Thread {
     /**
      * User data
      */
-    private Socket userSocket;
-    private DataOutputStream out;
-    private DataInputStream in;
-    private String userName;
+    public Socket userSocket;
+    public DataOutputStream out;
+    public DataInputStream in;
+    public String userName;
+
+    public static Userdata playerData;
+
+
 
     /**
      * Builder.
      * register the user data.
      * @param socket user socket.
-     * @param output output data stream of user.
-     * @param input output  data input stream of user.
      */
-    public Users(Socket socket, DataOutputStream output, DataInputStream input) {
+    public Users(Socket socket) {
         userSocket=socket;
-        out=output;
-        in=input;
-        try {
-            userName=in.readUTF();
-            Server.UsersList.addElement(this);
-            Server.usersNameList.addElement(userName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        userName=in.readUTF();
+        DataOutputStream output = new DataOutputStream(userSocket.getOutputStream());
+        DataInputStream input = new DataInputStream(userSocket.getInputStream());
+        USer
 
     }
 
@@ -49,8 +50,7 @@ public class Users extends Thread {
                 String msg=in.readUTF();
                 SendToServer(msg);
             } catch (Exception e) {
-                Server.UsersList.removeElement(this);
-                Server.usersNameList.removeElement(this.getUserName());
+
                 }
             }
         }
@@ -90,14 +90,20 @@ public class Users extends Thread {
      * @see Server#RecieveMsg
      * @param msg msg as string.
      */
+
     public void SendToServer(String msg)  {
         try {
             Server.RecieveMsg(this,msg);
         } catch (IOException e) {
             e.printStackTrace();
-            Server.UsersList.removeElement(this);
-            Server.usersNameList.removeElement(this.getUserName());
+
         }
 
     }
+
+public static class Userdata{
+    public Card[] playerTable= new Card[6];
+    public StackP playerDeck;
+    public Lcde playerHand;
+}
 }

@@ -1,175 +1,69 @@
 package Server;
 
-import Card.*;
+import Factory.Factory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.*;
 import java.io.*;
-import javax.swing.*;
+
 
 
 /**
  * Client.Main Class of Server app.
  * @see Users for aux class
  */
-public class Server {
+public class Server extends Thread {
     /**
      * semi-global variables
      */
-    public static ServerSocket publicsocket;//* socket
-    public static JFrame serverScreen;
-    public static DefaultListModel<Users> UsersList=new DefaultListModel<Users>();
-    public static DefaultListModel<String> usersNameList= new DefaultListModel<>();
-    public static DefaultListModel<String> log= new DefaultListModel<>();
-    public static Card[] playerOneTable= new Card[6];
-    public static Card[] playerTwoTable= new Card[6];
+    public ServerSocket publicSocket;//* socket
+    private Logger logger=LogManager.getLogger();
+    private Users playerHost;
+    private Users playerInvitated;
+    public Factory abstractFactory =new Factory();
+
 
     /**
-     * Show the initial screen for server, when you start it.
-     * @param args optionals
+     * Create the server´s socket whit the indicated port
+     * @param port port of the
      */
-    public static void main(String[] args) {
-        JFrame initScreen= new JFrame("MOSNTERTECG! SERVER");
-        JLabel intro=new JLabel("Create server using port and localhost");
-        JLabel intro2=new JLabel("Port number: (left empty for auto)");
-        JTextField input=new JTextField();
-        JButton introButton=new JButton("CREATE SERVER");
-        introButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (!input.getText().equals("")){
-                    try{
-                        int port= Integer.parseInt(input.getText());
-                        initScreen.dispose();
-                        StartSocket(port);
-                    } catch (NumberFormatException e) {
-                        intro.setText("Error,Please try another port");
-                        e.printStackTrace();
-                    }
-                }else{
-                    RestartSocket(996);
-                    initScreen.dispose();
-
-                }
-
-
-            }
-        });
-
-        ImageIcon logo =new ImageIcon("monstertecg!.png");
-        JLabel etiqueta_ce=new JLabel();
-        etiqueta_ce.setBounds(240,10,75,70);
-        etiqueta_ce.setIcon(new ImageIcon(logo.getImage().getScaledInstance(80,70, Image.SCALE_SMOOTH)));
-        intro.setBounds(10,30,240,15);
-        intro2.setBounds(10,90,250,30);
-        input.setBounds(219,95,60,25);
-        introButton.setBounds(40,150,250,30);
-        initScreen.add(intro,BorderLayout.CENTER);
-        initScreen.add(intro2,BorderLayout.CENTER);
-        initScreen.add(input,BorderLayout.CENTER);
-        initScreen.add(introButton, BorderLayout.CENTER);
-        initScreen.add(etiqueta_ce,BorderLayout.CENTER);
-        initScreen.setSize(350,300);
-        initScreen.setLayout(null);
-        initScreen.setVisible(true);
-        initScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-    }
-
-    /**
-     * Method used when you especific a port number to start a ServerSocket.
-     * @param portnumber range 1-65535, recommended more than 995
-     */
-    public static void StartSocket(int portnumber) {
+    public Server(int port){
         try {
-            ServerSocket socket=  new ServerSocket(portnumber,50,InetAddress.getLocalHost());
-            Server.publicsocket=socket;
-            Server.publicsocket.setSoTimeout(20000);
-            Server.ComunicationScreen(socket);
+            publicSocket= new ServerSocket(port,50,InetAddress.getLocalHost());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("The port entered could not be accessed");
+
         }
     }
 
-    /**
-     * Recursive method of StartSocket to auto select a port.
-     * @see #StartSocket
-     * @param portnumber start in 996
-     */
-    public static void RestartSocket(int portnumber) {
-        try {
-            ServerSocket socket=  new ServerSocket(portnumber,50,InetAddress.getLocalHost());
-            Server.publicsocket=socket;
-            Server.publicsocket.setSoTimeout(20000);
-            Server.ComunicationScreen(socket);
-
-        } catch (IOException e) {
-            RestartSocket(portnumber+1);
-            e.printStackTrace();
-        }
-    }
 
     /**
-     * Display a UI of server when can be added/accepted users.
-     * display the actual state, a list of Users, and the chatlog.
-     * The button add client accept waiting clients.
-     * @param socket Server socket.
+     * Start the server
      */
-    public static void ComunicationScreen(ServerSocket socket){
-        boolean WaitUser= true;
-        JFrame serverScreen= new JFrame("Waiting for clients"+" port:"+publicsocket.getLocalPort());//creating instance of JFrame
-        JLabel textBox=new JLabel("State:Server online");
-        JButton addButton=new JButton("Add client");
-        JList<String> connectedUsers= new JList<>(usersNameList);
-        JList<String> chatLog= new JList<>(log);
-        addButton.setBounds(30,260, 100,50);
-        textBox.setBounds(50,10, 150,100);
-        connectedUsers.setBounds(20,100, 150,150);
-        chatLog.setBounds(200,50, 250,300);
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    textBox.setText("Waiting for client");
-                    addUser();
-                    textBox.setText("State:Server online");
-
-                } catch (Exception e) {;
-                    e.printStackTrace();
-                }
-            }
-        });
-        serverScreen.add(textBox);
-        serverScreen.add(connectedUsers);
-        serverScreen.add(addButton);
-        serverScreen.add(chatLog);
-        serverScreen.setSize(400,400);
-        serverScreen.setLayout(null);
-        serverScreen.setVisible(true);
-        Server.serverScreen=serverScreen;
-        serverScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    public void run() {
+        playerHost=addUser();
+        playerInvitated=addUser();
     }
+
 
     /**
      * Method that register user data and start they socket listener.
      * get and create user :socket, input class, output class and Socket listener.
      * Use a User CLass to save the data as instances, and data input and data output streams to communication.
      * @see Users
-     * @see #ComunicationScreen
+     * @return User if new user enter o null if error.
      */
-
-    public static void addUser() {
+    public Users addUser() {
         try {
-            Socket clientSocket = Server.publicsocket.accept();
-            DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-            DataInputStream input = new DataInputStream(clientSocket.getInputStream());
-            Users user = new Users(clientSocket, output, input);
+            Socket clientSocket = publicSocket.accept();
+            Users user = new Users(clientSocket);
             user.start();
+            return user;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Could not connect"+e);
         }
+        return null;
     }
 
     /**
@@ -179,19 +73,6 @@ public class Server {
      * @param msg msg as string.
      * @throws IOException for msg thats is not a string or a closed  user´s Socket with open listening.
      */
-    public static void RecieveMsg(Users user,String msg) throws IOException {
-        for (int idUser=0;(idUser!=UsersList.getSize());idUser++){
-            boolean condition1=idUser>=UsersList.getSize();
-            if(condition1){
-            break;}
-            if (UsersList.elementAt(idUser)!=user){
-                SendMsg(UsersList.elementAt(idUser),msg);
-            }else{
-                log.addElement(msg);
-                SendMsg(user,msg);
-            }
-        }
-    }
 
     /**
      * Send the msg received to a user.
@@ -200,14 +81,12 @@ public class Server {
      * @param msg msg as string.
      * @throws IOException if fail closing the socket.
      */
-    public static void SendMsg(Users user, String msg) throws IOException {
+    public static void SendMsg( Users user, String msg){
         DataOutputStream out = user.getOut();
         try {
             out.writeUTF(msg);
         } catch (IOException e) {
-            e.printStackTrace();
-            UsersList.removeElement(user);
-            usersNameList.removeElement(user.getUserName());
+            logger.error("Inactive port. It will be deleted");
             user.getUserSocket().close();
         }
     }

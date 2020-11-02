@@ -24,3 +24,25 @@ hs_err_pid*
 .idea/$PROJECT_FILE$
 *.xml
 *.iml
+/out/
+target/classes/Images/Diagrama proyecto  Monster TECG .png
+target/classes/data.json
+target/classes/Images/iconport.png
+target/classes/Images/Logo monstertecg!.png
+target/classes/Images/iconuser.png
+target/test-classes/data.json
+target/classes/Images/monstertecg!.png
+out/production/MONSTER-TECG-/Images/monstertecg!.png
+out/test/MONSTER-TECG-/data.json
+out/production/MONSTER-TECG-/Images/Logo monstertecg!.png
+out/production/MONSTER-TECG-/Images/iconuser.png
+out/production/MONSTER-TECG-/Images/iconport.png
+out/production/MONSTER-TECG-/Images/iconuser.png
+out/production/MONSTER-TECG-/Images/Logo monstertecg!.png
+out/production/MONSTER-TECG-/Images/monstertecg!.png
+out/production/MONSTER-TECG-/Images/Diagrama proyecto  Monster TECG .png
+out/production/MONSTER-TECG-/data.json
+out/production/MONSTER-TECG-/data.json
+out/production/MONSTER-TECG-/Images/Diagrama proyecto  Monster TECG .png
+out/production/MONSTER-TECG-/Images/iconport.png
+out/production/MONSTER-TECG-/Images/Logo monstertecg!.png

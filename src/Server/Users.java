@@ -73,23 +73,6 @@ public class Users {
         return playerData;
     }
 
-    /**
-     * method that comunicate to Server class, send the msg recieved form the lister.
-     * send to server the user and the msg.
-     * @see Server#
-     * @param msg msg as string.
-     */
-
-    public void SendToServer(String msg)  {
-        try {
-            Server.(this,msg);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-
-    }
-
 public class Userdata{
     public int life=1000;
     public Card[] playerTable= new Card[6];

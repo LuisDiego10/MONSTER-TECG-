@@ -46,6 +46,10 @@ public class Server extends Thread {
         playerInvitated=addUser();
         playerHost.playerData.playerDeck= Factory.RandomDeck();
         playerInvitated.playerData.playerDeck= Factory.RandomDeck();
+        for (int i=0;i<5;i++){
+            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+            playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
+        }
         // llamada de serializacion
         //
         while(playerHost.playerData.life>0 | playerInvitated.playerData.life>0){
@@ -93,7 +97,11 @@ public class Server extends Thread {
             out.writeUTF(msg);
         } catch (IOException e) {
             logger.error("Inactive port. It will be deleted");
-            user.getUserSocket().close();
+            try {
+                user.getUserSocket().close();
+            } catch (IOException ex) {
+                logger.error("unexpected errror closing port");
+            }
         }
     }
 }

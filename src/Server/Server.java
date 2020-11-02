@@ -39,11 +39,27 @@ public class Server extends Thread {
 
 
     /**
-     * Start the server
+     * Start the server and wait for action.
      */
     public void run() {
         playerHost=addUser();
         playerInvitated=addUser();
+        playerHost.playerData.playerDeck= Factory.RandomDeck();
+        playerInvitated.playerData.playerDeck= Factory.RandomDeck();
+        // llamada de serializacion
+        //
+        while(playerHost.playerData.life>0 | playerInvitated.playerData.life>0){
+            while (playerInvitated.turn){
+                String action;
+                action=playerInvitated.in.readUTF();
+                if(action.equals("finish turn")){playerInvitated.turn=false;playerHost.turn=true; }
+            }
+            while (playerHost.turn){
+                String action;
+                action=playerInvitated.in.readUTF();
+                if(action.equals("finish turn")){playerHost.turn=false;playerInvitated.turn=true; }
+            }
+        }
     }
 
 
@@ -57,22 +73,12 @@ public class Server extends Thread {
     public Users addUser() {
         try {
             Socket clientSocket = publicSocket.accept();
-            Users user = new Users(clientSocket);
-            user.start();
-            return user;
+            return new Users(clientSocket);
         } catch (IOException e) {
             logger.error("Could not connect"+e);
         }
         return null;
     }
-
-    /**
-     * Comunication between Users listenig and Servers.
-     * When recieve a msg from a Users listening send this to log and to another users.
-     * @param user user who send the msg.
-     * @param msg msg as string.
-     * @throws IOException for msg thats is not a string or a closed  user´s Socket with open listening.
-     */
 
     /**
      * Send the msg received to a user.
@@ -81,7 +87,7 @@ public class Server extends Thread {
      * @param msg msg as string.
      * @throws IOException if fail closing the socket.
      */
-    public static void SendMsg( Users user, String msg){
+    public void SendMsg( Users user, String msg){
         DataOutputStream out = user.getOut();
         try {
             out.writeUTF(msg);

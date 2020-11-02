@@ -9,9 +9,9 @@ import java.net.Socket;
 
 /**
  * Aux Class for server app.
- * Save users data and start the Socket listening.
+ * Save users data.
  */
-public class Users extends Thread {
+public class Users {
     /**
      * User data
      */
@@ -19,8 +19,9 @@ public class Users extends Thread {
     public DataOutputStream out;
     public DataInputStream in;
     public String userName;
+    public boolean turn;
 
-    public static Userdata playerData;
+    public Userdata playerData;
 
 
 
@@ -34,26 +35,10 @@ public class Users extends Thread {
         userName=in.readUTF();
         DataOutputStream output = new DataOutputStream(userSocket.getOutputStream());
         DataInputStream input = new DataInputStream(userSocket.getInputStream());
-        USer
+
 
     }
 
-
-    /**
-     * Start the lister of users socket as a new Thread.
-     * keep working while Server is running unntil socket is delete.
-     */
-    @Override
-    public void run() {
-        while(true){
-            try {
-                String msg=in.readUTF();
-                SendToServer(msg);
-            } catch (Exception e) {
-
-                }
-            }
-        }
 
     /**
      * Getter.
@@ -84,16 +69,20 @@ public class Users extends Thread {
         return userName;
     }
 
+    public Userdata getPlayerData() {
+        return playerData;
+    }
+
     /**
      * method that comunicate to Server class, send the msg recieved form the lister.
      * send to server the user and the msg.
-     * @see Server#RecieveMsg
+     * @see Server#
      * @param msg msg as string.
      */
 
     public void SendToServer(String msg)  {
         try {
-            Server.RecieveMsg(this,msg);
+            Server.(this,msg);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -101,7 +90,8 @@ public class Users extends Thread {
 
     }
 
-public static class Userdata{
+public class Userdata{
+    public int life=1000;
     public Card[] playerTable= new Card[6];
     public StackP playerDeck;
     public Lcde playerHand;

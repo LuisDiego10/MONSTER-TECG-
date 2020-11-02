@@ -20,10 +20,7 @@ public class Users {
     public DataInputStream in;
     public String userName;
     public boolean turn;
-
-    public Userdata playerData;
-
-
+    public Userdata playerData= new Userdata();
 
     /**
      * Builder.
@@ -32,9 +29,16 @@ public class Users {
      */
     public Users(Socket socket) {
         userSocket=socket;
-        userName=in.readUTF();
-        DataOutputStream output = new DataOutputStream(userSocket.getOutputStream());
-        DataInputStream input = new DataInputStream(userSocket.getInputStream());
+        try {
+            in = new DataInputStream(userSocket.getInputStream());
+            out = new DataOutputStream(userSocket.getOutputStream());
+            userName=in.readUTF();
+        } catch (IOException e) {
+            Server.getLogger().error("Error while creating the User class in the server"+e);
+        }catch (NullPointerException e) {
+            Server.getLogger().error("Null, try creating a server"+e);
+        }
+
 
 
     }

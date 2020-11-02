@@ -3,13 +3,15 @@ import LCDE.Lcde;
 import Pila.StackP;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Card.*;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 
 public class Factory {
+    static Logger logger=LogManager.getLogger("Abstract Factory");
     static String json= "resources/data.json";
     static File cards= new File(json);
     static ObjectMapper mapp = new ObjectMapper();
@@ -18,8 +20,7 @@ public class Factory {
         try {
             deck = mapp.readValue(cards,Cards.class);
         } catch (IOException e) {
-
-            e.printStackTrace();
+            logger.error("error while loading, reading or creating with jackson "+e);
         }
     }
 

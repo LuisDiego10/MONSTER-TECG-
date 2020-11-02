@@ -18,7 +18,7 @@ public class Server extends Thread {
      * semi-global variables
      */
     public ServerSocket publicSocket;//* socket
-    private Logger logger=LogManager.getLogger();
+    private static Logger logger=LogManager.getLogger();
     private Users playerHost;
     private Users playerInvitated;
     public Factory abstractFactory =new Factory();
@@ -54,13 +54,23 @@ public class Server extends Thread {
         //
         while(playerHost.playerData.life>0 | playerInvitated.playerData.life>0){
             while (playerInvitated.turn){
-                String action;
-                action=playerInvitated.in.readUTF();
+                String action = "";
+                try {
+                    action=playerInvitated.in.readUTF();
+                } catch (IOException e) {
+                    logger.error("error getting action trying again");
+
+                }
                 if(action.equals("finish turn")){playerInvitated.turn=false;playerHost.turn=true; }
             }
             while (playerHost.turn){
-                String action;
-                action=playerInvitated.in.readUTF();
+                String action = "";
+                try {
+                    action=playerInvitated.in.readUTF();
+                } catch (IOException e) {
+                   logger.error("error getting action trying again");
+
+                }
                 if(action.equals("finish turn")){playerHost.turn=false;playerInvitated.turn=true; }
             }
         }
@@ -82,6 +92,10 @@ public class Server extends Thread {
             logger.error("Could not connect"+e);
         }
         return null;
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 
     /**

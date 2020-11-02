@@ -1,11 +1,14 @@
 package Server;
 
+import Card.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.*;
 import java.io.*;
 import javax.swing.*;
+
 
 /**
  * Client.Main Class of Server app.
@@ -20,6 +23,8 @@ public class Server {
     public static DefaultListModel<Users> UsersList=new DefaultListModel<Users>();
     public static DefaultListModel<String> usersNameList= new DefaultListModel<>();
     public static DefaultListModel<String> log= new DefaultListModel<>();
+    public static Card[] playerOneTable= new Card[6];
+    public static Card[] playerTwoTable= new Card[6];
 
     /**
      * Show the initial screen for server, when you start it.

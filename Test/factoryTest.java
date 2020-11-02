@@ -12,9 +12,19 @@ public class factoryTest {
         System.out.print("\n Start");
         System.out.print("\n" + cardDeck);
         System.out.print("\n todas las cartas de esbirros en el deck maestro");
-        for (int i = 1; i < cardDeck.Esbirros.length; i++) {
-            System.out.print("\n" + cardDeck.Esbirros[i].name);
-            System.out.print("\n" + cardDeck.Esbirros[i].healt+"/"+cardDeck.Esbirros[i].getDamage());
+        for (int i = 1; i < cardDeck.minion.length; i++) {
+            System.out.print("\n" + cardDeck.minion[i].name);
+            System.out.print("\n" + cardDeck.minion[i].healt+"/"+cardDeck.minion[i].getDamage());
+
+        }        System.out.print("\n todas las cartas de spell en el deck maestro");
+        for (int i = 1; i < cardDeck.spell.length; i++) {
+            System.out.print("\n" + cardDeck.spell[i].name);
+            System.out.print("\n" + cardDeck.spell[i].getEfect());
+
+        }        System.out.print("\n todas las cartas de secreto en el deck maestro");
+        for (int i = 1; i < cardDeck.secrets.length; i++) {
+            System.out.print("\n" + cardDeck.secrets[i].name);
+            System.out.print("\n" + cardDeck.secrets[i].getEfect());
 
         }
         StackP playerOneDeck= Factory.RandomDeck();

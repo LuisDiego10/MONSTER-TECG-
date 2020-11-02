@@ -30,15 +30,15 @@ public class Client {
      * @see #createAccount
      */
     public static void main(String[] args) {
-        ImageIcon logo =new ImageIcon("C:\\Users\\guiso\\Downloads\\monstertecg!.png");
+        ImageIcon logo =new ImageIcon("resources/images/monstertecg!.png");
         JLabel etiqueta_ce=new JLabel();
         etiqueta_ce.setBounds(150,30,75,70);
         etiqueta_ce.setIcon(new ImageIcon(logo.getImage().getScaledInstance(80,70, Image.SCALE_SMOOTH)));
-        ImageIcon usericon =new ImageIcon("C:\\Users\\guiso\\Downloads\\iconuser.png");
+        ImageIcon usericon =new ImageIcon("resources/images/iconuser.png");
         JLabel etiqueta_u=new JLabel();
         etiqueta_u.setBounds(10,105,20,20);
         etiqueta_u.setIcon(new ImageIcon(usericon.getImage().getScaledInstance(20,20, Image.SCALE_SMOOTH)));
-        ImageIcon iconport =new ImageIcon("C:\\Users\\guiso\\Downloads\\iconport.png");
+        ImageIcon iconport =new ImageIcon("resources/images/iconport.png");
         JLabel etiqueta_p=new JLabel();
         etiqueta_p.setBounds(10,165,20,20);
         etiqueta_p.setIcon(new ImageIcon(iconport.getImage().getScaledInstance(20,20, Image.SCALE_SMOOTH)));

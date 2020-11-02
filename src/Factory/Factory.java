@@ -31,16 +31,18 @@ public class Factory {
         StackP playerDeck= new StackP(20);
         for(int i=0;i<20;i++){
             if(randInt.nextInt(2)<1){
-                    playerDeck.push(deck.Esbirros[randInt.nextInt(deck.Esbirros.length)]);
+                    playerDeck.push(deck.minion[randInt.nextInt(deck.minion.length)]);
             }else if(randInt.nextInt(2)<2){
-                playerDeck.push(deck.Hechizos[randInt.nextInt(deck.Hechizos.length)]);
+                playerDeck.push(deck.spell[randInt.nextInt(deck.spell.length)]);
 
             }else{
-                playerDeck.push(deck.Secretos[randInt.nextInt(deck.Secretos.length)]);
+                playerDeck.push(deck.secrets[randInt.nextInt(deck.secrets.length)]);
 
             }
 
         }
         return playerDeck;
     }
+
+
 }

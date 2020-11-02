@@ -1,5 +1,5 @@
 {
-"Esbirros":[
+"minion":[
     {
         "nombre": "Diablillo Guerrero",
         "daño": 24,
@@ -100,7 +100,7 @@
         "daño": 2,
         "vida": 22
     }],
-"Secretos":[
+"secrets":[
 	{
 		"nombre": "Refuerzos",
 		"Coste": 300,
@@ -144,7 +144,7 @@
 	}
 		
 ],
-"Hechizos":[
+"spell":[
 	{
         "nombre": "Congelacion",
         "Coste": 300,

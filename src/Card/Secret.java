@@ -3,17 +3,14 @@ package Card;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Secret extends Card{
-    String condition;
     String efect;
-    public Secret(@JsonProperty("nombre")String secretName, @JsonProperty("condicion")String secretCondition, @JsonProperty("efecto")String secretEfect){
+    public Secret(@JsonProperty("name")String secretName,@JsonProperty("Coste")int cost, @JsonProperty("Efecto")String secretEfect){
         name= secretName;
-        condition= secretCondition;
         efect= secretEfect;
+        setManaCost(cost);
+
     }
 
-    public String getCondition() {
-        return condition;
-    }
 
     public String getEfect() {
         return efect;

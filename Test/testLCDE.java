@@ -2,6 +2,11 @@ import Card.Card;
 import Factory.Factory;
 import LCDE.Lcde;
 import Pila.StackP;
+import Server.Server;
+import Server.Users;
+import Server.Users.userWindow;
+
+import javax.swing.*;
 
 /**
  * Class test
@@ -65,6 +70,8 @@ public class testLCDE {
         System.out.println(pila.pop());
         System.out.println(pila.peek());
         System.out.println(pila.showElements());
+        userWindow window_u = new userWindow();
+        window_u.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }

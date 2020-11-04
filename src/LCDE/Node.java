@@ -1,5 +1,7 @@
 package LCDE;
 import Card.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 /**
@@ -9,6 +11,7 @@ import Card.*;
  * @version 1.0
  * @since 30/10/2020
  */
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@id")
 public class Node{
     public Card fact;
     public Node nextNode;

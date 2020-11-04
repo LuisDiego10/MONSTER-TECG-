@@ -1,8 +1,12 @@
 package Card;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+
+@JsonTypeName("Minion")
 public class Minion extends Card{
+
     public int healt;
     int damage;
 
@@ -28,4 +32,6 @@ public class Minion extends Card{
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
 }
+

@@ -3,17 +3,11 @@ package Server;
 import Card.Card;
 import LCDE.Lcde;
 import Pila.StackP;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Aux Class for server app.

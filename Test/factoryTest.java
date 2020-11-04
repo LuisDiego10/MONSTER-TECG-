@@ -40,5 +40,5 @@ public class factoryTest {
         System.out.printf("\n cantidad de igualdades %d",igualdad);
     }
 
- 
+
 }

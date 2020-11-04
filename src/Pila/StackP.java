@@ -1,6 +1,7 @@
 package Pila;
 
 import Card.Card;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Principal StackP
@@ -10,9 +11,12 @@ import Card.Card;
  * @since 30/10/2020
  */
 public class StackP {
-    Card[] arr;
+    @JsonProperty("maxSize")
     int maxSize;
+    @JsonProperty("top")
     int top;
+    @JsonProperty("arr")
+    Card[] arr;
     /**
      * Constructor class StackP
      * @author Diego
@@ -21,10 +25,24 @@ public class StackP {
      */
     public StackP(int size){
         maxSize=size;
-        arr=new Card[maxSize];
         top=0;
+        arr=new Card[maxSize];
 
     }
+
+    /**
+     * Constructor class StackP
+     * @author Isaac
+     * @version 1.0
+     * @since 3/11/2020
+     */
+    public StackP(@JsonProperty("maxSize")int size, @JsonProperty("top")int topValue, @JsonProperty("arr")Card[] deck){
+        maxSize=size;
+        top=topValue;
+        arr=deck;
+
+    }
+
     /**
      * Boolean method
      * Return if class is empty

@@ -1,9 +1,10 @@
 package Client;
 
+import Server.Server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import Server.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

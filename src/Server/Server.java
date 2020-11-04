@@ -18,7 +18,7 @@ public class Server extends Thread {
      * semi-global variables
      */
     public ServerSocket publicSocket;//* socket
-    private static Logger logger=LogManager.getLogger();
+    private static Logger logger=LogManager.getLogger("Server");
     private Users playerHost;
     private Users playerInvitated;
     public Factory abstractFactory =new Factory();
@@ -33,7 +33,6 @@ public class Server extends Thread {
             publicSocket= new ServerSocket(port,50,InetAddress.getLocalHost());
         } catch (IOException e) {
             logger.error("The port entered could not be accessed");
-
         }
     }
 
@@ -42,16 +41,28 @@ public class Server extends Thread {
      * Start the server and wait for action.
      */
     public void run() {
+        logger.debug("try ing to connect with host and player");
         playerHost=addUser();
+        logger.debug("host connected");
         playerInvitated=addUser();
+        logger.debug("player connected");
+        logger.debug("generating player and host deck");
         playerHost.playerData.playerDeck= Factory.RandomDeck();
         playerInvitated.playerData.playerDeck= Factory.RandomDeck();
         for (int i=0;i<5;i++){
             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
             playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
         }
-        // llamada de serializacion
-        //
+        logger.debug("decks generateds");
+        try {
+            logger.debug("try ing to sent deck");
+            playerHost.getOut().writeUTF(Factory.Serializer(playerHost.playerData));
+            logger.debug("host sended");
+            playerInvitated.getOut().writeUTF(Factory.Serializer(playerInvitated.playerData));
+            logger.debug("player sended");
+        } catch (IOException e) {
+            logger.error("error trying to serialize the players data or sending it, info:\n"+e);
+        }
         while(playerHost.playerData.life>0 | playerInvitated.playerData.life>0){
             while (playerInvitated.turn){
                 String action = "";
@@ -66,7 +77,7 @@ public class Server extends Thread {
             while (playerHost.turn){
                 String action = "";
                 try {
-                    action=playerInvitated.in.readUTF();
+                    action=playerHost.in.readUTF();
                 } catch (IOException e) {
                    logger.error("error getting action trying again");
 
@@ -90,6 +101,8 @@ public class Server extends Thread {
             return new Users(clientSocket);
         } catch (IOException e) {
             logger.error("Could not connect"+e);
+        }catch (NullPointerException e) {
+            logger.error("Port occupied"+e);
         }
         return null;
     }

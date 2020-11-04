@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -47,11 +48,8 @@ public class Factory {
     }
 
     public static String Serializer(Object Serial) throws JsonProcessingException {
-
-
-
-
         return mapp.writeValueAsString(Serial);
     }
+
 
 }

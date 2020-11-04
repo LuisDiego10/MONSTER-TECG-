@@ -1,5 +1,7 @@
 package LCDE;
 import Card.Card;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Principal class Lcde

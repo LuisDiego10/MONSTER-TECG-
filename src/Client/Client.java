@@ -1,5 +1,6 @@
 package Client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import Server.*;
@@ -10,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UTFDataFormatException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -24,8 +24,9 @@ public class Client {
     private static DataInputStream in;
     private static String name;
     private static Logger logger = null;
-    private static Userdata data;
+    private static Userdata userData;
     private static Server server;
+
 
     /**
      * Display a start menu to enter name and port.
@@ -62,31 +63,39 @@ public class Client {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                logger = LogManager.getLogger(intro3.getText());
+                logger = LogManager.getLogger("PLAYER");
+                System.out.print(logger.getLevel());
+                logger.debug("Client logger");
+                logger.info("Client logger");
                 logger.info("Client logger");
                 String serverport=intro5.getText();
                 int port=996;;
-                try{
-                    if (!serverport.equals("")){port= Integer.parseInt(serverport);}
-                    Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
-                    createAccount(clientSocket,intro3.getText());
-                    chatScreen.setVisible(false);
-                    chatScreen.dispose();
-                    Client.display();
-                } catch (UnknownHostException e) {
-                    logger.error("not supported port:"+serverport);
-                    intro1.setBackground(Color.white);
-                    intro1.setText("Error,try again");
-                    intro1.setBounds(200,100,250,30);
-                } catch (IOException e) {
-                    intro1.setBackground(Color.white);
-                    intro1.setText("Error,try again");
-                    intro1.setBounds(200,100,250,30);
-                    logger.error("Unknown error");
-                    logger.error("error info:\n"+ e.getMessage());
+                if(!intro3.getText().equals("")) {
+                    try {
+                        if (!serverport.equals("")) {
+                            port = Integer.parseInt(serverport);
+                        }
+                        Socket clientSocket = new Socket(InetAddress.getLocalHost(), port);
 
-                }
+                        createAccount(clientSocket);
+                        chatScreen.setVisible(false);
+                        chatScreen.dispose();
+                        userWindow window_u = new Client.userWindow();
 
+                    } catch (UnknownHostException e) {
+                        logger.error("not supported port:" + serverport);
+                        intro1.setBackground(Color.white);
+                        intro1.setText("Error,try again");
+                        intro1.setBounds(200, 100, 250, 30);
+                    } catch (IOException e) {
+                        intro1.setBackground(Color.white);
+                        intro1.setText("Error,try again");
+                        intro1.setBounds(200, 100, 250, 30);
+                        logger.error("Unknown error");
+                        logger.error("error info:\n" + e.getMessage());
+
+                    }
+                }else{}
             }
         });
         connectButton.setBounds(25,220,150,50);
@@ -94,8 +103,7 @@ public class Client {
         hostButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                logger = LogManager.getLogger(intro3.getText());
-                logger.info("Client logger");
+                logger = LogManager.getLogger("Host");
                 String serverport=intro5.getText();
                 int port=996;
                 try{
@@ -105,8 +113,9 @@ public class Client {
                     server= new Server(port);
                     server.start();
                     Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
-                    createAccount(clientSocket,intro3.getText());
-                    Client.display();
+                    createAccount(clientSocket);
+                    userWindow window_u = new Client.userWindow();
+
                 } catch (UnknownHostException e) {
                     logger.error("not supported port:"+serverport);
                     intro1.setBackground(Color.white);
@@ -146,52 +155,66 @@ public class Client {
      * Send the written msg to server.
      * @throws IOException if msg is not under UTF.
      */
-    public static void display() throws IOException {
-        JFrame chatScreen=new JFrame("Client");
-        final JTextField inputBox= new JTextField();
-        JButton button=new JButton("Send");
-        inputBox.setBounds(10,310, 300,70);
-        button.setBounds(310,310, 100,70);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
 
-                try {
-                    String msg=inputBox.getText();
-                    out.writeUTF(name+": "+"\n"+msg);
-                } catch (UTFDataFormatException e) {
-                    logger.error("not supported input string");
-                } catch (IOException e) {
-                    logger.error("socket error while send msg to server socket");
-                    logger.error("error info:\n"+e.getMessage());
+    public static class userWindow extends JFrame{
+        public userWindow(){
+            this.setTitle("PLAYER TABLE");
+            setBounds(0,0,1030,750);
+            canvasUser canvasU= new canvasUser();
+            add(canvasU);
+            setVisible(true);
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
+    }
 
-                }
-            }
-        });
-        chatScreen.setSize(400,400);
-        chatScreen.add(inputBox);
-        chatScreen.add(button);
-        chatScreen.setLayout(null);
-        chatScreen.setVisible(true);
-        out.writeUTF(name);
-        chatScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    static class canvasUser extends JPanel{
+        JFrame v=new JFrame();
+        public static JLabel label_u=new JLabel();
+
+        public canvasUser(){
+            ImageIcon bgTable =new ImageIcon("resources/images/DECK.png");
+            label_u.setBounds(0,0,1030,750);
+            label_u.setIcon(new ImageIcon(bgTable.getImage().getScaledInstance(1000,700, Image.SCALE_SMOOTH)));
+            add(label_u);
+            JLabel label_m=new JLabel("100");
+            label_m.setBounds(835,647,20,20);
+            add(label_m);
+            JLabel label_m2=new JLabel("100");
+            label_m2.setBounds(835,55,20,20);
+            add(label_m2);
+            label_u.add(label_m);
+            label_u.add(label_m2);
+            JButton btn_SkipTurn=new JButton();
+            ImageIcon skipTurn =new ImageIcon("resources/images/skip.png");
+            btn_SkipTurn.setIcon(new ImageIcon(skipTurn.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
+            btn_SkipTurn.setBounds(920,630,40,40);
+            label_u.add(btn_SkipTurn);
+            JButton btn_Historial=new JButton();
+            ImageIcon historial =new ImageIcon("resources/images/historial.png");
+            btn_Historial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
+            btn_Historial.setBounds(920,550,40,40);
+            label_u.add(btn_Historial);
+        }
     }
 
     /**
      * method that the lister for the socket.
      * @param socket client socket
-     * @param user user name
      * @throws IOException when name are not under UTF or socket fail
      */
-    public static void createAccount(Socket socket, String user) throws IOException {
+    public static void createAccount(Socket socket) throws IOException {
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());
         DataInputStream input = new DataInputStream(socket.getInputStream());
         out=output;
         in=input;
-        name=user;
-        out.writeUTF(name);
         SocketListen lister= new SocketListen();
         lister.start();
+    }
+
+
+    public static void updatePlayerData(Userdata data){
+        userData=data;
+//        canvasUser.label_u;
     }
 
     /**
@@ -209,7 +232,12 @@ public class Client {
     public static String getName(){
         return name;
     }
+
+    public static Logger getLogger() {
+        return logger;
+    }
 }
+
 /**
  * Aux class for client.
  * listen the socket for msg.
@@ -221,19 +249,23 @@ class SocketListen extends Thread{
      * Socket logger
      */
     private static Logger logger;
+    static ObjectMapper mapp = new ObjectMapper();
+
 
     /**
      * Start the lister of client socket as a new Thread.
      * recieve all the msg sent from server and send it to client.
      */
     public void run(){
-        logger= LogManager.getLogger("Socket "+Client.getName());
+        logger= Client.getLogger() ;
         DataInputStream input=Client.getIn();
         while(true){
             try {
                 String msg;
                 msg=input.readUTF();
                 logger.debug("socket receive"+msg);
+                logger.error("socket receive"+msg);
+                Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
 
             } catch (SocketException e) {
                 logger.error("socket error , exception: \n"+ e);

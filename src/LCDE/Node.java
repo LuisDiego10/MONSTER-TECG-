@@ -1,6 +1,7 @@
 package LCDE;
 import Card.*;
 
+
 /**
  * Class Node
  * Declare the attributes for Node and constructor

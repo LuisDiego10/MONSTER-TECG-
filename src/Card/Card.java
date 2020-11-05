@@ -2,7 +2,13 @@ package Card;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+/**
+ * Mother class of the card.
+ * The class sended to clients. This class is build only from jackson.
+ * @author Isaac
+ * @version 1.0
+ * @since 29/10/2020
+ */
 public class Card{
     @JsonProperty("name")
     public String name;
@@ -12,15 +18,6 @@ public class Card{
     @JsonProperty("efect")
     public String effect;
     public Card(){
-
-    }
-
-
-
-
-
-
-    public void Action(){
 
     }
 

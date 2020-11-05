@@ -17,6 +17,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import static java.awt.Font.PLAIN;
+
 public class Client {
     /**
      * semi globals variables
@@ -32,8 +34,10 @@ public class Client {
     /**
      * Display a start menu to enter name and port.
      * The button try to connect to server and sen the user name.
+     * @author Diego and Isaac
      * @param args not used
      * @see #createAccount
+     * @version 2.0
      */
 
     public static void main(String[] args) {
@@ -152,9 +156,12 @@ public class Client {
     }
 
     /**
-     * show the chat screen when to chat.
-     * Send the written msg to server.
+     * userWindow class
+     * Show the game screen
      * @throws IOException if msg is not under UTF.
+     * @author Diego
+     * @version 2.0
+     * @since 2/11/2020
      */
 
     public static class userWindow extends JFrame{
@@ -167,21 +174,31 @@ public class Client {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
     }
-
+    /**
+     * canvasUser class
+     * Shows the elements of the game window
+     * @author Diego and Isaac
+     * @version 2.1
+     * @since 2/11/2020
+     */
     static class canvasUser extends JPanel{
         JFrame v=new JFrame();
         public static JLabel label_u=new JLabel();
 
         public canvasUser(){
-            ImageIcon bgTable =new ImageIcon("resources/images/DECK.png");
+            ImageIcon bgTable =new ImageIcon("resources/images/DECK 2.0.png");
             label_u.setBounds(0,0,1030,750);
             label_u.setIcon(new ImageIcon(bgTable.getImage().getScaledInstance(1000,700, Image.SCALE_SMOOTH)));
             add(label_u);
-            JLabel label_m=new JLabel("100");
-            label_m.setBounds(835,647,20,20);
+            JLabel label_m=new JLabel("200");
+            label_m.setBounds(626,570,40,40);
+            label_m.setForeground(Color.white);
+            label_m.setFont(new Font ("Arial", Font.PLAIN,16));
             add(label_m);
-            JLabel label_m2=new JLabel("100");
-            label_m2.setBounds(835,55,20,20);
+            JLabel label_m2=new JLabel("200");
+            label_m2.setBounds(626,115,40,40);
+            label_m2.setFont(new Font ("Arial", Font.PLAIN,16));
+            label_m2.setForeground(Color.white);
             add(label_m2);
             label_u.add(label_m);
             label_u.add(label_m2);
@@ -195,6 +212,53 @@ public class Client {
             btn_Historial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
             btn_Historial.setBounds(920,550,40,40);
             label_u.add(btn_Historial);
+            //CREATE ALL BUTTONS
+            JButton deck_btn=new JButton("Information");
+            deck_btn.setBounds(25,250,105,185);
+            label_u.add(deck_btn);
+            JButton card_1=new JButton("<html>Information2<br>jdsfklsdfklsjdfkljsdlfjdllsadmf<html>");
+            card_1.setBounds(128,540,80,140);
+            label_u.add(card_1);
+            JButton card_2=new JButton("<html>Information2<br>Hola<html>");
+            card_2.setBounds(215,540,80,140);
+            label_u.add(card_2);
+            JButton card_3=new JButton("<html>Information2<br>Hola<html>");
+            card_3.setBounds(302,540,80,140);
+            label_u.add(card_3);
+            JButton card_4=new JButton("<html>Information2<br>Hola<html>");
+            card_4.setBounds(397,540,80,140);
+            label_u.add(card_4);
+            JButton card_5=new JButton("<html>Information2<br>Hola<html>");
+            card_5.setBounds(710,30,80,140);
+            label_u.add(card_5);
+            JButton card_6=new JButton("<html>Information2<br>Hola<html>");
+            card_6.setBounds(805,30,80,140);
+            label_u.add(card_6);
+            JButton card_7=new JButton("<html>Information2<br>Hola<html>");
+            card_7.setBounds(900,30,80,140);
+            label_u.add(card_7);
+            JButton card_8=new JButton("<html>Information2<br>Hola<html>");
+            card_8.setBounds(710,190,80,140);
+            label_u.add(card_8);
+            JButton card_9=new JButton("<html>Information2<br>Hola<html>");
+            card_9.setBounds(805,190,80,140);
+            label_u.add(card_9);
+            JButton card_10=new JButton("<html>Information2<br>Hola<html>");
+            card_10.setBounds(900,190,80,140);
+            label_u.add(card_10);
+            JButton card_11=new JButton("<html>Information2<br>Hola<html>");
+            card_11.setBounds(710,343,80,140);
+            label_u.add(card_11);
+            JButton card_12=new JButton("<html>Information2<br>Hola<html>");
+            card_12.setBounds(805,343,80,140);
+            label_u.add(card_12);
+            JButton card_13=new JButton("<html>Information2<br>Hola<html>");
+            card_13.setBounds(900,343,80,140);
+            label_u.add(card_13);
+            JButton card_14=new JButton("<html>Information2<br>Hola<html>");
+            card_14.setBounds(805,500,80,140);
+            label_u.add(card_14);
+
         }
     }
 
@@ -202,6 +266,9 @@ public class Client {
      * method that the lister for the socket.
      * @param socket client socket
      * @throws IOException when name are not under UTF or socket fail
+     * @author Isaac
+     * @version 2.0
+     * @since 02/11/2020
      */
     public static void createAccount(Socket socket) throws IOException {
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());
@@ -247,6 +314,9 @@ public class Client {
  * Aux class for client.
  * listen the socket for msg.
  * @see Client
+ * @author Isaac
+ * @version 2.0
+ * @since 02/11/2020
  */
 
 class SocketListen extends Thread{

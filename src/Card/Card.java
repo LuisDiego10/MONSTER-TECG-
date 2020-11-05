@@ -17,8 +17,6 @@ public class Card{
     public int damage;
     @JsonProperty("efect")
     public String effect;
-
-
     public Card(){
 
     }

@@ -10,7 +10,6 @@ public class Secret extends Card{
         name= secretName;
         effect= secretEffect;
         setManaCost(cost);
-
     }
 
 

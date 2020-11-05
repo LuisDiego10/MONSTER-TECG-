@@ -1,12 +1,17 @@
 package Server;
 
+import Card.Card;
+import Card.Minion;
+import Card.Spell;
 import Factory.Factory;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.net.*;
-import java.io.*;
-
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Objects;
 
 
 /**
@@ -44,52 +49,169 @@ public class Server extends Thread {
      */
     public void run() {
         logger.debug("try ing to connect with host and player");
-        playerHost=addUser();
+        playerHost = addUser();
         logger.debug("host connected");
-        playerInvitated=addUser();
+        playerInvitated = addUser();
         logger.debug("player connected");
         logger.debug("generating player and host deck");
-        playerHost.playerData.playerDeck= Factory.RandomDeck();
-        playerInvitated.playerData.playerDeck= Factory.RandomDeck();
-        for (int i=0;i<5;i++){
+        playerHost.playerData.playerDeck = Factory.RandomDeck();
+        playerInvitated.playerData.playerDeck = Factory.RandomDeck();
+        for (int i = 0; i < 5; i++) {
             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
             playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
         }
         logger.debug("decks generateds");
-        try {
-            logger.debug("try ing to sent deck");
-            playerHost.getOut().writeUTF(Factory.Serializer(playerHost.playerData));
-            logger.debug("host sended");
-            playerInvitated.getOut().writeUTF(Factory.Serializer(playerInvitated.playerData));
-            logger.debug("player sended");
-        } catch (IOException e) {
-            logger.error("error trying to serialize the players data or sending it, info:\n"+e);
-        }
-        while(playerHost.playerData.life>0 | playerInvitated.playerData.life>0){
-            while (playerInvitated.turn){
+        SendMsg();
+        while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
+            while (playerInvitated.turn) {
                 String action = "";
                 try {
-                    action=playerInvitated.in.readUTF();
+                    action = playerInvitated.in.readUTF();
                 } catch (IOException e) {
                     logger.error("error getting action trying again");
 
                 }
-                if(action.equals("finish turn")){playerInvitated.turn=false;playerHost.turn=true; }
+                if (action.equals("finish turn")) {
+                    playerInvitated.turn = false;
+                    playerHost.turn = true;
+                }
+                if (action.contains("invoke")) {
+                    action = action.substring(5);
+                    try {
+                        if (!Objects.equals(playerInvitated.playerData.playerHand.getNode(action).fact.name, "")) {
+                            if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
+                                for (int i = 0; i < 5; i++) {
+                                    if (playerInvitated.playerData.playerTable[i] == null) {
+                                        playerInvitated.playerData.playerTable[i] = playerInvitated.playerData.playerHand.getNode(action).fact;
+                                        playerInvitated.playerData.playerHand.deleteNode(action);
+                                    }
+                                }
+
+                                playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
+                                SendMsg();
+                            } else if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
+                                //method of cards
+                                ;
+                            } else {
+                                //method of secrets
+                                ;
+                            }
+                        }
+
+                    } catch (NullPointerException e) {
+                        logger.error("Card do not exist or not space, ignoring action" + e);
+                    }
+                }
+                if (action.contains("attack")) {
+                    action = action.substring(5);
+                    Card attacker = null;
+                    try {
+                        for (int i=0;i<5;i++) {
+                            if(playerInvitated.playerData.playerTable[i].name.equals(action)){
+                                attacker=playerInvitated.playerData.playerTable[i];
+                                i=5;
+                                break;
+                            }
+                        }
+                        if(attacker==null){
+                            break;
+                        }
+                        try {
+                            action = playerInvitated.in.readUTF();
+                        } catch (IOException e) {
+                            logger.error("error getting action trying again");
+                        }
+                        for (int i=0;i<5;i++) {
+                            if(playerHost.playerData.playerTable[i].name.equals(action)){
+                                playerHost.playerData.playerTable[i].healt-=attacker.damage;
+                                if(playerHost.playerData.playerTable[i].healt<=0){
+                                    playerHost.playerData.playerTable[i]=null;
+                                }
+                                break;
+                            }
+                        }
+
+
+                    } catch (NullPointerException e) {
+                        logger.error("Not catched attacked card, or no existing card");
+                    }
+                }
             }
-            while (playerHost.turn){
+            while (playerHost.turn) {
                 String action = "";
                 try {
-                    action=playerHost.in.readUTF();
+                    action = playerHost.in.readUTF();
                 } catch (IOException e) {
-                   logger.error("error getting action trying again");
+                    logger.error("error getting action trying again"+e);
 
                 }
-                if(action.equals("finish turn")){playerHost.turn=false;playerInvitated.turn=true; }
+                if (action.equals("finish turn")) {
+                    playerHost.turn = false;
+                    playerInvitated.turn = true;
+                }
+                if (action.contains("invoke")) {
+                    action = action.substring(5);
+                    try {
+                        if (!Objects.equals(playerHost.playerData.playerHand.getNode(action).fact.name, "")) {
+                            if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
+                                for (int i = 0; i < 5; i++) {
+                                    if (playerHost.playerData.playerTable[i] == null) {
+                                        playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
+                                        playerHost.playerData.playerHand.deleteNode(action);
+                                    }
+                                }
+                                playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
+                                SendMsg();
+                            } else if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
+                                //method of cards
+                                ;
+                            } else {
+                                ;
+                                //method of secrets
+                            }
+                        }
+                    } catch (NullPointerException e) {
+                        logger.error("Card do not exist, not space to invoke or uknown error, ignoring action" + e);
+                    }
+                }
+                if (action.contains("attack")) {
+                    action = action.substring(5);
+                    Card attacker = null;
+                    try {
+                        for (int i=0;i<5;i++) {
+                            if(playerHost.playerData.playerTable[i].name.equals(action)){
+                                attacker=playerHost.playerData.playerTable[i];
+                                i=5;
+                                break;
+                            }
+                        }
+                        if(attacker==null){
+                            break;
+                        }
+                        try {
+                            action = playerHost.in.readUTF();
+                        } catch (IOException e) {
+                            logger.error("error getting action trying again");
+                        }
+                        for (int i=0;i<5;i++) {
+                            if(playerInvitated.playerData.playerTable[i].name.equals(action)){
+                                playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
+                                if(playerInvitated.playerData.playerTable[i].healt<=0){
+                                    playerInvitated.playerData.playerTable[i]=null;
+                                }
+                                break;
+                            }
+                        }
+
+
+                    } catch (NullPointerException e) {
+                        logger.error("error getting action trying again"+e);
+                    }
+                }
+
             }
         }
     }
-
-
     /**
      * Method that register user data and start they socket listener.
      * get and create user :socket, input class, output class and Socket listener.
@@ -126,17 +248,16 @@ public class Server extends Thread {
      * @param msg msg as string.
      * @throws IOException if fail closing the socket.
      */
-    public void SendMsg( Users user, String msg){
-        DataOutputStream out = user.getOut();
+    public void SendMsg(){
         try {
-            out.writeUTF(msg);
+            logger.debug("try ing to sent deck");
+            playerHost.getOut().writeUTF(Factory.Serializer(playerHost.playerData));
+            logger.debug("host sended");
+            playerInvitated.getOut().writeUTF(Factory.Serializer(playerInvitated.playerData));
+            logger.debug("player sended");
         } catch (IOException e) {
-            logger.error("Inactive port. It will be deleted");
-            try {
-                user.getUserSocket().close();
-            } catch (IOException ex) {
-                logger.error("unexpected errror closing port");
-            }
+            logger.error("error trying to serialize the players data or sending it, info:\n"+e);
         }
+
     }
 }

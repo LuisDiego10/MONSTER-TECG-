@@ -10,7 +10,8 @@ import java.io.*;
 
 
 /**
- * Client.Main Class of Server app.
+ * Class of Server app.
+ * Do all action with the Cards.
  * @see Users for aux class
  */
 public class Server extends Thread {
@@ -25,8 +26,8 @@ public class Server extends Thread {
 
 
     /**
-     * Create the server´s socket whit the indicated port
-     * @param port port of the
+     * Create the server´s socket whit the indicated port.
+     * @param port port of the server.
      */
     public Server(int port){
         try {
@@ -39,7 +40,7 @@ public class Server extends Thread {
 
     /**
      * Start the server and wait for action.
-     * Send to player the deck info
+     * Send to player the deck info.
      */
     public void run() {
         logger.debug("try ing to connect with host and player");
@@ -94,7 +95,7 @@ public class Server extends Thread {
      * get and create user :socket, input class, output class and Socket listener.
      * Use a User CLass to save the data as instances, and data input and data output streams to communication.
      * @see Users
-     * @return User if new user enter o null if error.
+     * @return User, or null if error.
      */
     public Users addUser() {
         try {
@@ -107,7 +108,13 @@ public class Server extends Thread {
         }
         return null;
     }
-
+    /**
+     * Logger getter
+     * @return logger
+     * @author Isaac
+     * @version 1.0
+     * @since 4/10/2020
+     */
     public static Logger getLogger() {
         return logger;
     }

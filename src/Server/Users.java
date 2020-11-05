@@ -12,6 +12,10 @@ import java.net.Socket;
 /**
  * Aux Class for server app.
  * Save users data.
+ * @see Server for use.
+ * @author Isaac
+ * @version 1.0
+ * @since 29/10/2020
  */
 public class Users {
     /**
@@ -25,8 +29,8 @@ public class Users {
     public Userdata playerData= new Userdata();
 
     /**
-     * Builder.
-     * register the user data.
+     * Class builder.
+     * Create the input and output stream of the user.
      * @param socket user socket.
      */
     public Users(Socket socket) {
@@ -73,11 +77,21 @@ public class Users {
     public String getUserName() {
         return userName;
     }
-
+    /**
+     * Getter.
+     * @return respective object
+     */
     public Userdata getPlayerData() {
         return playerData;
     }
 
+    /**
+     * Aux class to save the user data.
+     * @see Server for use.
+     * @author Isaac
+     * @version 1.0
+     * @since 4/11/2020
+     */
 public class Userdata{
     public int life=1000;
     public Card[] playerTable= new Card[6];

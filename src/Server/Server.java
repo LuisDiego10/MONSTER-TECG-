@@ -39,6 +39,7 @@ public class Server extends Thread {
 
     /**
      * Start the server and wait for action.
+     * Send to player the deck info
      */
     public void run() {
         logger.debug("try ing to connect with host and player");

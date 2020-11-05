@@ -234,6 +234,10 @@ public class Client {
         return name;
     }
 
+    /**
+     * Getter.
+     * @return respective object.
+     */
     public static Logger getLogger() {
         return logger;
     }

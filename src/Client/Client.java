@@ -258,6 +258,18 @@ public class Client {
             JButton card_14=new JButton("<html>Information2<br>Hola<html>");
             card_14.setBounds(805,500,80,140);
             label_u.add(card_14);
+            JButton card_15=new JButton("<html>Information2<br>jdsfklsdfklsjdfkljsdlfjdllsadmf<html>");
+            card_15.setBounds(128,15,80,140);
+            label_u.add(card_15);
+            JButton card_16=new JButton("<html>Information2<br>Hola<html>");
+            card_16.setBounds(215,15,80,140);
+            label_u.add(card_16);
+            JButton card_17=new JButton("<html>Information2<br>Hola<html>");
+            card_17.setBounds(302,15,80,140);
+            label_u.add(card_17);
+            JButton card_18=new JButton("<html>Information2<br>Hola<html>");
+            card_18.setBounds(397,15,80,140);
+            label_u.add(card_18);
 
         }
     }

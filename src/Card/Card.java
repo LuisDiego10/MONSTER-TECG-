@@ -11,12 +11,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Card{
     @JsonProperty("name")
-    public String name;
+    public String name="";
     private int manaCost=300;
-    public int healt;
-    public int damage;
+    public int healt=-1;
+    public int damage=-1;
     @JsonProperty("efect")
-    public String effect;
+    public String effect="";
     public Card(){
 
     }

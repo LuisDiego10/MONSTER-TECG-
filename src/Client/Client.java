@@ -1,5 +1,7 @@
 package Client;
 
+import Card.Card;
+import LCDE.Node;
 import Server.Server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -17,8 +19,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static java.awt.Font.PLAIN;
-
 public class Client {
     /**
      * semi globals variables
@@ -29,6 +29,8 @@ public class Client {
     private static Logger logger = null;
     private static Userdata userData;
     private static Server server;
+    public static userWindow window_u=null;
+
 
 
     /**
@@ -70,8 +72,6 @@ public class Client {
             public void actionPerformed(ActionEvent actionEvent) {
                 logger = LogManager.getLogger("PLAYER");
                 System.out.print(logger.getLevel());
-                logger.debug("Client logger");
-                logger.info("Client logger");
                 logger.info("Client logger");
                 String serverport=intro5.getText();
                 int port=996;;
@@ -80,12 +80,13 @@ public class Client {
                         if (!serverport.equals("")) {
                             port = Integer.parseInt(serverport);
                         }
+                        window_u = new Client.userWindow();
+                        logger.debug("Starting player GUI");
                         Socket clientSocket = new Socket(InetAddress.getLocalHost(), port);
-
                         createAccount(clientSocket);
+                        logger.debug("Starting player socket");
                         chatScreen.setVisible(false);
                         chatScreen.dispose();
-                        userWindow window_u = new Client.userWindow();
 
                     } catch (UnknownHostException e) {
                         logger.error("not supported port:" + serverport);
@@ -100,7 +101,7 @@ public class Client {
                         logger.error("error info:\n" + e.getMessage());
 
                     }
-                }else{}
+                }
             }
         });
         connectButton.setBounds(25,220,150,50);
@@ -117,9 +118,13 @@ public class Client {
                     chatScreen.dispose();
                     server= new Server(port);
                     server.start();
+                    logger.debug("Starting server");
+                    userWindow window_u = new Client.userWindow();
+                    logger.debug("Starting player GUI");
                     Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
                     createAccount(clientSocket);
-                    userWindow window_u = new Client.userWindow();
+                    logger.debug("Starting player socket");
+
 
                 } catch (UnknownHostException e) {
                     logger.error("not supported port:"+serverport);
@@ -165,10 +170,11 @@ public class Client {
      */
 
     public static class userWindow extends JFrame{
+        public canvasUser canvasU;
         public userWindow(){
             this.setTitle("PLAYER TABLE");
             setBounds(0,0,1030,750);
-            canvasUser canvasU= new canvasUser();
+            canvasU= new canvasUser();
             add(canvasU);
             setVisible(true);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,9 +187,27 @@ public class Client {
      * @version 2.1
      * @since 2/11/2020
      */
-    static class canvasUser extends JPanel{
-        JFrame v=new JFrame();
-        public static JLabel label_u=new JLabel();
+    static class canvasUser extends JPanel {
+        JFrame v = new JFrame();
+        public static JLabel label_u = new JLabel();
+        public JButton card_1;
+        public JButton card_2;
+        public JButton card_3;
+        public JButton card_4;
+        public JButton card_5;
+        public JButton card_6;
+        public JButton card_7;
+        public JButton card_8;
+        public JButton card_9;
+        public JButton card_10;
+        public JButton card_11;
+        public JButton card_12;
+        public JButton card_13;
+        public JButton card_14;
+        public JButton card_15;
+        public JButton card_16;
+        public JButton card_17;
+        public JButton card_18;
 
         public canvasUser(){
             ImageIcon bgTable =new ImageIcon("resources/images/DECK 2.0.png");
@@ -207,70 +231,265 @@ public class Client {
             btn_SkipTurn.setIcon(new ImageIcon(skipTurn.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
             btn_SkipTurn.setBounds(920,630,40,40);
             label_u.add(btn_SkipTurn);
+            btn_SkipTurn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("finish turn");
+                    } catch (IOException ex) {
+                        logger.error("error finishing turn");
+                    }
+                }
+            });
             JButton btn_Historial=new JButton();
             ImageIcon historial =new ImageIcon("resources/images/historial.png");
             btn_Historial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
             btn_Historial.setBounds(920,550,40,40);
             label_u.add(btn_Historial);
             //CREATE ALL BUTTONS
-            JButton deck_btn=new JButton("Information");
+            JButton deck_btn=new JButton("Deck");
             deck_btn.setBounds(25,250,105,185);
             label_u.add(deck_btn);
-            JButton card_1=new JButton("<html>Information2<br>jdsfklsdfklsjdfkljsdlfjdllsadmf<html>");
+            deck_btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(!userData.playerDeck.empty()){
+                        try {
+                            out.writeUTF("peek");
+                        } catch (IOException ex) {
+                            logger.error("error sending msg to server with action:"+e+"\n;"+ex);
+                        }
+                    }
+                }
+            });
+            card_1=new JButton("<html>card<html>");
             card_1.setBounds(128,540,80,140);
             label_u.add(card_1);
-            JButton card_2=new JButton("<html>Information2<br>Hola<html>");
+            card_2=new JButton("<html>card<html>");
             card_2.setBounds(215,540,80,140);
             label_u.add(card_2);
-            JButton card_3=new JButton("<html>Information2<br>Hola<html>");
+            card_3=new JButton("<html>card<html>");
             card_3.setBounds(302,540,80,140);
             label_u.add(card_3);
-            JButton card_4=new JButton("<html>Information2<br>Hola<html>");
+            card_4=new JButton("<html>card<html>");
             card_4.setBounds(397,540,80,140);
             label_u.add(card_4);
-            JButton card_5=new JButton("<html>Information2<br>Hola<html>");
+            card_5=new JButton("<html>Hand<html>");
             card_5.setBounds(710,30,80,140);
             label_u.add(card_5);
-            JButton card_6=new JButton("<html>Information2<br>Hola<html>");
+            card_5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_6=new JButton("<html>Hand<html>");
             card_6.setBounds(805,30,80,140);
             label_u.add(card_6);
-            JButton card_7=new JButton("<html>Information2<br>Hola<html>");
+            card_6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_7=new JButton("<html>Hand<html>");
             card_7.setBounds(900,30,80,140);
             label_u.add(card_7);
-            JButton card_8=new JButton("<html>Information2<br>Hola<html>");
+            card_7.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_8=new JButton("<html>Hand<html>");
             card_8.setBounds(710,190,80,140);
             label_u.add(card_8);
-            JButton card_9=new JButton("<html>Information2<br>Hola<html>");
+            card_8.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode
+                                .nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_9=new JButton("<html>Hand<html>");
             card_9.setBounds(805,190,80,140);
             label_u.add(card_9);
-            JButton card_10=new JButton("<html>Information2<br>Hola<html>");
+            card_9.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode
+                                .nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_10=new JButton("<html>Hand<html>");
             card_10.setBounds(900,190,80,140);
             label_u.add(card_10);
-            JButton card_11=new JButton("<html>Information2<br>Hola<html>");
+            card_10.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.nextNode
+                                .nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_11=new JButton("<html>Hand<html>");
             card_11.setBounds(710,343,80,140);
             label_u.add(card_11);
-            JButton card_12=new JButton("<html>Information2<br>Hola<html>");
+            card_11.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.nextNode
+                                .nextNode.nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_12=new JButton("<html>Hand<html>");
             card_12.setBounds(805,343,80,140);
             label_u.add(card_12);
-            JButton card_13=new JButton("<html>Information2<br>Hola<html>");
+            card_12.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.nextNode
+                                .nextNode.nextNode.nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_13=new JButton("<html>Hand<html>");
             card_13.setBounds(900,343,80,140);
             label_u.add(card_13);
-            JButton card_14=new JButton("<html>Information2<br>Hola<html>");
+            card_13.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.nextNode
+                                .nextNode.nextNode.nextNode.nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_14=new JButton("<html>Hand<html>");
             card_14.setBounds(805,500,80,140);
             label_u.add(card_14);
-            JButton card_15=new JButton("<html>Information2<br>jdsfklsdfklsjdfkljsdlfjdllsadmf<html>");
+            card_14.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().nextNode.nextNode.nextNode
+                                .nextNode.nextNode.nextNode.nextNode.nextNode.nextNode.fact.name);
+
+                    } catch (IOException ex) {
+                        logger.error("error while client invoke card"+ex);
+                    }
+                }
+            });
+            card_15=new JButton("<html>Card<html>");
             card_15.setBounds(128,15,80,140);
             label_u.add(card_15);
-            JButton card_16=new JButton("<html>Information2<br>Hola<html>");
+            card_16=new JButton("<html>Card<html>");
             card_16.setBounds(215,15,80,140);
             label_u.add(card_16);
-            JButton card_17=new JButton("<html>Information2<br>Hola<html>");
+            card_17=new JButton("<html>Card<html>");
             card_17.setBounds(302,15,80,140);
             label_u.add(card_17);
-            JButton card_18=new JButton("<html>Information2<br>Hola<html>");
+            card_18=new JButton("<html>Card<html>");
             card_18.setBounds(397,15,80,140);
             label_u.add(card_18);
 
+        }
+        public void updateCardDisplay(){
+            Card card;
+            JButton[] buttons= new JButton[]{card_5, card_6, card_7, card_8, card_9, card_10, card_11, card_12, card_13, card_14};
+            int a=0;
+            Userdata data=Client.getUserData();
+            while(a<data.playerHand.sizeLCDE) {
+                Node node = data.playerHand.getStart();
+                for(int i=0;i<a;i++){
+                    node = node.nextNode;}
+                card=node.fact;
+                buttons[a].setText(getCardText(card));
+                a++;
+            }
+            card=data.playerTable[0];
+            if(card != null){
+            card_1.setText(getCardText(card));}
+            card=data.playerTable[1];
+            if(card != null){
+            card_2.setText(getCardText(card));}
+            card=data.playerTable[2];
+            if(card != null){
+            card_3.setText(getCardText(card));}
+            card=data.playerTable[3];
+            if(card != null){
+            card_4.setText(getCardText(card));}
+            card=data.enemyTable[0];
+            if(card != null){
+            card_15.setText(getCardText(card));}
+            card=data.enemyTable[1];
+            if(card != null){
+            card_16.setText(getCardText(card));}
+            card=data.enemyTable[2];
+            if(card != null){
+            card_17.setText(getCardText(card));}
+            card=data.enemyTable[3];
+            if(card != null){
+            card_18.setText(getCardText(card));}
+
+
+        }
+        public String getCardText(Card card){
+            StringBuilder text= new StringBuilder();
+            text.append("<html>").append(card.name).append("<br>");
+            if (card.healt!=-1){
+                text.append("healt: ").append(card.healt).append("<br>");
+            }
+            if (card.damage!=-1){
+                text.append("damage: ").append(card.damage).append("<br>");
+            }
+            if (!card.effect.equals("")){
+                text.append(card.effect).append("<br>");
+            }
+            text.append("cost: ").append(card.getManaCost()).append("<br>");
+            text.append("<html>");
+            return text.toString();
         }
     }
 
@@ -294,7 +513,12 @@ public class Client {
 
     public static void updatePlayerData(Userdata data){
         userData=data;
-//        canvasUser.label_u;
+        if (window_u!=null){
+        window_u.canvasU.updateCardDisplay();}
+    }
+
+    public static Userdata getUserData() {
+        return userData;
     }
 
     /**
@@ -351,9 +575,7 @@ class SocketListen extends Thread{
                 String msg;
                 msg=input.readUTF();
                 logger.debug("socket receive"+msg);
-                logger.error("socket receive"+msg);
                 Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
-
             } catch (SocketException e) {
                 logger.error("socket error , exception: \n"+ e);
                 logger.debug("socket close");

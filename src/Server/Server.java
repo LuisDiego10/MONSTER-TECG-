@@ -58,15 +58,21 @@ public class Server extends Thread {
         playerInvitated.playerData.playerDeck = Factory.RandomDeck();
         for (int i = 0; i < 5; i++) {
             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+            playerInvitated.playerData.playerDeck.pop();
             playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
+            playerHost.playerData.playerDeck.peek();
         }
         logger.debug("decks generateds");
         SendMsg();
+        playerInvitated.turn=true;
+        SendMsg();
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
+            SendMsg();
             while (playerInvitated.turn) {
                 String action = "";
                 try {
                     action = playerInvitated.in.readUTF();
+                    logger.debug(action);
                 } catch (IOException e) {
                     logger.error("error getting action trying again");
 
@@ -76,14 +82,15 @@ public class Server extends Thread {
                     playerHost.turn = true;
                 }
                 if (action.contains("invoke")) {
-                    action = action.substring(5);
+                    action = action.substring(6);
                     try {
                         if (!Objects.equals(playerInvitated.playerData.playerHand.getNode(action).fact.name, "")) {
                             if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
-                                for (int i = 0; i < 5; i++) {
+                                for (int i = 0; i < 4; i++) {
                                     if (playerInvitated.playerData.playerTable[i] == null) {
                                         playerInvitated.playerData.playerTable[i] = playerInvitated.playerData.playerHand.getNode(action).fact;
                                         playerInvitated.playerData.playerHand.deleteNode(action);
+                                        break;
                                     }
                                 }
 
@@ -103,7 +110,7 @@ public class Server extends Thread {
                     }
                 }
                 if (action.contains("attack")) {
-                    action = action.substring(5);
+                    action = action.substring(6);
                     Card attacker = null;
                     try {
                         for (int i=0;i<5;i++) {
@@ -136,6 +143,9 @@ public class Server extends Thread {
                         logger.error("Not catched attacked card, or no existing card");
                     }
                 }
+                if (action.equals("peek")){
+                    playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                }
             }
             while (playerHost.turn) {
                 String action = "";
@@ -150,7 +160,7 @@ public class Server extends Thread {
                     playerInvitated.turn = true;
                 }
                 if (action.contains("invoke")) {
-                    action = action.substring(5);
+                    action = action.substring(6);
                     try {
                         if (!Objects.equals(playerHost.playerData.playerHand.getNode(action).fact.name, "")) {
                             if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
@@ -175,7 +185,7 @@ public class Server extends Thread {
                     }
                 }
                 if (action.contains("attack")) {
-                    action = action.substring(5);
+                    action = action.substring(6);
                     Card attacker = null;
                     try {
                         for (int i=0;i<5;i++) {
@@ -208,6 +218,10 @@ public class Server extends Thread {
                         logger.error("error getting action trying again"+e);
                     }
                 }
+                if (action.equals("peek")){
+                    playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
+                }
+
 
             }
         }
@@ -244,8 +258,6 @@ public class Server extends Thread {
     /**
      * Send the msg received to a user.
      * if the user Socket dont accept msg try to delete it
-     * @param user User to send msg.
-     * @param msg msg as string.
      * @throws IOException if fail closing the socket.
      */
     public void SendMsg(){

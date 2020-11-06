@@ -60,7 +60,7 @@ public class Server extends Thread {
             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
             playerInvitated.playerData.playerDeck.pop();
             playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
-            playerHost.playerData.playerDeck.peek();
+            playerHost.playerData.playerDeck.pop();
         }
         logger.debug("decks generateds");
         SendMsg();
@@ -90,6 +90,8 @@ public class Server extends Thread {
                                     if (playerInvitated.playerData.playerTable[i] == null) {
                                         playerInvitated.playerData.playerTable[i] = playerInvitated.playerData.playerHand.getNode(action).fact;
                                         playerInvitated.playerData.playerHand.deleteNode(action);
+                                        playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
+
                                         break;
                                     }
                                 }
@@ -267,6 +269,8 @@ public class Server extends Thread {
                                     if (playerHost.playerData.playerTable[i] == null) {
                                         playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
                                         playerHost.playerData.playerHand.deleteNode(action);
+                                        playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
+                                        break;
                                     }
                                 }
                                 playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;

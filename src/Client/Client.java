@@ -119,7 +119,7 @@ public class Client {
                     server= new Server(port);
                     server.start();
                     logger.debug("Starting server");
-                    userWindow window_u = new Client.userWindow();
+                    window_u = new Client.userWindow();
                     logger.debug("Starting player GUI");
                     Socket clientSocket = new Socket(InetAddress.getLocalHost(),port);
                     createAccount(clientSocket);

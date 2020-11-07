@@ -139,6 +139,9 @@ public class Server extends Thread {
                                             break;
                                         case "PoderSupremo":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerInvitated.playerData.historial.insertLDE("PoderSupremo","Invitado", "Invocar");
                                             SendMsg();
                                             break;
@@ -348,6 +351,9 @@ public class Server extends Thread {
                                             break;
                                         case "PoderSupremo":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerHost.playerData.historial.insertLDE("PoderSupremo", "Host", "Invocar");
                                             SendMsg();
 
@@ -535,7 +541,7 @@ public class Server extends Thread {
      */
     public void SendMsg(){
         try {
-            logger.debug("try ing to sent deck to players");
+            logger.debug("trying to sent deck to players");
             playerHost.getOut().writeUTF(Factory.Serializer(playerHost.playerData));
             playerInvitated.getOut().writeUTF(Factory.Serializer(playerInvitated.playerData));
             logger.debug("sended");

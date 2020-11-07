@@ -93,6 +93,7 @@ public class Lcde {
         if (start == null)
             return null;
         Node currentNode = start, prev1 = null;
+        sizeLCDE--;
         while (!currentNode.fact.name.equals(valueFind)) {
             if (currentNode.nextNode == start) {
                 System.out.printf("\nList doesn't have node with value = %s", valueFind);

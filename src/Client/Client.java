@@ -574,7 +574,8 @@ public class Client {
             JButton[] buttons= new JButton[]{card_5, card_6, card_7, card_8, card_9, card_10, card_11, card_12, card_13, card_14};
             int a=0;
             Userdata data=Client.getUserData();
-            while(a<data.playerHand.sizeLCDE) {
+            //update all the space with the new data
+            while(a<=data.playerHand.sizeLCDE) {
                 Node node = data.playerHand.getStart();
                 for(int i=0;i<a;i++){
                     node = node.nextNode;}
@@ -582,30 +583,65 @@ public class Client {
                 buttons[a].setText(getCardText(card));
                 a++;
             }
+            //update all empty spaced of the hand with the new data
+            a=9;
+            while(a>data.playerHand.sizeLCDE) {
+                Node node = data.playerHand.getStart();
+                for(int i=0;i<a;i++){
+                    node = node.prevNode;}
+                buttons[a].setText("Card");
+                a--;
+            }
+            //update the own table with the data
             card=data.playerTable[0];
             if(card != null){
-            card_1.setText(getCardText(card));}
+                card_1.setText(getCardText(card));
+            }else{
+                card_1.setText("card");
+            }
             card=data.playerTable[1];
             if(card != null){
-            card_2.setText(getCardText(card));}
+                card_2.setText(getCardText(card));
+            }else{
+                card_2.setText("card");
+            }
             card=data.playerTable[2];
             if(card != null){
-            card_3.setText(getCardText(card));}
+                card_3.setText(getCardText(card));
+            }else{
+                card_3.setText("card");
+            }
             card=data.playerTable[3];
             if(card != null){
-            card_4.setText(getCardText(card));}
+                card_4.setText(getCardText(card));
+            }else{
+                card_4.setText("card");
+            }
+            //update enemy table with new data
             card=data.enemyTable[0];
             if(card != null){
-            card_15.setText(getCardText(card));}
+                card_15.setText(getCardText(card));
+            }else{
+                card_15.setText("card");
+            }
             card=data.enemyTable[1];
             if(card != null){
-            card_16.setText(getCardText(card));}
+                card_16.setText(getCardText(card));
+            }else{
+                card_16.setText("card");
+            }
             card=data.enemyTable[2];
             if(card != null){
-            card_17.setText(getCardText(card));}
+                card_17.setText(getCardText(card));
+            }else{
+                card_17.setText("card");
+            }
             card=data.enemyTable[3];
             if(card != null){
-            card_18.setText(getCardText(card));}
+                card_18.setText(getCardText(card));
+            }else{
+                card_18.setText("card");
+            }
 
 
         }
@@ -721,6 +757,7 @@ class SocketListen extends Thread{
                     Client.startTurn();
                 }else{
                     Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
+                    Client.getUserData().playerHand.display();
                 }
             } catch (SocketException e) {
                 logger.error("socket error , exception: \n"+ e);

@@ -56,7 +56,7 @@ public class Server extends Thread {
         logger.debug("generating player and host deck");
         playerHost.playerData.playerDeck = Factory.RandomDeck();
         playerInvitated.playerData.playerDeck = Factory.RandomDeck();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
             playerInvitated.playerData.playerDeck.pop();
             playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
@@ -95,7 +95,9 @@ public class Server extends Thread {
                         playerInvitated.playerData.mana += 250;
                     }else{
                         playerInvitated.playerData.mana=1000;}
-                    try {playerHost.out.writeUTF("turn");
+                    try {
+                        playerHost.out.writeUTF("turn");
+                        SendMsg();
                     } catch (IOException e) {
                         logger.error("error allowing turn to host, possibly close socket"+e);}
                 }
@@ -114,6 +116,7 @@ public class Server extends Thread {
                                         playerInvitated.playerData.playerHand.deleteNode(action);
                                         playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
                                         playerInvitated.playerData.historial.insertLDE(playerInvitated.playerData.playerTable[i].name,"invitado","invocar");
+                                        SendMsg();
                                         break;}
                                 }
                                 //update the enemy hand
@@ -251,6 +254,7 @@ public class Server extends Thread {
                             if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                 attacker=playerInvitated.playerData.playerTable[i];
                                 i=5;
+                                SendMsg();
                                 break;
                             }
                         }
@@ -270,7 +274,7 @@ public class Server extends Thread {
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerHost.playerData.life-=attacker.damage;}
+                            if(i==4){playerHost.playerData.life=playerHost.playerData.life-attacker.damage; SendMsg();}
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
@@ -301,6 +305,7 @@ public class Server extends Thread {
                     }else{playerHost.playerData.mana=1000;}
                     try {
                         playerInvitated.out.writeUTF("turn");
+                        SendMsg();
                     } catch (IOException e) {logger.error("error allowing turn to host, possibly close socket"+e); }}
                 //invoke
                 if (action.contains("invoke")) {
@@ -317,6 +322,7 @@ public class Server extends Thread {
                                         playerHost.playerData.playerHand.deleteNode(action);
                                         playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
                                         playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name,"invitado","invocar");
+                                        SendMsg();
                                         break;
                                     }
                                 }
@@ -463,6 +469,7 @@ public class Server extends Thread {
                             if(playerHost.playerData.playerTable[i].name.equals(action)){
                                 attacker=playerHost.playerData.playerTable[i];
                                 i=5;
+                                SendMsg();
                                 break;
                             }
                         }
@@ -482,7 +489,7 @@ public class Server extends Thread {
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerInvitated.playerData.life-=attacker.damage;}
+                            if(i==4){playerInvitated.playerData.life=playerInvitated.playerData.life-attacker.damage;SendMsg();}
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }

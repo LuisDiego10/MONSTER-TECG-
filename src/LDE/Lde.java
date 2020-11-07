@@ -4,7 +4,6 @@ public class Lde {
     NodeLDE start= null;
     /**
      * Constructor class StackP
-     * @param node, object that contain the data to store.
      * @author Diego
      * @version 1.0
      * @since 30/10/2020
@@ -18,22 +17,28 @@ public class Lde {
      * Class insert
      * Class for insert nodes
      * @author Diego
-     * @param value
+     * @param action
+     * @param card
+     * @param player
      * @version 1.0
      * @since 30/10/2020
      */
 
-    public void insertLDE(int value){
+    public void insertLDE(String card,String player, String action){
         if (start == null) {
             NodeLDE newNode = new NodeLDE();
-            newNode.fact = value;
+            newNode.fact = card;
+            newNode.player = player;
+            newNode.action = action;
             newNode.nextNodeLDE = newNode.prevNodeLDE = newNode;
             start = newNode;
             return;
         }
         NodeLDE lastNode = (start).prevNodeLDE;
         NodeLDE newNode = new NodeLDE();
-        newNode.fact = value;
+        newNode.fact = card;
+        newNode.player = player;
+        newNode.action = action;
         newNode.nextNodeLDE = start;
         (start).prevNodeLDE = newNode;
         newNode.prevNodeLDE = lastNode;
@@ -50,10 +55,10 @@ public class Lde {
     public void displayLDE() {
         NodeLDE aux = start;
         while (aux.nextNodeLDE != start) {
-            System.out.printf("%s ", aux.fact.getFact());
+            System.out.print(aux.fact);
             aux = aux.nextNodeLDE;
         }
-        System.out.printf("%s \n ", aux.fact.getFact());
+        System.out.printf("%s \n ", aux.fact);
     }
     /**
      * Class getNode
@@ -69,7 +74,7 @@ public class Lde {
 
             return null;}
         NodeLDE currentNode = start, prev1 = null;
-        while (!currentNode.fact.getName().equals(factkey)) {
+        while (!currentNode.fact.equals(factkey)) {
             if (currentNode.nextNodeLDE == start) {
                 System.out.printf("\nList doesn't have node with value = %s", factkey);
                 return start;

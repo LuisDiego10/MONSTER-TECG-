@@ -73,14 +73,17 @@ public class Server extends Thread {
         }
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
+            boolean hostGettingTurn=true;
+            boolean invitateGettingTurn=true;
             while (playerInvitated.turn) {
                 String action = "";
                 try {
                     action = playerInvitated.in.readUTF();
-                    while(!action.equals("turn")){
+                    while(!action.equals("turn")&&invitateGettingTurn){
                         action = playerInvitated.in.readUTF();
                     }
                     logger.debug(action);
+                    invitateGettingTurn=false;
                 } catch (IOException e) {
                     logger.error("error getting action trying again");
 
@@ -88,6 +91,7 @@ public class Server extends Thread {
                 if (action.equals("finish turn")) {
                     playerInvitated.turn = false;
                     playerHost.turn = true;
+                    invitateGettingTurn=true;
                     try {
                         playerHost.out.writeUTF("turn");
                     } catch (IOException e) {
@@ -247,13 +251,15 @@ public class Server extends Thread {
                             logger.error("error getting action trying again");
                         }
                         for (int i=0;i<5;i++) {
+                            if(playerHost.playerData.playerTable[i]!=null&&i!=4){
                             if(playerHost.playerData.playerTable[i].name.equals(action)){
                                 playerHost.playerData.playerTable[i].healt-=attacker.damage;
                                 if(playerHost.playerData.playerTable[i].healt<=0){
                                     playerHost.playerData.playerTable[i]=null;
                                 }
+                                SendMsg();
                                 break;
-                            }
+                            }}
                             if(i==4){
                                 playerHost.playerData.life-=attacker.damage;
                             }
@@ -267,15 +273,17 @@ public class Server extends Thread {
                 }
                 if (action.equals("peek")){
                     playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                    SendMsg();
                 }
             }
             while (playerHost.turn) {
                 String action = "";
                 try {
                     action = playerHost.in.readUTF();
-                    while(!action.equals("turn")){
+                    while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
                     }
+                    hostGettingTurn=false;
                 } catch (IOException e) {
                     logger.error("error getting action trying again"+e);
 
@@ -283,6 +291,7 @@ public class Server extends Thread {
                 if (action.equals("finish turn")) {
                     playerHost.turn = false;
                     playerInvitated.turn = true;
+                    hostGettingTurn=true;
                     try {
                         playerInvitated.out.writeUTF("turn");
                     } catch (IOException e) {
@@ -295,9 +304,9 @@ public class Server extends Thread {
                         if (!Objects.equals(playerHost.playerData.playerHand.getNode(action).fact.name, "")) {
                             if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
                                 for (int i = 0; i < 5; i++) {
-                                    if (playerHost.playerData.playerTable[i] == null) {
-                                        playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
-                                        playerHost.playerData.playerHand.deleteNode(action);
+                                    if (playerInvitated.playerData.playerTable[i] == null&&i!=4) {
+                                        playerInvitated.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
+                                        playerInvitated.playerData.playerHand.deleteNode(action);
                                         playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
                                         break;
                                     }
@@ -440,6 +449,7 @@ public class Server extends Thread {
                                 if(playerInvitated.playerData.playerTable[i].healt<=0){
                                     playerInvitated.playerData.playerTable[i]=null;
                                 }
+                                SendMsg();
                                 break;
                             }
                         }

@@ -270,7 +270,11 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF("attack"+userData.playerTable[0].name);
+                            if (userData.enemyTable[0]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF("attack" + userData.playerTable[0].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
                         }
@@ -285,7 +289,11 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF("attack"+userData.playerTable[1].name);
+                            if (userData.enemyTable[1]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF("attack" + userData.playerTable[1].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
                         }
@@ -300,7 +308,11 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF("attack"+userData.playerTable[3].name);
+                            if (userData.enemyTable[2]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF("attack" + userData.playerTable[2].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
                         }
@@ -315,7 +327,11 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF("attack"+userData.playerTable[4].name);
+                            if (userData.enemyTable[2]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF("attack" + userData.playerTable[2].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
                         }
@@ -477,7 +493,11 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF(userData.enemyTable[0].name);
+                            if (userData.enemyTable[0]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF(userData.enemyTable[0].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
                         }
@@ -487,12 +507,16 @@ public class Client {
             card_16=new JButton("<html>Card<html>");
             card_16.setBounds(215,15,80,140);
             label_u.add(card_16);
-            card_15.addActionListener(new ActionListener() {
+            card_16.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF(userData.enemyTable[1].name);
+                            if (userData.enemyTable[1]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF(userData.enemyTable[1].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
                         }
@@ -502,12 +526,16 @@ public class Client {
             card_17=new JButton("<html>Card<html>");
             card_17.setBounds(302,15,80,140);
             label_u.add(card_17);
-            card_15.addActionListener(new ActionListener() {
+            card_17.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF(userData.enemyTable[2].name);
+                            if (userData.enemyTable[2]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF(userData.enemyTable[2].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
                         }
@@ -517,12 +545,16 @@ public class Client {
             card_18=new JButton("<html>Card<html>");
             card_18.setBounds(397,15,80,140);
             label_u.add(card_18);
-            card_15.addActionListener(new ActionListener() {
+            card_18.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            out.writeUTF(userData.enemyTable[3].name);
+                            if (userData.enemyTable[3]==null){
+                                out.writeUTF("");
+                            }else {
+                                out.writeUTF(userData.enemyTable[3].name);
+                            }
                         } catch (IOException ex) {
                             logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
                         }

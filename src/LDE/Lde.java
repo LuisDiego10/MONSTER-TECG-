@@ -1,7 +1,13 @@
 package LDE;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Lde {
     public int sizeLDE=0;
-    NodeLDE start= null;
+    @JsonProperty("startLDE")
+    public NodeLDE start= null;
+    public NodeLDE lastNode= null;
+
     /**
      * Constructor class StackP
      * @author Diego
@@ -9,9 +15,7 @@ public class Lde {
      * @since 30/10/2020
      */
     public Lde(){
-        NodeLDE newNode= new NodeLDE();
-        start= newNode;
-        sizeLDE++;
+
     }
     /**
      * Class insert
@@ -30,17 +34,16 @@ public class Lde {
             newNode.fact = card;
             newNode.player = player;
             newNode.action = action;
-            newNode.nextNodeLDE = newNode.prevNodeLDE = newNode;
+            newNode.nextNodeLDE =null;
+            newNode.prevNodeLDE = null;
             start = newNode;
+            lastNode=newNode;
             return;
         }
-        NodeLDE lastNode = (start).prevNodeLDE;
         NodeLDE newNode = new NodeLDE();
         newNode.fact = card;
         newNode.player = player;
         newNode.action = action;
-        newNode.nextNodeLDE = start;
-        (start).prevNodeLDE = newNode;
         newNode.prevNodeLDE = lastNode;
         lastNode.nextNodeLDE = newNode;
         sizeLDE++;
@@ -56,6 +59,8 @@ public class Lde {
         NodeLDE aux = start;
         while (aux.nextNodeLDE != start) {
             System.out.print(aux.fact);
+            System.out.print(aux.player);
+            System.out.print(aux.action);
             aux = aux.nextNodeLDE;
         }
         System.out.printf("%s \n ", aux.fact);
@@ -88,6 +93,7 @@ public class Lde {
         }
         return currentNode;
     }
+
     /**
      * Test method
      * deleted before release

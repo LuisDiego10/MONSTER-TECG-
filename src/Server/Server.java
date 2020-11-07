@@ -115,7 +115,7 @@ public class Server extends Thread {
                                         playerInvitated.playerData.playerTable[i] = playerInvitated.playerData.playerHand.getNode(action).fact;
                                         playerInvitated.playerData.playerHand.deleteNode(action);
                                         playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
-
+                                        playerInvitated.playerData.historial.insertLDE(playerInvitated.playerData.playerTable[i].name,"invitado","invocar");
                                         break;
                                     }
                                 }
@@ -128,6 +128,7 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Congelacion":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("congelacion","invitado","invocar");
                                             SendMsg();
 
                                             break;
@@ -316,10 +317,12 @@ public class Server extends Thread {
                         if (!Objects.equals(playerHost.playerData.playerHand.getNode(action).fact.name, "")) {
                             if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
                                 for (int i = 0; i < 5; i++) {
-                                    if (playerInvitated.playerData.playerTable[i] == null&&i!=4) {
-                                        playerInvitated.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
-                                        playerInvitated.playerData.playerHand.deleteNode(action);
+                                    if (playerHost.playerData.playerTable[i] == null&&i!=4) {
+                                        playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
+                                        playerHost.playerData.playerHand.deleteNode(action);
                                         playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
+                                        playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name,"invitado","invocar");
+
                                         break;
                                     }
                                 }

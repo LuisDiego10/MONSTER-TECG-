@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class Server extends Thread {
     /**
-     * semi-global variables
+     * Semi-global variables
      */
     public ServerSocket publicSocket;//* socket
     private static Logger logger=LogManager.getLogger("Server");

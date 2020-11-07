@@ -102,7 +102,7 @@ public class StackP {
         return temp;
     }
     /**
-     *  ShowElements method
+     * ShowElements method
      * Show all elements stack
      * @author Diego
      * @return message
@@ -119,9 +119,9 @@ public class StackP {
     }
 
     /**
-     *  Test method
-     * eliminated before realease
-     * @version 0.0
+     * Test method
+     * Method for get Array Card
+     * @version 1.0
      * @since 30/10/2020
      */
     public Card[] getArr() {

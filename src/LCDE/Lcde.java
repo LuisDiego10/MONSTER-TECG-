@@ -18,7 +18,7 @@ public class Lcde {
     }
 
     /**
-     * Constructor class StackP
+     * Constructor Lcde class
      * @param node, object that contain the data to store.
      * @author Diego
      * @version 1.0
@@ -167,18 +167,18 @@ public class Lcde {
         return currentNode;
     }
     /**
-     *  test method
-     * deleted before release
-     * @version 0.0
+     * Test method
+     * Get Start Node
+     * @version 1.0
      * @since 30/10/2020
      */
     public Node getStart() {
         return start;
     }
     /**
-     *  test method
-     * deleted before release
-     * @version 0.0
+     * Test method
+     * Get End Node
+     * @version 1.0
      * @since 30/10/2020
      */
     public Node getEnd() {

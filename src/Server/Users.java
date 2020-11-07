@@ -44,48 +44,31 @@ public class Users {
         }catch (NullPointerException e) {
             Server.getLogger().error("Null, try creating a server"+e);
         }
-
-
-
     }
 
 
     /**
-     * Getter.
+     * Methods Global
+     * Methods for getter different objects
      * @return respective object
+     * @author Isaac
+     * @since 4/11/2020
      */
     public DataInputStream getIn() {
         return in;
     }
-    /**
-     * Getter.
-     * @return respective object
-     */
     public DataOutputStream getOut() {
         return out;
     }
-    /**
-     * Getter.
-     * @return respective object
-     */
     public Socket getUserSocket() {
         return userSocket;
     }
-    /**
-     * Getter.
-     * @return respective object
-     */
     public String getUserName() {
         return userName;
     }
-    /**
-     * Getter.
-     * @return respective object
-     */
     public Userdata getPlayerData() {
         return playerData;
     }
-
     /**
      * Aux class to save the user data.
      * @see Server for use.

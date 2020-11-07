@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * class of minions.
+ * Class of minions.
  * The class keep in the Server. This class is build only from jackson.
  * @author Isaac
  * @version 1.0
@@ -22,7 +22,10 @@ public class Minion extends Card{
         healt= life;
         damage= minionDamage;
     }
-
+/**
+ * Methods general
+ *Methods Get diffetent atributtes
+ */
     public int getHealt() {
         return healt;
     }

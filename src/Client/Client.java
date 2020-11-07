@@ -19,9 +19,15 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+/**
+ * Principal Class Client
+ * Containts methods to connect client to server
+ * @author Isaac
+ * @since 2/11/2020
+ */
 public class Client {
     /**
-     * semi globals variables
+     * Semi globals variables
      */
     private static DataOutputStream out;
     private static DataInputStream in;
@@ -35,7 +41,7 @@ public class Client {
 
     /**
      * Display a start menu to enter name and port.
-     * The button try to connect to server and sen the user name.
+     * The button try to connect to server and send the user name.
      * @author Diego and Isaac
      * @param args not used
      * @see #createAccount

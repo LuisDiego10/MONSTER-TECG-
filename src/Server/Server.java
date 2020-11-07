@@ -134,6 +134,7 @@ public class Server extends Thread {
                                         case "Curación":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.life += 200;
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("Curación","Invitado", "Invocar");
                                             SendMsg();
                                             break;
@@ -142,6 +143,7 @@ public class Server extends Thread {
                                             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("PoderSupremo","Invitado", "Invocar");
                                             SendMsg();
                                             break;
@@ -177,6 +179,7 @@ public class Server extends Thread {
                                             break;
                                         default:
                                             playerInvitated.playerData.mana += 150;
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("Economizador","Invitado", "Invocar");
                                             SendMsg();
                                             break;
@@ -345,6 +348,7 @@ public class Server extends Thread {
                                         case "Curación":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.life += 200;
+                                            playerHost.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.historial.insertLDE("Curación", "Host", "Invocar");
                                             SendMsg();
 
@@ -354,6 +358,7 @@ public class Server extends Thread {
                                             playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                                             playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                                            playerHost.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.historial.insertLDE("PoderSupremo", "Host", "Invocar");
                                             SendMsg();
 
@@ -396,6 +401,7 @@ public class Server extends Thread {
                                             break;
                                         default:
                                             playerHost.playerData.mana += 150;
+                                            playerHost.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.historial.insertLDE("Economizador", "Host", "Invocar");
                                             SendMsg();
                                             break;

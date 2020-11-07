@@ -76,6 +76,7 @@ public class Server extends Thread {
             boolean hostGettingTurn=true;
             boolean invitateGettingTurn=true;
             while (playerInvitated.turn) {
+                //get action from client
                 String action = "";
                 try {
                     action = playerInvitated.in.readUTF();
@@ -84,111 +85,96 @@ public class Server extends Thread {
                     }
                     logger.debug(action);
                     invitateGettingTurn=false;
-                } catch (IOException e) {
-                    logger.error("error getting action trying again");
-
-                }
+                } catch (IOException e) {logger.error("error getting action trying again");}
+                //finish turn
                 if (action.equals("finish turn")) {
                     playerInvitated.turn = false;
                     playerHost.turn = true;
                     invitateGettingTurn=true;
                     if (playerInvitated.playerData.mana <= 750){
                         playerInvitated.playerData.mana += 250;
-
                     }else{
-                        playerInvitated.playerData.mana=1000;
-
-                    }
-                    try {
-                        playerHost.out.writeUTF("turn");
+                        playerInvitated.playerData.mana=1000;}
+                    try {playerHost.out.writeUTF("turn");
                     } catch (IOException e) {
-                        logger.error("error allowing turn to host, possibly close socket"+e);
-                    }
+                        logger.error("error allowing turn to host, possibly close socket"+e);}
                 }
+                //Invoke
                 if (action.contains("invoke")) {
+                    //get card name
                     action = action.substring(6);
                     try {
                         if (!Objects.equals(playerInvitated.playerData.playerHand.getNode(action).fact.name, "")) {
+                            // detect with kind of card is.
                             if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
+                                //found empty space in hand to invoke
                                 for (int i = 0; i < 4; i++) {
                                     if (playerInvitated.playerData.playerTable[i] == null) {
                                         playerInvitated.playerData.playerTable[i] = playerInvitated.playerData.playerHand.getNode(action).fact;
                                         playerInvitated.playerData.playerHand.deleteNode(action);
                                         playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
                                         playerInvitated.playerData.historial.insertLDE(playerInvitated.playerData.playerTable[i].name,"invitado","invocar");
-                                        break;
-                                    }
+                                        break;}
                                 }
-
+                                //update the enemy hand
                                 playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
                                 SendMsg();
+                                //Spells
                             } else if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
-                                //method of cards
                                 if (playerInvitated.playerData.mana>=300){
                                     switch (action) {
                                         case "Congelacion":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("congelacion","invitado","invocar");
                                             SendMsg();
-
                                             break;
                                         case "Curación":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.life += 200;
                                             SendMsg();
-
                                             break;
                                         case "PoderSupremo":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "AhoraEsMia":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Escudo":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Invalidar":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Anulacion":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Contrarrestar":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Duplicar":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         default:
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                     }
 
                                 }
-                                ;
+                                //Secrets
                             } else {
                                 if (playerInvitated.playerData.mana>=300){
                                     switch (action) {
                                         case "Refuerzos":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Ojo por ojo":
                                             playerInvitated.playerData.mana -= 300;
@@ -197,12 +183,10 @@ public class Server extends Thread {
                                         case "Limpieza":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Comercio":
                                             playerInvitated.playerData.mana -= 300;
                                             SendMsg();
-
                                             break;
                                         case "Fortaleza":
                                             playerInvitated.playerData.mana -= 300;
@@ -230,8 +214,6 @@ public class Server extends Thread {
                                             break;
                                     }
                                 }
-                                //method of secrets
-                                ;
                             }
                         }
 
@@ -239,246 +221,227 @@ public class Server extends Thread {
                         logger.error("Card do not exist or not space, ignoring action" + e);
                     }
                 }
+                //Attack
                 if (action.contains("attack")) {
+                    //get attacker name
                     action = action.substring(6);
                     Card attacker = null;
                     try {
                         for (int i=0;i<5;i++) {
+                            //Get self hand card
                             if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                 attacker=playerInvitated.playerData.playerTable[i];
                                 i=5;
                                 break;
                             }
                         }
-                        if(attacker==null){
-                            break;
-                        }
+                        if(attacker==null){break;}
                         try {
+                            //Get enemy card name, empty is direct attack
                             action = playerInvitated.in.readUTF();
-                        } catch (IOException e) {
-                            logger.error("error getting action trying again");
-                        }
+                        } catch (IOException e) {logger.error("error getting action trying again");}
+                        //Get enemy hand card
                         for (int i=0;i<5;i++) {
-                            if(playerHost.playerData.playerTable[i]!=null&&i!=4){
-                            if(playerHost.playerData.playerTable[i].name.equals(action)){
-                                playerHost.playerData.playerTable[i].healt-=attacker.damage;
-                                if(playerHost.playerData.playerTable[i].healt<=0){
-                                    playerHost.playerData.playerTable[i]=null;
+                            if(i<playerHost.playerData.playerTable.length && playerHost.playerData.playerTable[i]!=null){
+                                if(playerHost.playerData.playerTable[i].name.equals(action)){
+                                    playerHost.playerData.playerTable[i].healt-=attacker.damage;
+                                    if(playerHost.playerData.playerTable[i].healt<=0){playerHost.playerData.playerTable[i]=null; }
+                                    SendMsg();
+                                    break;
                                 }
-                                SendMsg();
-                                break;
-                            }}
-                            if(i==4){
-                                playerHost.playerData.life-=attacker.damage;
                             }
+                            //if enemy hand empty direct attack
+                            if(i==4){playerHost.playerData.life-=attacker.damage;}
                         }
-
-
-
-                    } catch (NullPointerException e) {
-                        logger.error("Not catched attacked card, or no existing card");
-                    }
+                    } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
+                //peek a card from the deck
                 if (action.equals("peek")){
                     playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                     SendMsg();
                 }
             }
             while (playerHost.turn) {
+                //get action from client
                 String action = "";
                 try {
                     action = playerHost.in.readUTF();
                     while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
                     }
+                    logger.debug(action);
                     hostGettingTurn=false;
-                } catch (IOException e) {
-                    logger.error("error getting action trying again"+e);
-
-                }
+                } catch (IOException e) {logger.error("error getting action trying again");}
+                //finish turn
                 if (action.equals("finish turn")) {
                     playerHost.turn = false;
                     playerInvitated.turn = true;
                     hostGettingTurn=true;
                     if (playerHost.playerData.mana <= 750){
                         playerHost.playerData.mana += 250;
-                    }else{
-                        playerHost.playerData.mana = 1000;
-                    }
+                    }else{playerHost.playerData.mana=1000;}
                     try {
                         playerInvitated.out.writeUTF("turn");
-                    } catch (IOException e) {
-                        logger.error("error allowing turn to invitated, possibly close socket"+e);
-                    }
-                }
+                    } catch (IOException e) {logger.error("error allowing turn to host, possibly close socket"+e); }}
+                //invoke
                 if (action.contains("invoke")) {
+                    //get card name
                     action = action.substring(6);
                     try {
                         if (!Objects.equals(playerHost.playerData.playerHand.getNode(action).fact.name, "")) {
+                            // detect what kind of card is.
                             if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
-                                for (int i = 0; i < 5; i++) {
-                                    if (playerHost.playerData.playerTable[i] == null&&i!=4) {
+                                //found empty space in hand to invoke
+                                for (int i = 0; i < 4; i++) {
+                                    if (playerHost.playerData.playerTable[i] == null) {
                                         playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
                                         playerHost.playerData.playerHand.deleteNode(action);
                                         playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
                                         playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name,"invitado","invocar");
-
                                         break;
                                     }
                                 }
+                                //update the enemy hand
                                 playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
                                 SendMsg();
-                            } else if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
-                                //method of cards
+                                //Spells
+                            } else if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
                                 if (playerHost.playerData.mana>=300){
-                                    if (action.equals("Congelacion")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Curación")){
-                                        playerHost.playerData.mana -= 300;
-                                        playerHost.playerData.life += 200;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("PoderSupremo")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("AhoraEsMia")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Escudo")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Invalidar")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Anulacion")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Contrarrestar")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Duplicar")){
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
-                                    }
-                                    else {
-                                        playerHost.playerData.mana -= 300;
-                                        SendMsg();
-
+                                    switch (action) {
+                                        case "Congelacion":
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("congelacion","invitado","invocar");
+                                            SendMsg();
+                                            break;
+                                        case "Curación":
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.life += 200;
+                                            SendMsg();
+                                            break;
+                                        case "PoderSupremo":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "AhoraEsMia":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Escudo":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Invalidar":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Anulacion":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Contrarrestar":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Duplicar":
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        default:
+                                            playerHost.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
                                     }
 
                                 }
-                                ;
+                                //Secrets
                             } else {
-                                //methods secrets
                                 if (playerHost.playerData.mana>=300){
-                                    if (action.equals("Refuerzos")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Ojo por ojo")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Limpieza")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Comercio")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-
-                                    }
-                                    else if (action.equals("Fortaleza")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Sacrificio")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Cementerio")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Trampa temporal")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Gas")){
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else{
-                                        playerHost.playerData.mana -=300;
-                                        SendMsg();
+                                    switch (action) {
+                                        case "Refuerzos":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Ojo por ojo":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Limpieza":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Comercio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Fortaleza":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Sacrificio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Cementerio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Trampa temporal":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Gas":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        default:
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
                                     }
                                 }
-
                             }
                         }
-                    } catch (NullPointerException e) {
-                        logger.error("Card do not exist, not space to invoke or uknown error, ignoring action" + e);
-                    }
+                    } catch (NullPointerException e) {logger.error("Card do not exist or not space, ignoring action" + e);}
                 }
+                //Attack
                 if (action.contains("attack")) {
+                    //get attacker name
                     action = action.substring(6);
                     Card attacker = null;
                     try {
                         for (int i=0;i<5;i++) {
+                            //Get self hand card
                             if(playerHost.playerData.playerTable[i].name.equals(action)){
                                 attacker=playerHost.playerData.playerTable[i];
                                 i=5;
                                 break;
                             }
                         }
-                        if(attacker==null){
-                            break;
-                        }
+                        if(attacker==null){break;}
                         try {
+                            //Get enemy card name, empty is direct attack
                             action = playerHost.in.readUTF();
-                        } catch (IOException e) {
-                            logger.error("error getting enemy");
-                        }
+                        } catch (IOException e) {logger.error("error getting action trying again");}
+                        //Get enemy hand card
                         for (int i=0;i<5;i++) {
-                            if(playerInvitated.playerData.playerTable[i].name.equals(action)){
-                                playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
-                                if(playerInvitated.playerData.playerTable[i].healt<=0){
-                                    playerInvitated.playerData.playerTable[i]=null;
+                            if(i<playerInvitated.playerData.playerTable.length && playerInvitated.playerData.playerTable[i]!=null){
+                                if(playerInvitated.playerData.playerTable[i].name.equals(action)){
+                                    playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
+                                    if(playerInvitated.playerData.playerTable[i].healt<=0){playerInvitated.playerData.playerTable[i]=null;}
+                                    SendMsg();
+                                    break;
                                 }
-                                SendMsg();
-                                break;
                             }
+                            //if enemy hand empty direct attack
+                            if(i==4){playerInvitated.playerData.life-=attacker.damage;}
                         }
-
-
-                    } catch (NullPointerException e) {
-                        logger.error("error getting action trying again"+e);
-                    }
+                    } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
+                //peek a card from the deck
                 if (action.equals("peek")){
-                    playerHost.playerData.playerHand.insert(playerHost.playerData.playerDeck.peek());
+                    playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                    SendMsg();
                 }
-
-
             }
         }
     }

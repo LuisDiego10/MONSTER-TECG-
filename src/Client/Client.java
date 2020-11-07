@@ -270,7 +270,7 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            if (userData.enemyTable[0]==null){
+                            if (userData.playerTable[0]==null){
                                 out.writeUTF("");
                             }else {
                                 out.writeUTF("attack" + userData.playerTable[0].name);
@@ -289,7 +289,7 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            if (userData.enemyTable[1]==null){
+                            if (userData.playerTable[1]==null){
                                 out.writeUTF("");
                             }else {
                                 out.writeUTF("attack" + userData.playerTable[1].name);
@@ -308,7 +308,7 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            if (userData.enemyTable[2]==null){
+                            if (userData.playerTable[2]==null){
                                 out.writeUTF("");
                             }else {
                                 out.writeUTF("attack" + userData.playerTable[2].name);
@@ -327,10 +327,10 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
 
                         try {
-                            if (userData.enemyTable[2]==null){
+                            if (userData.playerTable[3]==null){
                                 out.writeUTF("");
                             }else {
-                                out.writeUTF("attack" + userData.playerTable[2].name);
+                                out.writeUTF("attack" + userData.playerTable[3].name);
                             }
                         } catch (IOException ex) {
                             logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);

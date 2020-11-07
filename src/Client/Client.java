@@ -214,7 +214,8 @@ public class Client {
         public JButton card_16;
         public JButton card_17;
         public JButton card_18;
-
+        public JButton btnHistorial;
+        public JTextArea historialText;
         public canvasUser(){
             ImageIcon bgTable =new ImageIcon("resources/images/DECK 2.0.png");
             label_u.setBounds(0,0,1030,750);
@@ -247,11 +248,6 @@ public class Client {
                     }
                 }
             });
-            JButton btn_Historial=new JButton();
-            ImageIcon historial =new ImageIcon("resources/images/historial.png");
-            btn_Historial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
-            btn_Historial.setBounds(920,550,40,40);
-            label_u.add(btn_Historial);
             //CREATE ALL BUTTONS
             JButton deck_btn=new JButton("Deck");
             deck_btn.setBounds(25,250,105,185);
@@ -268,6 +264,11 @@ public class Client {
                     }
                 }
             });
+            btnHistorial=new JButton();
+            ImageIcon historial =new ImageIcon("resources/images/historial.png");
+            btnHistorial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
+            btnHistorial.setBounds(920,550,40,40);
+            label_u.add(btnHistorial);
             card_1=new JButton("<html>card<html>");
             card_1.setBounds(128,540,80,140);
             label_u.add(card_1);

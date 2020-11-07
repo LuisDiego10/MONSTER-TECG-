@@ -50,7 +50,7 @@ public class Users {
     /**
      * Methods Global
      * Methods for getter different objects
-     * @return respective object
+     * @return Respective object
      * @author Isaac
      * @since 4/11/2020
      */

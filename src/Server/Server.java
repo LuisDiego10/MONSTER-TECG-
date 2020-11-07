@@ -254,7 +254,11 @@ public class Server extends Thread {
                                 }
                                 break;
                             }
+                            if(i==4){
+                                playerHost.playerData.life-=attacker.damage;
+                            }
                         }
+
 
 
                     } catch (NullPointerException e) {

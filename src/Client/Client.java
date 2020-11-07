@@ -265,15 +265,63 @@ public class Client {
             card_1=new JButton("<html>card<html>");
             card_1.setBounds(128,540,80,140);
             label_u.add(card_1);
+            card_1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF("attack"+userData.playerTable[0].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_2=new JButton("<html>card<html>");
             card_2.setBounds(215,540,80,140);
             label_u.add(card_2);
+            card_2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF("attack"+userData.playerTable[1].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_3=new JButton("<html>card<html>");
             card_3.setBounds(302,540,80,140);
             label_u.add(card_3);
+            card_3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF("attack"+userData.playerTable[3].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_4=new JButton("<html>card<html>");
             card_4.setBounds(397,540,80,140);
             label_u.add(card_4);
+            card_4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF("attack"+userData.playerTable[4].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack oder to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_5=new JButton("<html>Hand<html>");
             card_5.setBounds(710,30,80,140);
             label_u.add(card_5);
@@ -424,15 +472,63 @@ public class Client {
             card_15=new JButton("<html>Card<html>");
             card_15.setBounds(128,15,80,140);
             label_u.add(card_15);
+            card_15.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF(userData.enemyTable[0].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_16=new JButton("<html>Card<html>");
             card_16.setBounds(215,15,80,140);
             label_u.add(card_16);
+            card_15.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF(userData.enemyTable[1].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_17=new JButton("<html>Card<html>");
             card_17.setBounds(302,15,80,140);
             label_u.add(card_17);
+            card_15.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF(userData.enemyTable[2].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
             card_18=new JButton("<html>Card<html>");
             card_18.setBounds(397,15,80,140);
             label_u.add(card_18);
+            card_15.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            out.writeUTF(userData.enemyTable[3].name);
+                        } catch (IOException ex) {
+                            logger.error("error sending attack objective to server with action:"+e+"\n;"+ex);
+                        }
+
+                }
+            });
 
         }
         public void updateCardDisplay(){
@@ -544,6 +640,14 @@ public class Client {
     public static Logger getLogger() {
         return logger;
     }
+
+    public static void startTurn(){
+        try {
+            out.writeUTF("turn");
+        } catch (IOException e) {
+            logger.error("error indicating the start of the turn to server");
+        }
+    }
 }
 
 /**
@@ -575,7 +679,11 @@ class SocketListen extends Thread{
                 String msg;
                 msg=input.readUTF();
                 logger.debug("socket receive"+msg);
-                Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
+                if (msg.equals("turn")){
+                    Client.startTurn();
+                }else{
+                    Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
+                }
             } catch (SocketException e) {
                 logger.error("socket error , exception: \n"+ e);
                 logger.debug("socket close");

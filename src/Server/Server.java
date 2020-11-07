@@ -66,12 +66,20 @@ public class Server extends Thread {
         SendMsg();
         playerInvitated.turn=true;
         SendMsg();
+        try {
+            playerInvitated.out.writeUTF("turn");
+        } catch (IOException e) {
+            logger.error("error trying to set first turn for invitated"+e);
+        }
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
             while (playerInvitated.turn) {
                 String action = "";
                 try {
                     action = playerInvitated.in.readUTF();
+                    while(!action.equals("turn")){
+                        action = playerInvitated.in.readUTF();
+                    }
                     logger.debug(action);
                 } catch (IOException e) {
                     logger.error("error getting action trying again");
@@ -80,6 +88,11 @@ public class Server extends Thread {
                 if (action.equals("finish turn")) {
                     playerInvitated.turn = false;
                     playerHost.turn = true;
+                    try {
+                        playerHost.out.writeUTF("turn");
+                    } catch (IOException e) {
+                        logger.error("error allowing turn to host, possibly close socket"+e);
+                    }
                 }
                 if (action.contains("invoke")) {
                     action = action.substring(6);
@@ -101,104 +114,108 @@ public class Server extends Thread {
                             } else if (playerInvitated.playerData.playerHand.getNode(action).fact.getClass().equals(Spell.class)) {
                                 //method of cards
                                 if (playerInvitated.playerData.mana>=300){
-                                    if (action.equals("Congelacion")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                    switch (action) {
+                                        case "Congelacion":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Curación")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        playerInvitated.playerData.life += 200;
-                                        SendMsg();
+                                            break;
+                                        case "Curación":
+                                            playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.life += 200;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("PoderSupremo")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "PoderSupremo":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("AhoraEsMia")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "AhoraEsMia":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Escudo")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "Escudo":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Invalidar")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "Invalidar":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Anulacion")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "Anulacion":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Contrarrestar")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "Contrarrestar":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Duplicar")){
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        case "Duplicar":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else {
-                                        playerInvitated.playerData.mana -= 300;
-                                        SendMsg();
+                                            break;
+                                        default:
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
+                                            break;
                                     }
 
                                 }
                                 ;
                             } else {
                                 if (playerInvitated.playerData.mana>=300){
-                                    if (action.equals("Refuerzos")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
+                                    switch (action) {
+                                        case "Refuerzos":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Ojo por ojo")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Limpieza")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
+                                            break;
+                                        case "Ojo por ojo":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Limpieza":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Comercio")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
+                                            break;
+                                        case "Comercio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
 
-                                    }
-                                    else if (action.equals("Fortaleza")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Sacrificio")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Cementerio")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Trampa temporal")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else if (action.equals("Gas")){
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
-                                    }
-                                    else{
-                                        playerInvitated.playerData.mana -=300;
-                                        SendMsg();
+                                            break;
+                                        case "Fortaleza":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Sacrificio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Cementerio":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Trampa temporal":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        case "Gas":
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
+                                        default:
+                                            playerInvitated.playerData.mana -= 300;
+                                            SendMsg();
+                                            break;
                                     }
                                 }
                                 //method of secrets
@@ -252,6 +269,9 @@ public class Server extends Thread {
                 String action = "";
                 try {
                     action = playerHost.in.readUTF();
+                    while(!action.equals("turn")){
+                        action = playerHost.in.readUTF();
+                    }
                 } catch (IOException e) {
                     logger.error("error getting action trying again"+e);
 
@@ -259,6 +279,11 @@ public class Server extends Thread {
                 if (action.equals("finish turn")) {
                     playerHost.turn = false;
                     playerInvitated.turn = true;
+                    try {
+                        playerInvitated.out.writeUTF("turn");
+                    } catch (IOException e) {
+                        logger.error("error allowing turn to invitated, possibly close socket"+e);
+                    }
                 }
                 if (action.contains("invoke")) {
                     action = action.substring(6);
@@ -403,7 +428,7 @@ public class Server extends Thread {
                         try {
                             action = playerHost.in.readUTF();
                         } catch (IOException e) {
-                            logger.error("error getting action trying again");
+                            logger.error("error getting enemy");
                         }
                         for (int i=0;i<5;i++) {
                             if(playerInvitated.playerData.playerTable[i].name.equals(action)){

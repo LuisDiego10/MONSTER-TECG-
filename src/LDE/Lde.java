@@ -1,7 +1,13 @@
 package LDE;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Principal class Lde
+ * Declare the attributes and contains the methods for the doubly linked list(LDE)
+ * @author Diego
+ * @version 1.0
+ * @since 30/10/2020
+ */
 public class Lde {
     public int sizeLDE=0;
     @JsonProperty("startLDE")
@@ -9,7 +15,7 @@ public class Lde {
     public NodeLDE lastNode= null;
 
     /**
-     * Constructor class StackP
+     * Constructor class Lde
      * @author Diego
      * @version 1.0
      * @since 30/10/2020
@@ -18,7 +24,7 @@ public class Lde {
 
     }
     /**
-     * Class insert
+     * Class insertLDE
      * Class for insert nodes
      * @author Diego
      * @param action
@@ -66,7 +72,7 @@ public class Lde {
         System.out.printf("%s \n ", aux.fact);
     }
     /**
-     * Class getNode
+     * Class getNodeLDE
      * Class get a specific node
      * @author Diego
      * @param factkey, key of the data stored in node, in this case is the card name
@@ -96,7 +102,7 @@ public class Lde {
 
     /**
      * Test method
-     * deleted before release
+     * Method for getStard Node LDE
      * @version 0.0
      * @since 30/10/2020
      */

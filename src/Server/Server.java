@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class Server extends Thread {
     /**
-     * semi-global variables
+     * Semi-global variables
      */
     public ServerSocket publicSocket;//* socket
     private static Logger logger=LogManager.getLogger("Server");
@@ -125,44 +125,53 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Congelacion":
                                             playerInvitated.playerData.mana -= 300;
-                                            playerInvitated.playerData.historial.insertLDE("congelacion","invitado","invocar");
+                                            playerInvitated.playerData.historial.insertLDE("Congelacion","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Curación":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.life += 200;
+                                            playerInvitated.playerData.historial.insertLDE("Curación","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "PoderSupremo":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("PoderSupremo","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "AhoraEsMia":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("AhoraEsMia","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Escudo":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Escudo","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Invalidar":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Invalidar","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Anulacion":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Anulacion","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Contrarrestar":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Contrarrestar","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Duplicar":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Duplicar","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         default:
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Economizador","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                     }
@@ -174,42 +183,52 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Refuerzos":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Refuerzos","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Ojo por ojo":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Ojo por ojo","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Limpieza":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Limpieza","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Comercio":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Comercio","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Fortaleza":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Fortaleza","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Sacrificio":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Sacrificio","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Cementerio":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Cementerio","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Trampa temporal":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Trampa temporal","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Gas":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Gas","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                         default:
                                             playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.historial.insertLDE("Trampa zombie","Invitado", "Invocar");
                                             SendMsg();
                                             break;
                                     }
@@ -310,48 +329,65 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Congelacion":
                                             playerHost.playerData.mana -= 300;
-                                            playerHost.playerData.historial.insertLDE("congelacion","invitado","invocar");
+                                            playerHost.playerData.historial.insertLDE("Congelacion", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Curación":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.life += 200;
+                                            playerHost.playerData.historial.insertLDE("Curación", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "PoderSupremo":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("PoderSupremo", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "AhoraEsMia":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("AhoraEsMia", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Escudo":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Escudo", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Invalidar":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Invalidar", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Anulacion":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Anulacion", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Contrarrestar":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Contrarrestar", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Duplicar":
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Duplicar", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         default:
                                             playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Economizador", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                     }
-
                                 }
                                 //Secrets
                             } else {
@@ -359,42 +395,55 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Refuerzos":
                                             playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Refuerzos", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Ojo por ojo":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Ojo por ojo", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Limpieza":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Limpieza", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Comercio":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Comercio", "Host", "Invocar");
                                             SendMsg();
+
                                             break;
                                         case "Fortaleza":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Fortaleza", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Sacrificio":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Sacrificio", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Cementerio":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Cementerio", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Trampa temporal":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Trampa temporal", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         case "Gas":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Gas", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                         default:
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.historial.insertLDE("Trampa zombie", "Host", "Invocar");
                                             SendMsg();
                                             break;
                                     }
@@ -475,17 +524,14 @@ public class Server extends Thread {
     }
 
     /**
-     * Send the msg received to a user.
-     * if the user Socket dont accept msg try to delete it
-     * @throws IOException if fail closing the socket.
+     * Send the data to a user.
      */
     public void SendMsg(){
         try {
-            logger.debug("try ing to sent deck");
+            logger.debug("try ing to sent deck to players");
             playerHost.getOut().writeUTF(Factory.Serializer(playerHost.playerData));
-            logger.debug("host sended");
             playerInvitated.getOut().writeUTF(Factory.Serializer(playerInvitated.playerData));
-            logger.debug("player sended");
+            logger.debug("sended");
         } catch (IOException e) {
             logger.error("error trying to serialize the players data or sending it, info:\n"+e);
         }

@@ -128,11 +128,7 @@ public class Server extends Thread {
                                     switch (action) {
                                         case "Congelacion":
                                             playerInvitated.playerData.mana -= 300;
-<<<<<<< Updated upstream
-                                            playerInvitated.playerData.historial.insertLDE("congelacion","invitado","invocar");
-=======
                                             playerInvitated.playerData.historial.insertLDE("Congelacion","Invitado", "Invocar");
->>>>>>> Stashed changes
                                             SendMsg();
 
                                             break;

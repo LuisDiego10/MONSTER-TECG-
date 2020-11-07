@@ -170,7 +170,7 @@ public class Server extends Thread {
                                             SendMsg();
                                             break;
                                         default:
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerInvitated.playerData.mana += 150;
                                             playerInvitated.playerData.historial.insertLDE("Economizador","Invitado", "Invocar");
                                             SendMsg();
                                             break;
@@ -383,7 +383,7 @@ public class Server extends Thread {
 
                                             break;
                                         default:
-                                            playerHost.playerData.mana -= 300;
+                                            playerHost.playerData.mana += 150;
                                             playerHost.playerData.historial.insertLDE("Economizador", "Host", "Invocar");
                                             SendMsg();
                                             break;

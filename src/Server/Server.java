@@ -336,6 +336,9 @@ public class Server extends Thread {
                                 if(playerHost.playerData.playerTable[i].name.equals(action)){
                                     playerHost.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerHost.playerData.playerTable[i].healt<=0){
+                                        if (hostGraveyard==true&&playerHost.playerData.playerHand.sizeLCDE<10){
+                                            playerHost.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
+                                        }
                                         playerHost.playerData.playerTable[i]=null;
                                         if (hostEyesxEyes==true){
                                             for (int c=0;c<5;c++) {
@@ -361,9 +364,7 @@ public class Server extends Thread {
                                                 SendMsg();
                                             }
                                         }
-                                        if (hostGraveyard==true){
 
-                                        }
                                     }
                                     SendMsg();
                                     invitateMaxAttack--;
@@ -618,6 +619,9 @@ public class Server extends Thread {
                                 if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                     playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerInvitated.playerData.playerTable[i].healt<=0){
+                                        if (invitatedGraveyard==true&&playerInvitated.playerData.playerHand.sizeLCDE<10){
+                                            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerTable[i]);
+                                        }
                                         playerInvitated.playerData.playerTable[i]=null;
                                         if (invitatedEyesxEyes==true){
                                             for (int c=0;c<5;c++) {

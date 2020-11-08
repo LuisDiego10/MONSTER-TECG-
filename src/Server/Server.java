@@ -100,6 +100,7 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&invitateGettingTurn){
                         action = playerInvitated.in.readUTF();
                     }
+                    //Inicio del turno es aquí
                     //Secret card assistans
                     if(invitatedAssistans){
                         invitatedAssistans=false;

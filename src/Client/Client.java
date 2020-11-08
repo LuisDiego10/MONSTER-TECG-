@@ -219,24 +219,33 @@ public class Client {
         public JButton card_18;
         public JButton btnHistorial;
         public JLabel historialText;
+        public JLabel labelMana;
+        public JLabel labelHealt;
+        public JLabel labelEnemyHealt;
         public NodeLDE actualH;
         public canvasUser(){
             ImageIcon bgTable =new ImageIcon("resources/images/DECK 2.0.png");
             label_u.setBounds(0,0,1030,750);
             label_u.setIcon(new ImageIcon(bgTable.getImage().getScaledInstance(1000,700, Image.SCALE_SMOOTH)));
             add(label_u);
-            JLabel label_m=new JLabel("200");
-            label_m.setBounds(626,570,40,40);
-            label_m.setForeground(Color.white);
-            label_m.setFont(new Font ("Arial", Font.PLAIN,16));
-            add(label_m);
-            JLabel label_m2=new JLabel("200");
-            label_m2.setBounds(626,115,40,40);
-            label_m2.setFont(new Font ("Arial", Font.PLAIN,16));
-            label_m2.setForeground(Color.white);
-            add(label_m2);
-            label_u.add(label_m);
-            label_u.add(label_m2);
+            labelHealt=new JLabel("0");
+            labelHealt.setBounds(540,570,40,40);
+            labelHealt.setForeground(Color.white);
+            labelHealt.setFont(new Font ("Arial", Font.PLAIN,16));
+            add(labelHealt);
+            labelEnemyHealt=new JLabel("0");
+            labelEnemyHealt.setBounds(540,90,40,40);
+            labelEnemyHealt.setForeground(Color.white);
+            labelEnemyHealt.setFont(new Font ("Arial", Font.PLAIN,16));
+            add(labelEnemyHealt);
+            labelMana=new JLabel("0");
+            labelMana.setBounds(630,570,40,40);
+            labelMana.setFont(new Font ("Arial", Font.PLAIN,16));
+            labelMana.setForeground(Color.white);
+            add(labelMana);
+            label_u.add(labelHealt);
+            label_u.add(labelEnemyHealt);
+            label_u.add(labelMana);
             JButton btn_SkipTurn=new JButton();
             ImageIcon skipTurn =new ImageIcon("resources/images/skip.png");
             btn_SkipTurn.setIcon(new ImageIcon(skipTurn.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
@@ -309,9 +318,9 @@ public class Client {
                         }
                         String textH;
                             StringBuilder text= new StringBuilder();
-                            text.append("<html>").append(actualH.fact).append("<br>");
-                            text.append("healt: ").append(actualH.player).append("<br>");
-                            text.append("damage: ").append(actualH.action).append("<br>");
+                            text.append("<html> Card").append(actualH.fact).append("<br>");
+                            text.append("player: ").append(actualH.player).append("<br>");
+                            text.append("action: ").append(actualH.action).append("<br>");
                             text.append("<html>");
                             textH=text.toString();
                             historialText.setText(textH);
@@ -325,9 +334,9 @@ public class Client {
                         }
                         String textH;
                         StringBuilder text= new StringBuilder();
-                        text.append("<html>").append(actualH.fact).append("<br>");
-                        text.append("healt: ").append(actualH.player).append("<br>");
-                        text.append("damage: ").append(actualH.action).append("<br>");
+                        text.append("<html> card").append(actualH.fact).append("<br>");
+                        text.append("player: ").append(actualH.player).append("<br>");
+                        text.append("action: ").append(actualH.action).append("<br>");
                         text.append("<html>");
                         textH=text.toString();
                         historialText.setText(textH);
@@ -640,6 +649,11 @@ public class Client {
             JButton[] buttons= new JButton[]{card_5, card_6, card_7, card_8, card_9, card_10, card_11, card_12, card_13, card_14};
             int a=0;
             Userdata data=Client.getUserData();
+            //update mana and life
+            labelMana.setText(String.valueOf(data.mana));
+            labelHealt.setText(String.valueOf(data.life));
+            labelEnemyHealt.setText(String.valueOf(data.enemyLife));
+
             //update all the space with the new data
             while(a<=data.playerHand.sizeLCDE) {
                 Node node = data.playerHand.getStart();
@@ -711,6 +725,13 @@ public class Client {
 
 
         }
+        /**
+         * method recieve a card and get String with it parameter in html format.
+         * @param card card to get the data
+         * @author Isaac
+         * @version 2.0
+         * @since 07/11/2020
+         */
         public String getCardText(Card card){
             StringBuilder text= new StringBuilder();
             text.append("<html>").append(card.name).append("<br>");
@@ -730,7 +751,7 @@ public class Client {
     }
 
     /**
-     * method that the lister for the socket.
+     * method that create the lister and input/output for the socket.
      * @param socket client socket
      * @throws IOException when name are not under UTF or socket fail
      * @author Isaac
@@ -746,13 +767,23 @@ public class Client {
         lister.start();
     }
 
-
+    /**
+     * method that update the label and buttons from the GUI.
+     * @param data client data
+     * @author Isaac
+     * @version 2.0
+     * @since 02/11/2020
+     */
     public static void updatePlayerData(Userdata data){
         userData=data;
         if (window_u!=null){
         window_u.canvasU.updateCardDisplay();}
     }
 
+    /**
+     * Getter.
+     * @return respective object.
+     */
     public static Userdata getUserData() {
         return userData;
     }
@@ -781,6 +812,12 @@ public class Client {
         return logger;
     }
 
+    /**
+     * method that synchronize with the server using a specific String.
+     * @author Isaac
+     * @version 2.0
+     * @since 02/11/2020
+     */
     public static void startTurn(){
         try {
             out.writeUTF("turn");
@@ -798,7 +835,6 @@ public class Client {
  * @version 2.0
  * @since 02/11/2020
  */
-
 class SocketListen extends Thread{
     /**
      * Socket logger

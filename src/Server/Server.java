@@ -291,7 +291,13 @@ public class Server extends Thread {
                             }
                             //if enemy hand empty direct attack
 
-                            if(i==4){playerHost.playerData.life-=attacker.damage; SendMsg();invitateMaxAttack--;}
+                            if(i==4){
+                                playerHost.playerData.life-=attacker.damage;
+                                playerInvitated.playerData.enemyLife=playerHost.playerData.life;
+                                invitateMaxAttack--;
+                                SendMsg();
+
+                            }
 
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
@@ -517,7 +523,12 @@ public class Server extends Thread {
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerInvitated.playerData.life-=attacker.damage;SendMsg();hostMaxAttack--;}
+                            if(i==4){
+                                playerInvitated.playerData.life-=attacker.damage;
+                                playerHost.playerData.enemyLife=playerInvitated.playerData.life;
+                                hostMaxAttack--;
+                                SendMsg();
+                            }
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }

@@ -16,6 +16,7 @@ import Server.Server;
  */
 public class Userdata{
     public int life=1000;
+    public int enemyLife=1000;
     public int mana=1000;
     public Lde historial=new Lde();
     public Card[] playerTable= new Card[4];

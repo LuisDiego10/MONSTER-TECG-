@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeName("Spell")
 public class Spell extends Card{
-    String effect;
     public Spell(@JsonProperty("name")String spellName,@JsonProperty("cost")int cost,@JsonProperty("effect") String spellEffect){
         name= spellName;
         effect= spellEffect;

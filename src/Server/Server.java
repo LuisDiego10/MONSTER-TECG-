@@ -280,7 +280,8 @@ public class Server extends Thread {
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerHost.playerData.life=playerHost.playerData.life-attacker.damage; SendMsg();}
+
+                            if(i==4){playerHost.playerData.life-=attacker.damage; SendMsg();}
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
@@ -501,7 +502,7 @@ public class Server extends Thread {
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerInvitated.playerData.life=playerInvitated.playerData.life-attacker.damage;SendMsg();}
+                            if(i==4){playerInvitated.playerData.life-=attacker.damage;SendMsg();}
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
@@ -510,6 +511,19 @@ public class Server extends Thread {
                     playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                     SendMsg();
                 }
+            }
+        }
+        if(playerHost.playerData.life<0){
+            try {
+                playerInvitated.out.writeUTF("win");
+            } catch (IOException e) {
+                logger.error("error sendign the win order"+e);
+            }
+        }else{
+            try {
+                playerHost.out.writeUTF("win");
+            } catch (IOException e) {
+                logger.error("error sendign the win order"+e);
             }
         }
     }

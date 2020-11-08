@@ -220,7 +220,9 @@ public class Server extends Thread {
                             if(playerInvitated.playerData.playerTable[i]!=null) {
                                 playerInvitated.playerData.playerTable[i].healt -= 20;
                             }
+                            invitatedGas=false;
                         }
+
                     }
                     try {
                         playerHost.out.writeUTF("turn");
@@ -383,11 +385,13 @@ public class Server extends Thread {
                                         case "Gas":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Gas","Invitado", "Invocar");
+                                            invitatedGas=true;
                                             SendMsg();
                                             break;
                                         default:
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Trampa zombie","Invitado", "Invocar");
+                                            invitatedZombie=true;
                                             SendMsg();
                                             break;
                                     }
@@ -753,16 +757,19 @@ public class Server extends Thread {
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Trampa temporal", "Host", "Invocar");
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            hostTemporalTramp=true;
                                             SendMsg();
                                             break;
                                         case "Gas":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Gas", "Host", "Invocar");
+                                            hostGas=true;
                                             SendMsg();
                                             break;
                                         default:
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Trampa zombie", "Host", "Invocar");
+                                            hostZombies=true;
                                             SendMsg();
                                             break;
                                     }

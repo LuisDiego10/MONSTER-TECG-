@@ -84,6 +84,8 @@ public class Server extends Thread {
             //Cleaner
             //Commerce
             //Strength
+            boolean hostStrength=false;
+            boolean invitatedStrength=false;
             //Sacrifice
             boolean hostSacrifice=false;
             boolean invitatedSacrifice=false;
@@ -117,6 +119,8 @@ public class Server extends Thread {
                     }
                     //Inicio del turno es aquí
                     //Secret card assistans
+                    if(invitatedStrength==true&&playerInvitated.playerData.life<=500) {
+                    }
                     if(invitatedAssistans){
                         invitatedAssistans=false;
                         if (playerInvitated.playerData.playerTable[3]==null){
@@ -264,6 +268,8 @@ public class Server extends Thread {
                                         case "Fortaleza":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Fortaleza","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode("Fortaleza");
+                                            invitatedStrength=true;
                                             SendMsg();
                                             break;
                                         case "Sacrificio":
@@ -354,6 +360,8 @@ public class Server extends Thread {
                                                 hostSacrifice=false;
                                                 SendMsg();
                                             }
+                                        }
+                                        if (hostGraveyard==true){
 
                                         }
                                     }
@@ -545,6 +553,8 @@ public class Server extends Thread {
                                         case "Fortaleza":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Fortaleza", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode("Fortaleza");
+                                            hostStrength=true;
                                             SendMsg();
                                             break;
                                         case "Sacrificio":

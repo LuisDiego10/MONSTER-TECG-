@@ -96,6 +96,8 @@ public class Server extends Thread {
             boolean hostTemporalTramp=false;
             boolean invitatedTemporalTramp=false;
             //Gas
+            boolean hostGas=false;
+            boolean invitatedGas=false;
             //ZombieTramp
             boolean hostZombies=false;
             boolean invitatedZombie=false;
@@ -144,7 +146,6 @@ public class Server extends Thread {
                             }
                         }
                     }
-                    //Secret card assistans
                     if(invitatedAssistans){
                         invitatedAssistans=false;
                         for (int i = 0; i < 4; i++) {
@@ -153,7 +154,6 @@ public class Server extends Thread {
                         }
                     }
                     }
-
                     if(invitatedZombie){
                         for (int i = 0; i < 4; i++) {
                             if (playerInvitated.playerData.playerTable[i] != null) {
@@ -179,6 +179,16 @@ public class Server extends Thread {
                         playerInvitated.playerData.mana += 250;
                     }else{
                         playerInvitated.playerData.mana=1000;}
+                    if(invitatedGas){
+                        for(int i=0;i<4;i++){
+                            if(playerHost.playerData.playerTable[i]!=null) {
+                                playerHost.playerData.playerTable[i].healt -= 20;
+                            }
+                            if(playerInvitated.playerData.playerTable[i]!=null) {
+                                playerInvitated.playerData.playerTable[i].healt -= 20;
+                            }
+                        }
+                    }
                     try {
                         playerHost.out.writeUTF("turn");
                         SendMsg();
@@ -471,7 +481,6 @@ public class Server extends Thread {
                             }
                         }
                     }
-                    //Secret card assistans
                     if(hostAssistans){
                         hostAssistans=false;
                         if (playerHost.playerData.playerTable[3]==null){
@@ -503,6 +512,16 @@ public class Server extends Thread {
                     if (playerHost.playerData.mana <= 750){
                         playerHost.playerData.mana += 250;
                     }else{playerHost.playerData.mana=1000;}
+                    if(hostGas){
+                        for(int i=0;i<4;i++){
+                            if(playerHost.playerData.playerTable[i]!=null) {
+                                playerHost.playerData.playerTable[i].healt -= 20;
+                            }
+                            if(playerInvitated.playerData.playerTable[i]!=null) {
+                                playerInvitated.playerData.playerTable[i].healt -= 20;
+                            }
+                        }
+                    }
                     try {
                         playerInvitated.out.writeUTF("turn");
                         SendMsg();

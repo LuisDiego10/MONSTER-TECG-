@@ -648,10 +648,16 @@ public class Server extends Thread {
 
                                             break;
                                         case "Comercio":
-                                            playerHost.playerData.mana -= 300;
-                                            playerHost.playerData.historial.insertLDE("Comercio", "Host", "Invocar");
-                                            SendMsg();
-
+                                            if (playerHost.playerData.playerHand.sizeLCDE>3&&playerInvitated.playerData.playerHand.sizeLCDE>3){
+                                                playerHost.playerData.mana -= 300;
+                                                playerHost.playerData.historial.insertLDE("Comercio","Invitado", "Invocar");
+                                                Card playerOneCard=playerHost.playerData.playerHand.getStart().fact;
+                                                Card playerTwoCard=playerInvitated.playerData.playerHand.getStart().fact;
+                                                playerInvitated.playerData.playerHand.insert(playerOneCard);
+                                                playerHost.playerData.playerHand.insert(playerTwoCard);
+                                                playerHost.playerData.playerHand.deleteNode(playerOneCard.name);
+                                                playerInvitated.playerData.playerHand.deleteNode(playerTwoCard.name);
+                                                SendMsg();}
                                             break;
                                         case "Fortaleza":
                                             playerHost.playerData.mana -= 300;

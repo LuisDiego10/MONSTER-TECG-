@@ -120,6 +120,13 @@ public class Server extends Thread {
                     //Inicio del turno es aquí
                     //Secret card assistans
                     if(invitatedStrength==true&&playerInvitated.playerData.life<=500) {
+                        for (int i = 0; i < 4; i++) {
+                            if (playerInvitated.playerData.playerTable[i] != null) {
+                                playerInvitated.playerData.playerTable[i].healt+=100;
+                                invitatedStrength=false;
+                                SendMsg();
+                            }
+                        }
                     }
                     if(invitatedAssistans){
                         invitatedAssistans=false;
@@ -400,6 +407,15 @@ public class Server extends Thread {
                         action = playerHost.in.readUTF();
                     }
                     //Secret card assistans
+                    if(hostStrength==true&&playerHost.playerData.life<=500) {
+                        for (int i = 0; i < 4; i++) {
+                            if (playerHost.playerData.playerTable[i] != null) {
+                                playerHost.playerData.playerTable[i].healt+=100;
+                                hostStrength=false;
+                                SendMsg();
+                            }
+                        }
+                    }
                     if(hostAssistans){
                         hostAssistans=false;
                         if (playerHost.playerData.playerTable[3]==null){

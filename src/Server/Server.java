@@ -82,7 +82,6 @@ public class Server extends Thread {
             boolean hostEyesxEyes=false;
             boolean invitatedEyesxEyes=false;
             //Cleaner
-            //Commerce
             //Strength
             boolean hostStrength=false;
             boolean invitatedStrength=false;
@@ -124,6 +123,10 @@ public class Server extends Thread {
                         action = playerInvitated.in.readUTF();
                     }
                     //Inicio del turno es aquí
+                    if(playerInvitated.playerData.playerHand.sizeLCDE<=0){
+
+
+                    }
 
                     if(invitatedTemporalTramp==true&&playerHost.playerData.playerHand.sizeLCDE<10) {
                         for (int i = 0; i < 4; i++) {
@@ -401,6 +404,8 @@ public class Server extends Thread {
                                                 }
                                             }
                                             playerHost.playerData.playerHand.insert(card);
+                                            hostGraveyard=false;
+                                            SendMsg();
                                         }
                                         playerHost.playerData.playerTable[i]=null;
                                         if (hostEyesxEyes==true){
@@ -734,7 +739,7 @@ public class Server extends Thread {
                                 if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                     playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerInvitated.playerData.playerTable[i].healt<=0){
-                                        if (hostGraveyard==true&&playerInvitated.playerData.playerHand.sizeLCDE<10){
+                                        if (invitatedGraveyard==true&&playerInvitated.playerData.playerHand.sizeLCDE<10){
                                             Minion card=Factory.Master().minion[0];
                                             for (int c=0;c<=20;c++) {
                                                 if(Factory.Master().minion[c].name.equals(action)){
@@ -742,6 +747,8 @@ public class Server extends Thread {
                                                 }
                                             }
                                             playerInvitated.playerData.playerHand.insert(card);
+                                            invitatedGraveyard=false;
+                                            SendMsg();
                                         }
                                         playerInvitated.playerData.playerTable[i]=null;
                                         if (invitatedEyesxEyes==true){

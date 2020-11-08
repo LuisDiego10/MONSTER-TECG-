@@ -359,6 +359,7 @@ public class Server extends Thread {
                                         default:
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Trampa zombie","Invitado", "Invocar");
+                                            invitatedZombie=true;
                                             SendMsg();
                                             break;
                                     }

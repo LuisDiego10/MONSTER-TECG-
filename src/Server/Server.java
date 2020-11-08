@@ -340,7 +340,7 @@ public class Server extends Thread {
                                             }
                                         }
                                         if (hostSacrifice==true){
-                                            playerInvitated.playerData.mana+=300;
+                                            playerHost.playerData.mana+=300;
                                             hostSacrifice=false;
                                             SendMsg();
                                         }
@@ -608,7 +608,7 @@ public class Server extends Thread {
                                             }
                                         }
                                         if (invitatedSacrifice==true){
-                                            playerHost.playerData.mana+=300;
+                                            playerInvitated.playerData.mana+=300;
                                             invitatedSacrifice=false;
                                             SendMsg();
                                         }

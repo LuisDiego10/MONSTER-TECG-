@@ -86,7 +86,9 @@ public class Server extends Thread {
             //Assistans
             boolean hostAssistans=false;
             boolean invitatedAssistans=false;
-            //
+            //Freeze
+            boolean hostFreeze=true;
+            boolean invitatedFreeze=true;
 
 
 
@@ -98,6 +100,7 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&invitateGettingTurn){
                         action = playerInvitated.in.readUTF();
                     }
+                    //Inicio del turno es aquí
                     //Secret card assistans
                     if(invitatedAssistans){
                         invitatedAssistans=false;
@@ -117,6 +120,7 @@ public class Server extends Thread {
                     invitateGettingTurn=true;
                     invitateAllowPeekDeck=true;
                     invitateMaxAttack=3;
+                    hostFreeze=true;
                     if (playerInvitated.playerData.mana <= 750){
                         playerInvitated.playerData.mana += 250;
                     }else{
@@ -155,6 +159,8 @@ public class Server extends Thread {
                                         case "Congelacion":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Congelacion","Invitado", "Invocar");
+                                            invitatedFreeze=false;
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
                                             SendMsg();
                                             break;
                                         case "Curación":
@@ -278,7 +284,7 @@ public class Server extends Thread {
                     }
                 }
                 //Attack
-                if (action.contains("attack")&&invitateMaxAttack>0) {
+                if (action.contains("attack")&&invitateMaxAttack>0&&hostFreeze) {
                     //get attacker name
                     action = action.substring(6);
                     Card attacker = null;
@@ -302,7 +308,10 @@ public class Server extends Thread {
                             if(i<playerHost.playerData.playerTable.length && playerHost.playerData.playerTable[i]!=null){
                                 if(playerHost.playerData.playerTable[i].name.equals(action)){
                                     playerHost.playerData.playerTable[i].healt-=attacker.damage;
-                                    if(playerHost.playerData.playerTable[i].healt<=0){playerHost.playerData.playerTable[i]=null; }
+                                    if(playerHost.playerData.playerTable[i].healt<=0){
+                                        playerHost.playerData.playerTable[i]=null;
+
+                                    }
                                     SendMsg();
                                     invitateMaxAttack--;
                                     break;
@@ -353,6 +362,7 @@ public class Server extends Thread {
                     hostGettingTurn=true;
                     hostAllowPeekDeck=true;
                     hostMaxAttack=3;
+                    invitatedFreeze=true;
                     if (playerHost.playerData.mana <= 750){
                         playerHost.playerData.mana += 250;
                     }else{playerHost.playerData.mana=1000;}
@@ -389,6 +399,8 @@ public class Server extends Thread {
                                         case "Congelacion":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Congelacion", "Host", "Invocar");
+                                            hostFreeze=false;
+                                            playerHost.playerData.playerHand.deleteNode(action);
                                             SendMsg();
 
                                             break;
@@ -520,7 +532,7 @@ public class Server extends Thread {
                     } catch (NullPointerException e) {logger.error("Card do not exist or not space, ignoring action" + e);}
                 }
                 //Attack
-                if (action.contains("attack")&&hostMaxAttack>0) {
+                if (action.contains("attack")&&hostMaxAttack>0&&invitatedFreeze) {
                     //get attacker name
                     action = action.substring(6);
                     Card attacker = null;

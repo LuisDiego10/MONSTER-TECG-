@@ -318,14 +318,14 @@ public class Server extends Thread {
                                     if(playerHost.playerData.playerTable[i].healt<=0){
                                         playerHost.playerData.playerTable[i]=null;
                                         if (hostEyesxEyes==true){
-                                            for (int i=0;i<5;i++) {
+                                            for (int c=0;c<5;c++) {
                                                 //Get self hand card
-                                                if(playerInvitated.playerData.playerTable[i].name.equals(attacker.name)) {
-                                                    playerInvitated.playerData.playerTable[i]=null;
-                                                    i = 5;
+                                                if(playerInvitated.playerData.playerTable[c].name.equals(attacker.name)) {
+                                                    playerInvitated.playerData.playerTable[c]=null;
+                                                    c = 5;
+                                                    hostEyesxEyes=false;
                                                     SendMsg();
                                                     break;
-                                                    hostEyesxEyes=false;
                                                 }
                                             }
                                         }
@@ -579,14 +579,14 @@ public class Server extends Thread {
                                     if(playerInvitated.playerData.playerTable[i].healt<=0){
                                         playerInvitated.playerData.playerTable[i]=null;
                                         if (invitatedEyesxEyes==true){
-                                            for (int i=0;i<5;i++) {
+                                            for (int c=0;c<5;c++) {
                                                 //Get self hand card
-                                                if(playerHost.playerData.playerTable[i].name.equals(attacker.name)) {
-                                                    playerHost.playerData.playerTable[i] = null;
-                                                    i = 5;
+                                                if(playerHost.playerData.playerTable[c].name.equals(attacker.name)) {
+                                                    playerHost.playerData.playerTable[c] = null;
+                                                    c = 5;
+                                                    invitatedEyesxEyes=false;
                                                     SendMsg();
                                                     break;
-                                                    invitatedEyesxEyes=false;
                                                 }
                                             }
                                         }

@@ -74,12 +74,20 @@ public class Server extends Thread {
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
             //Variables of events
+            //getting turn
             boolean hostGettingTurn=true;
             boolean invitateGettingTurn=true;
+            //peek
             boolean hostAllowPeekDeck=true;
             boolean invitateAllowPeekDeck=true;
+            //attacks
             int hostMaxAttack=3;
             int invitateMaxAttack=3;
+            //Assistans
+            boolean hostAssistans=false;
+            boolean invitatedAssistans=false;
+            //
+
 
 
             while (playerInvitated.turn) {
@@ -90,8 +98,17 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&invitateGettingTurn){
                         action = playerInvitated.in.readUTF();
                     }
+                    //Secret card assistans
+                    if(invitatedAssistans){
+                        invitatedAssistans=false;
+                        if (playerInvitated.playerData.playerTable[3]==null){
+                            playerInvitated.playerData.playerTable[3]=Factory.Master().minion[0];
+                        }
+                    }
+
                     logger.debug(action);
                     invitateGettingTurn=false;
+
                 } catch (IOException e) {logger.error("error getting action trying again");}
                 //finish turn
                 if (action.equals("finish turn")) {
@@ -202,6 +219,8 @@ public class Server extends Thread {
                                         case "Refuerzos":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Refuerzos","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode("Refuerzos");
+                                            invitatedAssistans=true;
                                             SendMsg();
                                             break;
                                         case "Ojo por ojo":
@@ -316,6 +335,13 @@ public class Server extends Thread {
                     action = playerHost.in.readUTF();
                     while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
+                    }
+                    //Secret card assistans
+                    if(hostAssistans){
+                        hostAssistans=false;
+                        if (playerHost.playerData.playerTable[3]==null){
+                            playerHost.playerData.playerTable[3]=Factory.Master().minion[0];
+                        }
                     }
                     logger.debug(action);
                     hostGettingTurn=false;
@@ -433,8 +459,10 @@ public class Server extends Thread {
                                 if (playerHost.playerData.mana>=300){
                                     switch (action) {
                                         case "Refuerzos":
-                                            playerInvitated.playerData.mana -= 300;
+                                            playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Refuerzos", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode("Refuerzos");
+                                            hostAssistans=true;
                                             SendMsg();
 
                                             break;

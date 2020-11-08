@@ -88,6 +88,8 @@ public class Server extends Thread {
             boolean hostSacrifice=false;
             boolean invitatedSacrifice=false;
             //Graveyard
+            boolean hostGraveyard=false;
+            boolean invitatedGraveyard=false;
             //TemporalTramp
             //Gas
             //ZombieTramp
@@ -274,6 +276,8 @@ public class Server extends Thread {
                                         case "Cementerio":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Cementerio","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
+                                            invitatedGraveyard=true;
                                             SendMsg();
                                             break;
                                         case "Trampa temporal":
@@ -545,6 +549,8 @@ public class Server extends Thread {
                                         case "Cementerio":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Cementerio", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode(action);
+                                            invitatedGraveyard=true;
                                             SendMsg();
                                             break;
                                         case "Trampa temporal":

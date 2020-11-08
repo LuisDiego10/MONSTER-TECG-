@@ -95,6 +95,8 @@ public class Server extends Thread {
             //TemporalTramp
             //Gas
             //ZombieTramp
+            boolean hostZombies=false;
+            boolean invitatedZombie=false;
             //Spell Variables
             //Getting turn
             boolean hostGettingTurn=true;
@@ -344,7 +346,13 @@ public class Server extends Thread {
                                     playerHost.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerHost.playerData.playerTable[i].healt<=0){
                                         if (hostGraveyard==true&&playerHost.playerData.playerHand.sizeLCDE<10){
-                                            playerHost.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
+                                            Minion card = Factory.Master().minion[0];
+                                            for (int c=0;c<=20;c++) {
+                                                if(Factory.Master().minion[c].name.equals(action)){
+                                                    card=Factory.Master().minion[c];
+                                                }
+                                            }
+                                            playerHost.playerData.playerHand.insert(card);
                                         }
                                         playerHost.playerData.playerTable[i]=null;
                                         if (hostEyesxEyes==true){
@@ -635,8 +643,14 @@ public class Server extends Thread {
                                 if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                     playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerInvitated.playerData.playerTable[i].healt<=0){
-                                        if (invitatedGraveyard==true&&playerInvitated.playerData.playerHand.sizeLCDE<10){
-                                            playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerTable[i]);
+                                        if (hostGraveyard==true&&playerInvitated.playerData.playerHand.sizeLCDE<10){
+                                            Minion card=Factory.Master().minion[0];
+                                            for (int c=0;c<=20;c++) {
+                                                if(Factory.Master().minion[c].name.equals(action)){
+                                                    card=Factory.Master().minion[c];
+                                                }
+                                            }
+                                            playerInvitated.playerData.playerHand.insert(card);
                                         }
                                         playerInvitated.playerData.playerTable[i]=null;
                                         if (invitatedEyesxEyes==true){

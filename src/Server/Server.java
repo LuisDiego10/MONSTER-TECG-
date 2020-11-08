@@ -137,6 +137,15 @@ public class Server extends Thread {
                         }
                     }
 
+                    if(invitatedZombie){
+                        for (int i = 0; i < 4; i++) {
+                            if (playerInvitated.playerData.playerTable[i] != null) {
+                                playerInvitated.playerData.playerTable[i]=Factory.Master().minion[6];
+                                invitatedZombie=false;
+                                SendMsg();
+                            }
+                        }
+                    }
                     logger.debug(action);
                     invitateGettingTurn=false;
 
@@ -430,6 +439,17 @@ public class Server extends Thread {
                             playerHost.playerData.playerTable[3]=Factory.Master().minion[0];
                         }
                     }
+                    if(invitatedZombie){
+                        for (int i = 0; i < 4; i++) {
+                            if (playerHost.playerData.playerTable[i] != null) {
+                                playerHost.playerData.playerTable[i]=Factory.Master().minion[6];
+                                invitatedZombie=false;
+                                SendMsg();
+                            }
+                        }
+                    }
+
+
                     logger.debug(action);
                     hostGettingTurn=false;
                 } catch (IOException e) {logger.error("error getting action trying again");}

@@ -2,6 +2,7 @@ package Client;
 
 import Card.Card;
 import LCDE.Node;
+import LDE.NodeLDE;
 import Server.Server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -215,7 +218,8 @@ public class Client {
         public JButton card_17;
         public JButton card_18;
         public JButton btnHistorial;
-        public JTextArea historialText;
+        public JLabel historialText;
+        public NodeLDE actualH;
         public canvasUser(){
             ImageIcon bgTable =new ImageIcon("resources/images/DECK 2.0.png");
             label_u.setBounds(0,0,1030,750);
@@ -264,11 +268,72 @@ public class Client {
                     }
                 }
             });
+            historialText=new JLabel("ESTE ES EL HISTORIAL");
+            historialText.setBounds(450,35,250,500);
+            historialText.setForeground(Color.white);
+            label_u.add(historialText);
             btnHistorial=new JButton();
             ImageIcon historial =new ImageIcon("resources/images/historial.png");
             btnHistorial.setIcon(new ImageIcon(historial.getImage().getScaledInstance(40,40,Image.SCALE_SMOOTH)));
             btnHistorial.setBounds(920,550,40,40);
             label_u.add(btnHistorial);
+            btnHistorial.addMouseListener(new  MouseListener() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+
+                public void mouseClicked(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)&&e.getClickCount()==1){
+                        if (actualH==null){
+                            actualH=Client.getUserData().historial.start;
+                        }else if (actualH==Client.getUserData().historial.start && actualH.nextNodeLDE!=null){
+                            actualH=actualH.nextNodeLDE;
+                        }else if(actualH.nextNodeLDE!=null){
+                            actualH=actualH.nextNodeLDE;
+                        }
+                        String textH;
+                            StringBuilder text= new StringBuilder();
+                            text.append("<html>").append(actualH.fact).append("<br>");
+                            text.append("healt: ").append(actualH.player).append("<br>");
+                            text.append("damage: ").append(actualH.action).append("<br>");
+                            text.append("<html>");
+                            textH=text.toString();
+                            historialText.setText(textH);
+                    } else {
+                        if (actualH==null){
+                            actualH=Client.getUserData().historial.start;
+                        }else if (actualH==Client.getUserData().historial.start && actualH.prevNodeLDE!=null){
+                            actualH=actualH.prevNodeLDE;
+                        }else if(actualH.prevNodeLDE!=null){
+                            actualH=actualH.prevNodeLDE;
+                        }
+                        String textH;
+                        StringBuilder text= new StringBuilder();
+                        text.append("<html>").append(actualH.fact).append("<br>");
+                        text.append("healt: ").append(actualH.player).append("<br>");
+                        text.append("damage: ").append(actualH.action).append("<br>");
+                        text.append("<html>");
+                        textH=text.toString();
+                        historialText.setText(textH);
+                    }
+                }
+            });
             card_1=new JButton("<html>card<html>");
             card_1.setBounds(128,540,80,140);
             label_u.add(card_1);

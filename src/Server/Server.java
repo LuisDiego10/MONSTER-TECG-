@@ -327,6 +327,8 @@ public class Server extends Thread {
                                                     break;
                                                     hostEyesxEyes=false;
                                                 }
+                                            }
+                                        }
                                     }
                                     SendMsg();
                                     invitateMaxAttack--;
@@ -580,7 +582,7 @@ public class Server extends Thread {
                                             for (int i=0;i<5;i++) {
                                                 //Get self hand card
                                                 if(playerHost.playerData.playerTable[i].name.equals(attacker.name)) {
-                                                    playerHost.playerData.playerTable[i]=null;
+                                                    playerHost.playerData.playerTable[i] = null;
                                                     i = 5;
                                                     SendMsg();
                                                     break;
@@ -588,7 +590,7 @@ public class Server extends Thread {
                                                 }
                                             }
                                         }
-                                    }}
+                                    }
                                     SendMsg();
                                     hostMaxAttack--;
                                     break;

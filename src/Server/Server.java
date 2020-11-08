@@ -74,18 +74,23 @@ public class Server extends Thread {
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
             //Variables of events
-            //getting turn
-            boolean hostGettingTurn=true;
-            boolean invitateGettingTurn=true;
-            //peek
-            boolean hostAllowPeekDeck=true;
-            boolean invitateAllowPeekDeck=true;
-            //attacks
-            int hostMaxAttack=3;
-            int invitateMaxAttack=3;
+            //Secrets Variables
             //Assistans
             boolean hostAssistans=false;
             boolean invitatedAssistans=false;
+            //EyesxEyes
+            boolean hostEyesxEyes=false;
+            boolean invitatedEyesxEyes=false;
+            //Spell Variables
+            //Getting turn
+            boolean hostGettingTurn=true;
+            boolean invitateGettingTurn=true;
+            //Peek
+            boolean hostAllowPeekDeck=true;
+            boolean invitateAllowPeekDeck=true;
+            //Attacks
+            int hostMaxAttack=3;
+            int invitateMaxAttack=3;
             //Freeze
             boolean hostFreeze=true;
             boolean invitatedFreeze=true;
@@ -232,6 +237,8 @@ public class Server extends Thread {
                                         case "Ojo por ojo":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Ojo por ojo","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
+                                            invitatedEyesxEyes=true;
                                             SendMsg();
                                             break;
                                         case "Limpieza":
@@ -310,7 +317,16 @@ public class Server extends Thread {
                                     playerHost.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerHost.playerData.playerTable[i].healt<=0){
                                         playerHost.playerData.playerTable[i]=null;
-
+                                        if (hostEyesxEyes==true){
+                                            for (int i=0;i<5;i++) {
+                                                //Get self hand card
+                                                if(playerInvitated.playerData.playerTable[i].name.equals(attacker.name)) {
+                                                    playerInvitated.playerData.playerTable[i]=null;
+                                                    i = 5;
+                                                    SendMsg();
+                                                    break;
+                                                    hostEyesxEyes=false;
+                                                }
                                     }
                                     SendMsg();
                                     invitateMaxAttack--;
@@ -481,6 +497,8 @@ public class Server extends Thread {
                                         case "Ojo por ojo":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Ojo por ojo", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode(action);
+                                            hostEyesxEyes=true;
                                             SendMsg();
                                             break;
                                         case "Limpieza":
@@ -556,7 +574,21 @@ public class Server extends Thread {
                             if(i<playerInvitated.playerData.playerTable.length && playerInvitated.playerData.playerTable[i]!=null){
                                 if(playerInvitated.playerData.playerTable[i].name.equals(action)){
                                     playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
-                                    if(playerInvitated.playerData.playerTable[i].healt<=0){playerInvitated.playerData.playerTable[i]=null;}
+                                    if(playerInvitated.playerData.playerTable[i].healt<=0){
+                                        playerInvitated.playerData.playerTable[i]=null;
+                                        if (invitatedEyesxEyes==true){
+                                            for (int i=0;i<5;i++) {
+                                                //Get self hand card
+                                                if(playerHost.playerData.playerTable[i].name.equals(attacker.name)) {
+                                                    playerHost.playerData.playerTable[i]=null;
+                                                    i = 5;
+                                                    SendMsg();
+                                                    break;
+                                                    invitatedEyesxEyes=false;
+                                                }
+                                            }
+                                        }
+                                    }}
                                     SendMsg();
                                     hostMaxAttack--;
                                     break;

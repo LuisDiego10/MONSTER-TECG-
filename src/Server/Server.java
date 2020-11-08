@@ -81,6 +81,16 @@ public class Server extends Thread {
             //EyesxEyes
             boolean hostEyesxEyes=false;
             boolean invitatedEyesxEyes=false;
+            //Cleaner
+            //Commerce
+            //Strength
+            //Sacrifice
+            boolean hostSacrifice=false;
+            boolean invitatedSacrifice=false;
+            //Graveyard
+            //TemporalTramp
+            //Gas
+            //ZombieTramp
             //Spell Variables
             //Getting turn
             boolean hostGettingTurn=true;
@@ -94,8 +104,6 @@ public class Server extends Thread {
             //Freeze
             boolean hostFreeze=true;
             boolean invitatedFreeze=true;
-
-
 
             while (playerInvitated.turn) {
                 //get action from client
@@ -259,6 +267,8 @@ public class Server extends Thread {
                                         case "Sacrificio":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Sacrificio","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
+                                            invitatedSacrifice=true;
                                             SendMsg();
                                             break;
                                         case "Cementerio":
@@ -328,6 +338,11 @@ public class Server extends Thread {
                                                     break;
                                                 }
                                             }
+                                        }
+                                        if (hostSacrifice==true){
+                                            playerInvitated.playerData.mana+=300;
+                                            hostSacrifice=false;
+                                            SendMsg();
                                         }
                                     }
                                     SendMsg();
@@ -523,6 +538,8 @@ public class Server extends Thread {
                                         case "Sacrificio":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Sacrificio", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode(action);
+                                            hostSacrifice=true;
                                             SendMsg();
                                             break;
                                         case "Cementerio":
@@ -589,6 +606,11 @@ public class Server extends Thread {
                                                     break;
                                                 }
                                             }
+                                        }
+                                        if (invitatedSacrifice==true){
+                                            playerHost.playerData.mana+=300;
+                                            invitatedSacrifice=false;
+                                            SendMsg();
                                         }
                                     }
                                     SendMsg();

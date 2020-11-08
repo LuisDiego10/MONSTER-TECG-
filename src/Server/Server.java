@@ -73,8 +73,15 @@ public class Server extends Thread {
         }
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
+            //Variables of events
             boolean hostGettingTurn=true;
             boolean invitateGettingTurn=true;
+            boolean hostAllowPeekDeck=true;
+            boolean invitateAllowPeekDeck=true;
+            int hostMaxAttack=3;
+            int invitateMaxAttack=3;
+
+
             while (playerInvitated.turn) {
                 //get action from client
                 String action = "";
@@ -91,6 +98,8 @@ public class Server extends Thread {
                     playerInvitated.turn = false;
                     playerHost.turn = true;
                     invitateGettingTurn=true;
+                    invitateAllowPeekDeck=true;
+                    invitateMaxAttack=3;
                     if (playerInvitated.playerData.mana <= 750){
                         playerInvitated.playerData.mana += 250;
                     }else{
@@ -250,7 +259,7 @@ public class Server extends Thread {
                     }
                 }
                 //Attack
-                if (action.contains("attack")) {
+                if (action.contains("attack")&&invitateMaxAttack>0) {
                     //get attacker name
                     action = action.substring(6);
                     Card attacker = null;
@@ -276,19 +285,22 @@ public class Server extends Thread {
                                     playerHost.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerHost.playerData.playerTable[i].healt<=0){playerHost.playerData.playerTable[i]=null; }
                                     SendMsg();
+                                    invitateMaxAttack--;
                                     break;
                                 }
                             }
                             //if enemy hand empty direct attack
 
-                            if(i==4){playerHost.playerData.life-=attacker.damage; SendMsg();}
+                            if(i==4){playerHost.playerData.life-=attacker.damage; SendMsg();invitateMaxAttack--;}
+
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
                 //peek a card from the deck
-                if (action.equals("peek")){
+                if (action.equals("peek")&&invitateAllowPeekDeck){
                     playerInvitated.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
                     SendMsg();
+                    invitateAllowPeekDeck=false;
                 }
             }
             while (playerHost.turn) {
@@ -307,6 +319,8 @@ public class Server extends Thread {
                     playerHost.turn = false;
                     playerInvitated.turn = true;
                     hostGettingTurn=true;
+                    hostAllowPeekDeck=true;
+                    hostMaxAttack=3;
                     if (playerHost.playerData.mana <= 750){
                         playerHost.playerData.mana += 250;
                     }else{playerHost.playerData.mana=1000;}
@@ -472,7 +486,7 @@ public class Server extends Thread {
                     } catch (NullPointerException e) {logger.error("Card do not exist or not space, ignoring action" + e);}
                 }
                 //Attack
-                if (action.contains("attack")) {
+                if (action.contains("attack")&&hostMaxAttack>0) {
                     //get attacker name
                     action = action.substring(6);
                     Card attacker = null;
@@ -498,17 +512,19 @@ public class Server extends Thread {
                                     playerInvitated.playerData.playerTable[i].healt-=attacker.damage;
                                     if(playerInvitated.playerData.playerTable[i].healt<=0){playerInvitated.playerData.playerTable[i]=null;}
                                     SendMsg();
+                                    hostMaxAttack--;
                                     break;
                                 }
                             }
                             //if enemy hand empty direct attack
-                            if(i==4){playerInvitated.playerData.life-=attacker.damage;SendMsg();}
+                            if(i==4){playerInvitated.playerData.life-=attacker.damage;SendMsg();hostMaxAttack--;}
                         }
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
                 //peek a card from the deck
-                if (action.equals("peek")){
+                if (action.equals("peek")&&hostAllowPeekDeck){
                     playerHost.playerData.playerHand.insert(playerInvitated.playerData.playerDeck.peek());
+                    hostAllowPeekDeck=false;
                     SendMsg();
                 }
             }

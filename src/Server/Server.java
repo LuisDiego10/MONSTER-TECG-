@@ -93,6 +93,8 @@ public class Server extends Thread {
             boolean hostGraveyard=false;
             boolean invitatedGraveyard=false;
             //TemporalTramp
+            boolean hostTemporalTramp=false;
+            boolean invitatedTemporalTramp=false;
             //Gas
             //ZombieTramp
             boolean hostZombies=false;
@@ -120,7 +122,19 @@ public class Server extends Thread {
                         action = playerInvitated.in.readUTF();
                     }
                     //Inicio del turno es aquí
-                    //Secret card assistans
+
+                    if(invitatedTemporalTramp==true&&playerHost.playerData.playerHand.sizeLCDE<10) {
+                        for (int i = 0; i < 4; i++) {
+                            if (playerHost.playerData.playerTable[i] != null) {
+                                playerHost.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
+                                playerInvitated.playerData.playerTable[i]=null;
+                                i=5;
+                                invitatedTemporalTramp=false;
+                                SendMsg();
+
+                            }
+                        }
+                    }
                     if(invitatedStrength==true&&playerInvitated.playerData.life<=500) {
                         for (int i = 0; i < 4; i++) {
                             if (playerInvitated.playerData.playerTable[i] != null) {
@@ -130,11 +144,14 @@ public class Server extends Thread {
                             }
                         }
                     }
+                    //Secret card assistans
                     if(invitatedAssistans){
                         invitatedAssistans=false;
-                        if (playerInvitated.playerData.playerTable[3]==null){
-                            playerInvitated.playerData.playerTable[3]=Factory.Master().minion[0];
+                        for (int i = 0; i < 4; i++) {
+                            if (playerInvitated.playerData.playerTable[i] != null) {
+                                playerInvitated.playerData.playerTable[i]=Factory.Master().minion[0];
                         }
+                    }
                     }
 
                     if(invitatedZombie){
@@ -314,6 +331,8 @@ public class Server extends Thread {
                                         case "Trampa temporal":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Trampa temporal","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode("Trampa temporal");
+                                            invitatedTemporalTramp=true;
                                             SendMsg();
                                             break;
                                         case "Gas":
@@ -430,7 +449,19 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
                     }
-                    //Secret card assistans
+                    if(hostTemporalTramp==true&&playerInvitated.playerData.playerHand.sizeLCDE<10) {
+                        for (int i = 0; i < 4; i++) {
+                            if (playerInvitated.playerData.playerTable[i] != null) {
+                                playerInvitated.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
+                                playerHost.playerData.playerTable[i]=null;
+                                i=5;
+                                hostTemporalTramp=false;
+                                SendMsg();
+
+                            }
+                        }
+                    }
+
                     if(hostStrength==true&&playerHost.playerData.life<=500) {
                         for (int i = 0; i < 4; i++) {
                             if (playerHost.playerData.playerTable[i] != null) {
@@ -440,6 +471,7 @@ public class Server extends Thread {
                             }
                         }
                     }
+                    //Secret card assistans
                     if(hostAssistans){
                         hostAssistans=false;
                         if (playerHost.playerData.playerTable[3]==null){
@@ -626,6 +658,7 @@ public class Server extends Thread {
                                         case "Trampa temporal":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Trampa temporal", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode(action);
                                             SendMsg();
                                             break;
                                         case "Gas":

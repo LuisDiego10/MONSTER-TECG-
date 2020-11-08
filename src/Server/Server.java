@@ -82,6 +82,8 @@ public class Server extends Thread {
             boolean hostEyesxEyes=false;
             boolean invitatedEyesxEyes=false;
             //Cleaner
+            boolean hostCleaner=false;
+            boolean invitatedCleaner=false;
             //Strength
             boolean hostStrength=false;
             boolean invitatedStrength=false;
@@ -123,8 +125,36 @@ public class Server extends Thread {
                         action = playerInvitated.in.readUTF();
                     }
                     //Inicio del turno es aquí
-                    if(playerInvitated.playerData.playerHand.sizeLCDE<=0){
+                    if(invitatedCleaner==true&&playerInvitated.playerData.playerHand.sizeLCDE<=0){
+                        //Assistans
+                        hostAssistans=false;
+                        invitatedAssistans=false;
+                        //EyesxEyes
+                        hostEyesxEyes=false;
+                        invitatedEyesxEyes=false;
+                        //Strength
+                        hostStrength=false;
+                        invitatedStrength=false;
+                        //Sacrifice
+                        hostSacrifice=false;
+                        invitatedSacrifice=false;
+                        //Graveyard
+                        hostGraveyard=false;
+                        invitatedGraveyard=false;
+                        //TemporalTramp
+                        hostTemporalTramp=false;
+                        invitatedTemporalTramp=false;
+                        //Gas
+                        hostGas=false;
+                        invitatedGas=false;
+                        //ZombieTramp
+                        hostZombies=false;
+                        invitatedZombie=false;
 
+
+                        invitatedCleaner=false;
+
+                        SendMsg();
 
                     }
 
@@ -306,6 +336,8 @@ public class Server extends Thread {
                                         case "Limpieza":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Limpieza","Invitado", "Invocar");
+                                            playerInvitated.playerData.playerHand.deleteNode(action);
+                                            invitatedCleaner=true;
                                             SendMsg();
                                             break;
                                         case "Comercio":
@@ -464,6 +496,36 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
                     }
+                    if(hostCleaner==true&&playerHost.playerData.playerHand.sizeLCDE<=0){
+                        //Assistans
+                        hostAssistans=false;
+                        invitatedAssistans=false;
+                        //EyesxEyes
+                        hostEyesxEyes=false;
+                        invitatedEyesxEyes=false;
+                        //Strength
+                        hostStrength=false;
+                        invitatedStrength=false;
+                        //Sacrifice
+                        hostSacrifice=false;
+                        invitatedSacrifice=false;
+                        //Graveyard
+                        hostGraveyard=false;
+                        invitatedGraveyard=false;
+                        //TemporalTramp
+                        hostTemporalTramp=false;
+                        invitatedTemporalTramp=false;
+                        //Gas
+                        hostGas=false;
+                        invitatedGas=false;
+                        //ZombieTramp
+                        hostZombies=false;
+                        invitatedZombie=false;
+
+                        hostCleaner=false;
+                        SendMsg();
+
+                    }
                     if(hostTemporalTramp==true&&playerInvitated.playerData.playerHand.sizeLCDE<10) {
                         for (int i = 0; i < 4; i++) {
                             if (playerInvitated.playerData.playerTable[i] != null) {
@@ -492,11 +554,11 @@ public class Server extends Thread {
                             playerHost.playerData.playerTable[3]=Factory.Master().minion[0];
                         }
                     }
-                    if(invitatedZombie){
+                    if(hostZombies){
                         for (int i = 0; i < 4; i++) {
                             if (playerHost.playerData.playerTable[i] != null) {
                                 playerHost.playerData.playerTable[i]=Factory.Master().minion[6];
-                                invitatedZombie=false;
+                                hostZombies=false;
                                 SendMsg();
                             }
                         }
@@ -649,6 +711,8 @@ public class Server extends Thread {
                                         case "Limpieza":
                                             playerHost.playerData.mana -= 300;
                                             playerHost.playerData.historial.insertLDE("Limpieza", "Host", "Invocar");
+                                            playerHost.playerData.playerHand.deleteNode(action);
+                                            hostCleaner=true;
                                             SendMsg();
 
                                             break;

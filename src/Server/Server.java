@@ -344,9 +344,17 @@ public class Server extends Thread {
                                             }
                                         }
                                         if (hostSacrifice==true){
-                                            playerHost.playerData.mana+=300;
-                                            hostSacrifice=false;
-                                            SendMsg();
+                                            if (playerHost.playerData.mana <= 700){
+                                                playerHost.playerData.mana+=300;
+                                                hostSacrifice=false;
+                                                SendMsg();
+                                            }
+                                            else{
+                                                playerHost.playerData.mana = 1000;
+                                                hostSacrifice=false;
+                                                SendMsg();
+                                            }
+
                                         }
                                     }
                                     SendMsg();
@@ -614,9 +622,17 @@ public class Server extends Thread {
                                             }
                                         }
                                         if (invitatedSacrifice==true){
-                                            playerInvitated.playerData.mana+=300;
-                                            invitatedSacrifice=false;
-                                            SendMsg();
+                                            if (playerInvitated.playerData.mana <= 700){
+                                                playerInvitated.playerData.mana+=300;
+                                                invitatedSacrifice=false;
+                                                SendMsg();
+                                            }
+                                            else{
+                                                playerInvitated.playerData.mana = 1000;
+                                                invitatedSacrifice=false;
+                                                SendMsg();
+                                            }
+
                                         }
                                     }
                                     SendMsg();

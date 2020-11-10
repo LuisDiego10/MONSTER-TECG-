@@ -113,9 +113,6 @@ public class Server extends Thread {
         //Freeze
         boolean hostFreeze=true;
         boolean invitatedFreeze=true;
-        //Health
-        boolean hostHealth=false;
-        boolean invitatedHealth=false;
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
 
@@ -150,15 +147,6 @@ public class Server extends Thread {
                         invitatedCleaner=false;
 
                         SendMsg();
-                        if (invitatedHealth){
-                            if (playerInvitated.playerData.life>=750){
-                                playerInvitated.playerData.life=1000;
-                            }else{
-                                playerInvitated.playerData.life+=250;
-                            }
-                            invitatedHealth=false;
-                            SendMsg();
-                        }
                     }
 
                     if(invitatedTemporalTramp==true&&playerHost.playerData.playerHand.sizeLCDE<10) {
@@ -267,9 +255,13 @@ public class Server extends Thread {
                                             break;
                                         case "Curación":
                                             playerInvitated.playerData.mana -= 300;
+                                            if (playerInvitated.playerData.life>=750){
+                                                playerInvitated.playerData.life=1000;
+                                            }else{
+                                                playerInvitated.playerData.life+=250;
+                                            }
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("Curación","Invitado", "Invocar");
-                                            invitatedHealth=false;
                                             SendMsg();
                                             break;
                                         case "PoderSupremo":
@@ -559,16 +551,6 @@ public class Server extends Thread {
                             }
                         }
                     }
-                    if (hostHealth){
-                        if (playerHost.playerData.life>=750){
-                            playerHost.playerData.life=1000;
-                        }else{
-                            playerHost.playerData.life+=250;
-                        }
-                        hostHealth=false;
-                        SendMsg();
-                    }
-
                     logger.debug(action);
                     hostGettingTurn=false;
                 } catch (IOException e) {logger.error("error getting action trying again");}
@@ -633,11 +615,14 @@ public class Server extends Thread {
                                             break;
                                         case "Curación":
                                             playerHost.playerData.mana -= 300;
+                                            if (playerHost.playerData.life>=750){
+                                                playerHost.playerData.life=1000;
+                                            }else{
+                                                playerHost.playerData.life+=250;
+                                            }
                                             playerHost.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.historial.insertLDE("Curación", "Host", "Invocar");
-                                            hostHealth=false;
                                             SendMsg();
-
                                             break;
                                         case "PoderSupremo":
                                             playerHost.playerData.mana -= 300;

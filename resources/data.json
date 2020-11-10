@@ -3,7 +3,8 @@
     {
         "name": "Diablillo Guerrero",
         "damage": 24,
-        "health": 14
+        "health": 14,
+        "cost": 150
     },
     {
         "name": "Slime Guerrero",
@@ -13,92 +14,110 @@
     {
         "name": "Insecto Lider",
         "damage": 0,
-        "health": 14
+        "health": 14,
+        "cost": 150
     },
     {
         "name": "Robot Menor",
         "damage": 41,
-        "health": 36
+        "health": 36,
+        "cost": 150
     },
     {
         "name": "Slime Menor",
         "damage": 41,
-        "health": 16
+        "health": 16,
+        "cost": 150
     },
     {
         "name": "Diablillo Rey",
         "damage": 36,
-        "health": 7
+        "health": 7,
+        "cost": 150
     },
     {
         "name": "Zombie Guerrero",
         "damage": 38,
-        "health": 22
+        "health": 22,
+        "cost": 150
     },
     {
         "name": "Robot Guerrero",
         "damage": 3,
-        "health": 4
+        "health": 4,
+        "cost": 150
     },
     {
         "name": "Orco Lider",
         "damage": 33,
-        "health": 15
+        "health": 15,
+        "cost": 150
     },
     {
         "name": "Ogro Rey",
         "damage": 15,
-        "health": 11
+        "health": 11,
+        "cost": 150
     },
     {
         "name": "Diablillo Menor",
         "damage": 8,
-        "health": 11
+        "health": 11,
+        "cost": 150
     },
     {
         "name": "Ogro Menor",
         "damage": 23,
-        "health": 34
+        "health": 34,
+        "cost": 150
     },
     {
         "name": "Ogro Guerrero",
         "damage": 38,
-        "health": 17
+        "health": 17,
+        "cost": 150
     },
     {
         "name": "Orco Lider",
         "damage": 12,
-        "health": 17
+        "health": 17,
+        "cost": 150
     },
     {
         "name": "Diablillo Guerrero",
         "damage": 13,
-        "health": 16
+        "health": 16,
+        "cost": 150
     },
     {
         "name": "Diablillo Lider",
         "damage": 14,
-        "health": 38
+        "health": 38,
+        "cost": 150
     },
     {
         "name": "Robot Lider",
         "damage": 36,
-        "health": 24
+        "health": 24,
+        "cost": 150
     },
     {
         "name": "Zombie Lider",
         "damage": 37,
-        "health": 11
+        "health": 11,
+        "cost": 150
     },
     {
         "name": "Slime Rey",
         "damage": 46,
-        "health": 31
+        "health": 31,
+        "cost": 150
     },
     {
         "name": "Zombie Guerrero",
         "damage": 2,
-        "health": 22
+        "health": 22,
+        "cost": 150
     }],
 "secrets":[
 	{

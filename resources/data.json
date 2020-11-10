@@ -202,7 +202,7 @@
 		"effect": "duplicadaño"
     },{
         "name": "Economizador",
-        "cost": 300,
+        "cost": 0,
 		"effect": "ahorrarmana"
     }]
 }

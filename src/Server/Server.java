@@ -129,7 +129,7 @@ public class Server extends Thread {
                         action = playerInvitated.in.readUTF();
                     }
                     //Inicio del turno es aquí
-                    if(invitatedCleaner==true&&playerInvitated.playerData.playerHand.sizeLCDE<=0){
+                    if(invitatedCleaner &&playerInvitated.playerData.playerHand.sizeLCDE<=0){
                         //Assistans
                         hostAssistans=false;
                         //EyesxEyes
@@ -152,7 +152,7 @@ public class Server extends Thread {
                         SendMsg();
                     }
 
-                    if(invitatedTemporalTramp==true&&playerHost.playerData.playerHand.sizeLCDE<10) {
+                    if(invitatedTemporalTramp &&playerHost.playerData.playerHand.sizeLCDE<10) {
                         for (int i = 0; i < 4; i++) {
                             if (playerHost.playerData.playerTable[i] != null) {
                                 playerHost.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
@@ -164,7 +164,7 @@ public class Server extends Thread {
                             }
                         }
                     }
-                    if(invitatedStrength==true&&playerInvitated.playerData.life<=500) {
+                    if(invitatedStrength &&playerInvitated.playerData.life<=500) {
                         for (int i = 0; i < 4; i++) {
                             if (playerInvitated.playerData.playerTable[i] != null) {
                                 playerInvitated.playerData.playerTable[i].healt+=100;
@@ -278,43 +278,51 @@ public class Server extends Thread {
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("PoderSupremo","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "AhoraEsMia":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.historial.insertLDE("AhoraEsMia","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Escudo":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Escudo","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Invalidar":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Invalidar","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Anulacion":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Anulacion","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Contrarrestar":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Contrarrestar","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Duplicar":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Duplicar","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         default:
                                             playerInvitated.playerData.mana += 150;
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("Economizador","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                     }
@@ -322,13 +330,14 @@ public class Server extends Thread {
                                 }
                                 //Secrets
                             } else {
-                                if (playerInvitated.playerData.mana>=300){
+                                if (playerInvitated.playerData.mana>playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost()){
                                     switch (action) {
                                         case "Refuerzos":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Refuerzos","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode("Refuerzos");
                                             invitatedAssistans=true;
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Ojo por ojo":
@@ -336,12 +345,14 @@ public class Server extends Thread {
                                             playerInvitated.playerData.historial.insertLDE("Ojo por ojo","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             invitatedEyesxEyes=true;
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "Limpieza":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Limpieza","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode(action);
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedCleaner=true;
                                             SendMsg();
                                             break;
@@ -355,6 +366,7 @@ public class Server extends Thread {
                                             playerInvitated.playerData.playerHand.insert(playerTwoCard);
                                             playerInvitated.playerData.playerHand.deleteNode(playerOneCard.name);
                                             playerHost.playerData.playerHand.deleteNode(playerTwoCard.name);
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();}
                                             break;
                                         case "Fortaleza":
@@ -368,6 +380,7 @@ public class Server extends Thread {
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Sacrificio","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode(action);
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedSacrifice=true;
                                             SendMsg();
                                             break;
@@ -375,6 +388,7 @@ public class Server extends Thread {
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Cementerio","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode(action);
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedGraveyard=true;
                                             SendMsg();
                                             break;
@@ -382,18 +396,21 @@ public class Server extends Thread {
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Trampa temporal","Invitado", "Invocar");
                                             playerInvitated.playerData.playerHand.deleteNode("Trampa temporal");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedTemporalTramp=true;
                                             SendMsg();
                                             break;
                                         case "Gas":
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Gas","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedGas=true;
                                             SendMsg();
                                             break;
                                         default:
                                             playerInvitated.playerData.mana -= 300;
                                             playerInvitated.playerData.historial.insertLDE("Trampa zombie","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             invitatedZombie=true;
                                             SendMsg();
                                             break;
@@ -506,7 +523,7 @@ public class Server extends Thread {
                     while(!action.equals("turn")&&hostGettingTurn){
                         action = playerHost.in.readUTF();
                     }
-                    if(hostCleaner==true&&playerHost.playerData.playerHand.sizeLCDE<=0){
+                    if(hostCleaner &&playerHost.playerData.playerHand.sizeLCDE<=0){
                         //Assistans
                         invitatedAssistans=false;
                         //EyesxEyes
@@ -528,7 +545,7 @@ public class Server extends Thread {
                         SendMsg();
 
                     }
-                    if(hostTemporalTramp==true&&playerInvitated.playerData.playerHand.sizeLCDE<10) {
+                    if(hostTemporalTramp &&playerInvitated.playerData.playerHand.sizeLCDE<10) {
                         for (int i = 0; i < 4; i++) {
                             if (playerInvitated.playerData.playerTable[i] != null) {
                                 playerInvitated.playerData.playerHand.insert(playerHost.playerData.playerTable[i]);
@@ -541,7 +558,7 @@ public class Server extends Thread {
                         }
                     }
 
-                    if(hostStrength==true&&playerHost.playerData.life<=500) {
+                    if(hostStrength&&playerHost.playerData.life<=500) {
                         for (int i = 0; i < 4; i++) {
                             if (playerHost.playerData.playerTable[i] != null) {
                                 playerHost.playerData.playerTable[i].healt+=100;
@@ -603,13 +620,16 @@ public class Server extends Thread {
                             if (playerHost.playerData.playerHand.getNode(action).fact.getClass().equals(Minion.class)) {
                                 //found empty space in hand to invoke
                                 for (int i = 0; i < 4; i++) {
-                                    if (playerHost.playerData.playerTable[i] == null) {
-                                        playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
-                                        playerHost.playerData.playerHand.deleteNode(action);
-                                        playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
-                                        playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name,"invitado","invocar");
-                                        SendMsg();
-                                        break;
+                                    if(playerHost.playerData.mana>playerHost.playerData.playerHand.getNode(action).fact.getManaCost()) {
+                                        if (playerHost.playerData.playerTable[i] == null) {
+                                            playerHost.playerData.playerTable[i] = playerHost.playerData.playerHand.getNode(action).fact;
+                                            playerHost.playerData.playerHand.deleteNode(action);
+                                            playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
+                                            playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name, "invitado", "invocar");
+                                            SendMsg();
+                                            playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost():
+                                            break;
+                                        }
                                     }
                                 }
                                 //update the enemy hand

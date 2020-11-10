@@ -72,6 +72,16 @@ public class Server extends Thread {
             logger.error("error trying to set first turn for invitated"+e);
         }
         //Variables of events
+        //Getting turn
+        boolean hostGettingTurn=true;
+        boolean invitateGettingTurn=true;
+        //Peek
+        boolean hostAllowPeekDeck=true;
+        boolean invitateAllowPeekDeck=true;
+        //Attacks
+        int hostMaxAttack=3;
+        int invitateMaxAttack=3;
+
         //Secrets Variables
         //Assistans
         boolean hostAssistans=false;
@@ -101,15 +111,6 @@ public class Server extends Thread {
         boolean hostZombies=false;
         boolean invitatedZombie=false;
         //Spell Variables
-        //Getting turn
-        boolean hostGettingTurn=true;
-        boolean invitateGettingTurn=true;
-        //Peek
-        boolean hostAllowPeekDeck=true;
-        boolean invitateAllowPeekDeck=true;
-        //Attacks
-        int hostMaxAttack=3;
-        int invitateMaxAttack=3;
         //Freeze
         boolean hostFreeze=true;
         boolean invitatedFreeze=true;
@@ -300,11 +301,37 @@ public class Server extends Thread {
                                         case "Invalidar":
                                             playerInvitated.playerData.historial.insertLDE("Invalidar","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            //Secrets Variables
+                                            //Assistans
+                                            hostAssistans=false;
+                                            //EyesxEyes
+                                            hostEyesxEyes=false;
+                                            //Cleaner
+                                            hostCleaner=false;
+                                            //Strength
+                                            hostStrength=false;
+                                            //Sacrifice
+                                            hostSacrifice=false;
+                                            //Graveyard
+                                            hostGraveyard=false;
+                                            //TemporalTramp
+                                            hostTemporalTramp=false;
+                                            //Gas
+                                            hostGas=false;
+                                            //ZombieTramp
+                                            hostZombies=false;
                                             SendMsg();
                                             break;
                                         case "Anulacion":
                                             playerInvitated.playerData.historial.insertLDE("Anulacion","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            //Spell Variables
+                                            //Freeze
+                                             hostFreeze=true;
+                                            //Supreme power
+                                             hostSupremePower=3;
+                                            //Shield
+                                             hostShield=false;
                                             SendMsg();
                                             break;
                                         case "Contrarrestar":
@@ -695,6 +722,25 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("Invalidar", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            //Secrets Variables
+                                            //Assistans
+                                            invitatedAssistans=false;
+                                            //EyesxEyes
+                                            invitatedEyesxEyes=false;
+                                            //Cleaner
+                                            invitatedCleaner=false;
+                                            //Strength
+                                            invitatedStrength=false;
+                                            //Sacrifice
+                                            invitatedSacrifice=false;
+                                            //Graveyard
+                                            invitatedGraveyard=false;
+                                            //TemporalTramp
+                                            invitatedTemporalTramp=false;
+                                            //Gas
+                                            invitatedGas=false;
+                                            //ZombieTramp
+                                            invitatedZombie=false;
                                             SendMsg();
 
                                             break;
@@ -702,6 +748,11 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("Anulacion", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            invitatedFreeze=true;
+                                            //Supreme power
+                                            invitatedSupremePower=3;
+                                            //Shield
+                                            invitatedShield=false;
                                             SendMsg();
 
                                             break;

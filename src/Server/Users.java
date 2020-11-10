@@ -87,3 +87,41 @@ public class Userdata{
     public Lcde playerHand = new Lcde();
 }
 }
+    //Secrets Variables
+    //Assistans
+    boolean hostAssistans=false;
+    boolean invitatedAssistans=false;
+    //EyesxEyes
+    boolean hostEyesxEyes=false;
+    boolean invitatedEyesxEyes=false;
+    //Cleaner
+    boolean hostCleaner=false;
+    boolean invitatedCleaner=false;
+    //Strength
+    boolean hostStrength=false;
+    boolean invitatedStrength=false;
+    //Sacrifice
+    boolean hostSacrifice=false;
+    boolean invitatedSacrifice=false;
+    //Graveyard
+    boolean hostGraveyard=false;
+    boolean invitatedGraveyard=false;
+    //TemporalTramp
+    boolean hostTemporalTramp=false;
+    boolean invitatedTemporalTramp=false;
+    //Gas
+    boolean hostGas=false;
+    boolean invitatedGas=false;
+    //ZombieTramp
+    boolean hostZombies=false;
+    boolean invitatedZombie=false;
+    //Spell Variables
+    //Freeze
+    boolean hostFreeze=true;
+    boolean invitatedFreeze=true;
+    //Supreme power
+    int hostSupremePower=3;
+    int invitatedSupremePower=3;
+    //Shield
+    boolean hostShield=false;
+    boolean invitatedShield=false;

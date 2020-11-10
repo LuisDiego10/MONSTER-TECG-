@@ -67,6 +67,7 @@ public class Lcde {
             newNode.fact = value;
             newNode.nextNode = newNode.prevNode = newNode;
             start = newNode;
+            sizeLCDE++;
             return;
         }
         Node lastNode = (start).prevNode;
@@ -84,27 +85,26 @@ public class Lcde {
      * Class for delete nodes
      * @author Diego
      * @param valueFind, key of the data stored in the node, in this case is the card name
-     * @return start node
      * @version 1.0
      * @since 30/10/2020
      */
 
-    public Node deleteNode(String valueFind) {
+    public void deleteNode(String valueFind) {
         if (start == null)
-            return null;
+            return;
         Node currentNode = start, prev1 = null;
-        sizeLCDE--;
+
         while (!currentNode.fact.name.equals(valueFind)) {
             if (currentNode.nextNode == start) {
                 System.out.printf("\nList doesn't have node with value = %s", valueFind);
-                return start;
+                return;
             }
             prev1 = currentNode;
             currentNode = currentNode.nextNode;
         }
         if (currentNode.nextNode == start && prev1 == null) {
-            (start) = null;
-            return start;
+            sizeLCDE--;
+            return;
         }
         if (currentNode == start) {
             prev1 = (start).prevNode;
@@ -121,7 +121,8 @@ public class Lcde {
             prev1.nextNode = aux;
             aux.prevNode = prev1;
         }
-        return start;
+        sizeLCDE--;
+        if(sizeLCDE<0){sizeLCDE=0;}
     }
     /**
      * Class display
@@ -150,7 +151,6 @@ public class Lcde {
     public Node getNode(String factkey){
         if (start == null){
             System.out.print("list is empty");
-
             return null;}
         Node currentNode = start, prev1 = null;
         while (!currentNode.fact.getName().equals(factkey)) {
@@ -162,7 +162,6 @@ public class Lcde {
             currentNode = currentNode.nextNode;
         }
         if (currentNode.nextNode == start && prev1 == null) {
-            (start) = null;
             return start;
         }
         return currentNode;

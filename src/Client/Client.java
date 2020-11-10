@@ -655,22 +655,38 @@ public class Client {
             labelEnemyHealt.setText(String.valueOf(data.enemyLife));
 
             //update all the space with the new data
-            while(a<=data.playerHand.sizeLCDE) {
-                Node node = data.playerHand.getStart();
-                for(int i=0;i<a;i++){
-                    node = node.nextNode;}
-                card=node.fact;
-                buttons[a].setText(getCardText(card));
-                a++;
+            while(a<
+                    data.playerHand.sizeLCDE) {
+                try {
+                    Node node = data.playerHand.getStart();
+                    for (int i = 0; i < a; i++) {
+                        node = node.nextNode;
+                    }
+                    if (node.fact != null) {
+                        card = node.fact;
+                        buttons[a].setText(getCardText(card));
+                    }
+                    a++;
+                } catch (NullPointerException e) {
+                    logger.error( "getting a card"+e);
+                    break;
+
+                }
             }
             //update all empty spaced of the hand with the new data
             a=9;
-            while(a>data.playerHand.sizeLCDE) {
+            while(a>=data.playerHand.sizeLCDE) {
+                try {
                 Node node = data.playerHand.getStart();
                 for(int i=0;i<a;i++){
                     node = node.prevNode;}
                 buttons[a].setText("Card");
-                a--;
+                a--;}
+                 catch (NullPointerException e) {
+                        logger.error( "getting a card"+e);
+                        break;
+
+                    }
             }
             //update the own table with the data
             card=data.playerTable[0];

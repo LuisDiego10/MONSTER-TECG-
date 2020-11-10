@@ -71,50 +71,51 @@ public class Server extends Thread {
         } catch (IOException e) {
             logger.error("error trying to set first turn for invitated"+e);
         }
+        //Variables of events
+        //Secrets Variables
+        //Assistans
+        boolean hostAssistans=false;
+        boolean invitatedAssistans=false;
+        //EyesxEyes
+        boolean hostEyesxEyes=false;
+        boolean invitatedEyesxEyes=false;
+        //Cleaner
+        boolean hostCleaner=false;
+        boolean invitatedCleaner=false;
+        //Strength
+        boolean hostStrength=false;
+        boolean invitatedStrength=false;
+        //Sacrifice
+        boolean hostSacrifice=false;
+        boolean invitatedSacrifice=false;
+        //Graveyard
+        boolean hostGraveyard=false;
+        boolean invitatedGraveyard=false;
+        //TemporalTramp
+        boolean hostTemporalTramp=false;
+        boolean invitatedTemporalTramp=false;
+        //Gas
+        boolean hostGas=false;
+        boolean invitatedGas=false;
+        //ZombieTramp
+        boolean hostZombies=false;
+        boolean invitatedZombie=false;
+        //Spell Variables
+        //Getting turn
+        boolean hostGettingTurn=true;
+        boolean invitateGettingTurn=true;
+        //Peek
+        boolean hostAllowPeekDeck=true;
+        boolean invitateAllowPeekDeck=true;
+        //Attacks
+        int hostMaxAttack=3;
+        int invitateMaxAttack=3;
+        //Freeze
+        boolean hostFreeze=true;
+        boolean invitatedFreeze=true;
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
-            //Variables of events
-            //Secrets Variables
-            //Assistans
-            boolean hostAssistans=false;
-            boolean invitatedAssistans=false;
-            //EyesxEyes
-            boolean hostEyesxEyes=false;
-            boolean invitatedEyesxEyes=false;
-            //Cleaner
-            boolean hostCleaner=false;
-            boolean invitatedCleaner=false;
-            //Strength
-            boolean hostStrength=false;
-            boolean invitatedStrength=false;
-            //Sacrifice
-            boolean hostSacrifice=false;
-            boolean invitatedSacrifice=false;
-            //Graveyard
-            boolean hostGraveyard=false;
-            boolean invitatedGraveyard=false;
-            //TemporalTramp
-            boolean hostTemporalTramp=false;
-            boolean invitatedTemporalTramp=false;
-            //Gas
-            boolean hostGas=false;
-            boolean invitatedGas=false;
-            //ZombieTramp
-            boolean hostZombies=false;
-            boolean invitatedZombie=false;
-            //Spell Variables
-            //Getting turn
-            boolean hostGettingTurn=true;
-            boolean invitateGettingTurn=true;
-            //Peek
-            boolean hostAllowPeekDeck=true;
-            boolean invitateAllowPeekDeck=true;
-            //Attacks
-            int hostMaxAttack=3;
-            int invitateMaxAttack=3;
-            //Freeze
-            boolean hostFreeze=true;
-            boolean invitatedFreeze=true;
+
 
             while (playerInvitated.turn) {
                 //get action from client
@@ -128,29 +129,20 @@ public class Server extends Thread {
                     if(invitatedCleaner==true&&playerInvitated.playerData.playerHand.sizeLCDE<=0){
                         //Assistans
                         hostAssistans=false;
-                        invitatedAssistans=false;
                         //EyesxEyes
                         hostEyesxEyes=false;
-                        invitatedEyesxEyes=false;
                         //Strength
                         hostStrength=false;
-                        invitatedStrength=false;
                         //Sacrifice
                         hostSacrifice=false;
-                        invitatedSacrifice=false;
                         //Graveyard
                         hostGraveyard=false;
-                        invitatedGraveyard=false;
                         //TemporalTramp
                         hostTemporalTramp=false;
-                        invitatedTemporalTramp=false;
                         //Gas
                         hostGas=false;
-                        invitatedGas=false;
                         //ZombieTramp
                         hostZombies=false;
-                        invitatedZombie=false;
-
 
                         invitatedCleaner=false;
 
@@ -502,28 +494,20 @@ public class Server extends Thread {
                     }
                     if(hostCleaner==true&&playerHost.playerData.playerHand.sizeLCDE<=0){
                         //Assistans
-                        hostAssistans=false;
                         invitatedAssistans=false;
                         //EyesxEyes
-                        hostEyesxEyes=false;
                         invitatedEyesxEyes=false;
                         //Strength
-                        hostStrength=false;
                         invitatedStrength=false;
                         //Sacrifice
-                        hostSacrifice=false;
                         invitatedSacrifice=false;
                         //Graveyard
-                        hostGraveyard=false;
                         invitatedGraveyard=false;
                         //TemporalTramp
-                        hostTemporalTramp=false;
                         invitatedTemporalTramp=false;
                         //Gas
-                        hostGas=false;
                         invitatedGas=false;
                         //ZombieTramp
-                        hostZombies=false;
                         invitatedZombie=false;
 
                         hostCleaner=false;

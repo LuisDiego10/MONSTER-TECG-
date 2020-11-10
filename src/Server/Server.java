@@ -296,6 +296,16 @@ public class Server extends Thread {
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.historial.insertLDE("AhoraEsMia","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            for (int i = 0; i < playerHost.playerData.playerTable.length; i++) {
+                                                if (playerHost.playerData.playerTable[i] != null) {
+                                                    for (int j = 0; j < playerInvitated.playerData.playerTable.length; j++) {
+                                                        if (playerInvitated.playerData.playerTable[j] == null) {
+                                                            playerInvitated.playerData.playerTable[j] =playerHost.playerData.playerTable[j];
+                                                            playerHost.playerData.playerTable[i]=null;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             SendMsg();
                                             break;
                                         case "Escudo":
@@ -728,6 +738,16 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("AhoraEsMia", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            for (int i = 0; i < playerInvitated.playerData.playerTable.length; i++) {
+                                                if (playerInvitated.playerData.playerTable[i] != null) {
+                                                    for (int j = 0; j < playerHost.playerData.playerTable.length; j++) {
+                                                        if (playerHost.playerData.playerTable[j] == null) {
+                                                            playerHost.playerData.playerTable[j] =playerHost.playerData.playerTable[j];
+                                                            playerInvitated.playerData.playerTable[i]=null;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             SendMsg();
 
                                             break;

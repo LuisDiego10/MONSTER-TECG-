@@ -12,10 +12,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeName("Minion")
 public class Minion extends Card{
-    public Minion(@JsonProperty("name")String minionName,@JsonProperty("health") int life, @JsonProperty("damage") int minionDamage){
+    public Minion(@JsonProperty("name")String minionName,@JsonProperty("cost")int cost,@JsonProperty("health") int life, @JsonProperty("damage") int minionDamage){
         name= minionName;
         healt= life;
         damage= minionDamage;
+        setManaCost(cost);
     }
 /**
  * Methods general

@@ -113,6 +113,9 @@ public class Server extends Thread {
         //Freeze
         boolean hostFreeze=true;
         boolean invitatedFreeze=true;
+        //Supreme power
+        int hostSupremePower=3;
+        int invitatedSupremePower=3;
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
 
@@ -465,7 +468,10 @@ public class Server extends Thread {
                                                 SendMsg();
                                             }
                                         }
+                                        while (hostSupremePower=3 ||hostSupremePower=2 || hostSupremePower=1){
 
+                                            hostSupremePower-=1;
+                                        }
                                     }
                                     SendMsg();
                                     invitateMaxAttack--;

@@ -243,7 +243,11 @@ public class Server extends Thread {
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.enemyTable = playerInvitated.playerData.playerTable;
                                             playerInvitated.playerData.historial.insertLDE(playerInvitated.playerData.playerTable[i].name, "invitado", "invocar");
-                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            if (invitatedSupremePower>0) {
+                                                invitatedSupremePower-=1;
+                                           }else {
+                                                playerInvitated.playerData.mana -= playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            }
                                             SendMsg();
                                             break;
                                         }
@@ -277,11 +281,10 @@ public class Server extends Thread {
                                             SendMsg();
                                             break;
                                         case "PoderSupremo":
-                                            playerInvitated.playerData.mana -= 300;
+                                            invitatedSupremePower=3;
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.historial.insertLDE("PoderSupremo","Invitado", "Invocar");
-                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             SendMsg();
                                             break;
                                         case "AhoraEsMia":
@@ -437,23 +440,27 @@ public class Server extends Thread {
                     action = action.substring(6);
                     Card attacker = null;
                     try {
-                        for (int i=0;i<5;i++) {
+                        for (int i = 0; i < 5; i++) {
                             //Get self hand card
-                            if(playerInvitated.playerData.playerTable[i].name.equals(action)){
-                                attacker=playerInvitated.playerData.playerTable[i];
-                                i=5;
+                            if (playerInvitated.playerData.playerTable[i].name.equals(action)) {
+                                attacker = playerInvitated.playerData.playerTable[i];
+                                i = 5;
                                 SendMsg();
                                 break;
                             }
                         }
-                        if(attacker==null){break;}
+                        if (attacker == null) {
+                            break;
+                        }
                         try {
                             //Get enemy card name, empty is direct attack
                             action = playerInvitated.in.readUTF();
-                        } catch (IOException e) {logger.error("error getting action trying again");}
+                        } catch (IOException e) {
+                            logger.error("error getting action trying again");
+                        }
                         //Get enemy hand card
-                        for (int i=0;i<5;i++) {
-                            if(i<playerHost.playerData.playerTable.length && playerHost.playerData.playerTable[i]!=null) {
+                        for (int i = 0; i < 5; i++) {
+                            if (i < playerHost.playerData.playerTable.length && playerHost.playerData.playerTable[i] != null) {
                                 if (hostShield == false) {
                                     if (playerHost.playerData.playerTable[i].name.equals(action)) {
                                         playerHost.playerData.playerTable[i].healt -= attacker.damage;
@@ -499,22 +506,26 @@ public class Server extends Thread {
                                         invitateMaxAttack--;
                                         break;
                                     }
-                                }else{
-                                    invitateMaxAttack--;
-                                    SendMsg();
+
                                 }
+                            } else {
+                                invitateMaxAttack--;
+                                SendMsg();
                             }
+
                             //if enemy hand empty direct attack
 
-                            if(i==4){
-                                playerHost.playerData.life-=attacker.damage;
-                                playerInvitated.playerData.enemyLife=playerHost.playerData.life;
+                            if (i == 4) {
+                                playerHost.playerData.life -= attacker.damage;
+                                playerInvitated.playerData.enemyLife = playerHost.playerData.life;
                                 invitateMaxAttack--;
                                 SendMsg();
 
                             }
 
+
                         }
+
                     } catch (NullPointerException e) {logger.error("Not catched attacked card, or no existing card");}
                 }
                 //peek a card from the deck
@@ -635,8 +646,12 @@ public class Server extends Thread {
                                             playerHost.playerData.playerHand.deleteNode(action);
                                             playerInvitated.playerData.enemyTable = playerHost.playerData.playerTable;
                                             playerHost.playerData.historial.insertLDE(playerHost.playerData.playerTable[i].name, "invitado", "invocar");
+                                            if (hostSupremePower>0) {
+                                                hostSupremePower-=1;
+                                            }else {
+                                                playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            }
                                             SendMsg();
-                                            playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             break;
                                         }
                                     }
@@ -668,11 +683,11 @@ public class Server extends Thread {
                                             SendMsg();
                                             break;
                                         case "PoderSupremo":
-                                            playerHost.playerData.mana -= 300;
+                                            hostSupremePower=3;
+                                            playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
                                             playerHost.playerData.historial.insertLDE("PoderSupremo", "Host", "Invocar");
                                             SendMsg();
-
                                             break;
                                         case "AhoraEsMia":
                                             playerHost.playerData.mana -= 300;

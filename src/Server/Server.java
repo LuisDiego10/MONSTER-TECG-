@@ -72,6 +72,16 @@ public class Server extends Thread {
             logger.error("error trying to set first turn for invitated"+e);
         }
         //Variables of events
+        //Getting turn
+        boolean hostGettingTurn=true;
+        boolean invitateGettingTurn=true;
+        //Peek
+        boolean hostAllowPeekDeck=true;
+        boolean invitateAllowPeekDeck=true;
+        //Attacks
+        int hostMaxAttack=3;
+        int invitateMaxAttack=3;
+
         //Secrets Variables
         //Assistans
         boolean hostAssistans=false;
@@ -101,15 +111,6 @@ public class Server extends Thread {
         boolean hostZombies=false;
         boolean invitatedZombie=false;
         //Spell Variables
-        //Getting turn
-        boolean hostGettingTurn=true;
-        boolean invitateGettingTurn=true;
-        //Peek
-        boolean hostAllowPeekDeck=true;
-        boolean invitateAllowPeekDeck=true;
-        //Attacks
-        int hostMaxAttack=3;
-        int invitateMaxAttack=3;
         //Freeze
         boolean hostFreeze=true;
         boolean invitatedFreeze=true;
@@ -119,6 +120,12 @@ public class Server extends Thread {
         //Shield
         boolean hostShield=false;
         boolean invitatedShield=false;
+        //DoubleAttack
+        boolean hostDoubleAttack =false;
+        boolean invitatedDoubleAttack=false;
+        //CounterAttack
+        boolean hostCounterAttack=false;
+        boolean invitatedCounterAttack=false;
         while (playerHost.playerData.life > 0 | playerInvitated.playerData.life > 0) {
             SendMsg();
 
@@ -288,6 +295,17 @@ public class Server extends Thread {
                                         case "AhoraEsMia":
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.historial.insertLDE("AhoraEsMia","Invitado", "Invocar");
+                                            playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            for (int i = 0; i < playerHost.playerData.playerTable.length; i++) {
+                                                if (playerHost.playerData.playerTable[i] != null) {
+                                                    for (int j = 0; j < playerInvitated.playerData.playerTable.length; j++) {
+                                                        if (playerInvitated.playerData.playerTable[j] == null) {
+                                                            playerInvitated.playerData.playerTable[j] =playerHost.playerData.playerTable[j];
+                                                            playerHost.playerData.playerTable[i]=null;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             SendMsg();
                                             break;
@@ -301,22 +319,53 @@ public class Server extends Thread {
                                         case "Invalidar":
                                             playerInvitated.playerData.historial.insertLDE("Invalidar","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            //Secrets Variables
+                                            //Assistans
+                                            hostAssistans=false;
+                                            //EyesxEyes
+                                            hostEyesxEyes=false;
+                                            //Cleaner
+                                            hostCleaner=false;
+                                            //Strength
+                                            hostStrength=false;
+                                            //Sacrifice
+                                            hostSacrifice=false;
+                                            //Graveyard
+                                            hostGraveyard=false;
+                                            //TemporalTramp
+                                            hostTemporalTramp=false;
+                                            //Gas
+                                            hostGas=false;
+                                            //ZombieTramp
+                                            hostZombies=false;
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             SendMsg();
                                             break;
                                         case "Anulacion":
                                             playerInvitated.playerData.historial.insertLDE("Anulacion","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
-                                            playerInvitated.playerData.playerHand.deleteNode(action);
-                                            SendMsg();
+                                            //Spell Variables
+                                            //Freeze
+                                             hostFreeze=true;
+                                            //Supreme power
+                                             hostSupremePower=3;
+                                            //Shield
+                                             hostShield=false;
+                                             playerInvitated.playerData.playerHand.deleteNode(action);
+                                             SendMsg();
                                             break;
                                         case "Contrarrestar":
                                             playerInvitated.playerData.historial.insertLDE("Contrarrestar","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            invitatedCounterAttack=true;
                                             playerInvitated.playerData.playerHand.deleteNode(action);
                                             SendMsg();
                                             break;
                                         case "Duplicar":
+
+                                            playerInvitated.playerData.mana -= 300;
+                                            invitatedDoubleAttack=true;
+
                                             playerInvitated.playerData.historial.insertLDE("Duplicar","Invitado", "Invocar");
                                             playerInvitated.playerData.mana-=playerInvitated.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerInvitated.playerData.playerHand.deleteNode(action);
@@ -452,56 +501,66 @@ public class Server extends Thread {
                         //Get enemy hand card
                         for (int i = 0; i < 5; i++) {
                             if (i < playerHost.playerData.playerTable.length && playerHost.playerData.playerTable[i] != null) {
-                                if (hostShield == false) {
-                                    if (playerHost.playerData.playerTable[i].name.equals(action)) {
-                                        playerHost.playerData.playerTable[i].healt -= attacker.damage;
-                                        if (playerHost.playerData.playerTable[i].healt <= 0) {
-                                            if (hostGraveyard == true && playerHost.playerData.playerHand.sizeLCDE < 10) {
-                                                Minion card = Factory.Master().minion[0];
-                                                for (int c = 0; c <= 20; c++) {
-                                                    if (Factory.Master().minion[c].name.equals(action)) {
-                                                        card = Factory.Master().minion[c];
-                                                    }
-                                                }
-                                                playerHost.playerData.playerHand.insert(card);
-                                                hostGraveyard = false;
-                                                SendMsg();
-                                            }
-                                            playerHost.playerData.playerTable[i] = null;
-                                            if (hostEyesxEyes == true) {
-                                                for (int c = 0; c < 5; c++) {
-                                                    //Get self hand card
-                                                    if (playerInvitated.playerData.playerTable[c].name.equals(attacker.name)) {
-                                                        playerInvitated.playerData.playerTable[c] = null;
-                                                        c = 5;
-                                                        hostEyesxEyes = false;
+                                if (!hostShield) {
+                                    if (!invitatedDoubleAttack) {
+                                        if (!hostCounterAttack) {
+                                            if (playerHost.playerData.playerTable[i].name.equals(action)) {
+                                                playerHost.playerData.playerTable[i].healt -= attacker.damage;
+                                                if (playerHost.playerData.playerTable[i].healt <= 0) {
+                                                    if (hostGraveyard && playerHost.playerData.playerHand.sizeLCDE < 10) {
+                                                        Minion card = Factory.Master().minion[0];
+                                                        for (int c = 0; c <= 20; c++) {
+                                                            if (Factory.Master().minion[c].name.equals(action)) {
+                                                                card = Factory.Master().minion[c];
+                                                            }
+                                                        }
+                                                        playerHost.playerData.playerHand.insert(card);
+                                                        hostGraveyard = false;
                                                         SendMsg();
-                                                        break;
                                                     }
-                                                }
-                                            }
-                                            if (hostSacrifice == true) {
-                                                if (playerHost.playerData.mana <= 700) {
-                                                    playerHost.playerData.mana += 300;
-                                                    hostSacrifice = false;
-                                                    SendMsg();
-                                                } else {
-                                                    playerHost.playerData.mana = 1000;
-                                                    hostSacrifice = false;
-                                                    SendMsg();
-                                                }
-                                            }
+                                                    playerHost.playerData.playerTable[i] = null;
+                                                    if (hostEyesxEyes) {
+                                                        for (int c = 0; c < 5; c++) {
+                                                            //Get self hand card
+                                                            if (playerInvitated.playerData.playerTable[c].name.equals(attacker.name)) {
+                                                                playerInvitated.playerData.playerTable[c] = null;
+                                                                c = 5;
+                                                                hostEyesxEyes = false;
+                                                                SendMsg();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (hostSacrifice == true) {
+                                                        if (playerHost.playerData.mana <= 700) {
+                                                            playerHost.playerData.mana += 300;
+                                                            hostSacrifice = false;
+                                                            SendMsg();
+                                                        } else {
+                                                            playerHost.playerData.mana = 1000;
+                                                            hostSacrifice = false;
+                                                            SendMsg();
+                                                        }
+                                                    }
 
+                                                }
+                                                SendMsg();
+                                                invitateMaxAttack--;
+                                                break;
+                                            }
+                                        }else{
+                                            playerInvitated.playerData.playerTable[i].healt -= attacker.damage;
+                                            SendMsg();
                                         }
+                                    }else{
+                                        playerHost.playerData.playerTable[i].healt -= attacker.damage;
+                                        playerHost.playerData.playerTable[i].healt -= attacker.damage;
                                         SendMsg();
-                                        invitateMaxAttack--;
-                                        break;
                                     }
-
+                                } else {
+                                    invitateMaxAttack--;
+                                    SendMsg();
                                 }
-                            } else {
-                                invitateMaxAttack--;
-                                SendMsg();
                             }
 
                             //if enemy hand empty direct attack
@@ -685,6 +744,16 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("AhoraEsMia", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            for (int i = 0; i < playerInvitated.playerData.playerTable.length; i++) {
+                                                if (playerInvitated.playerData.playerTable[i] != null) {
+                                                    for (int j = 0; j < playerHost.playerData.playerTable.length; j++) {
+                                                        if (playerHost.playerData.playerTable[j] == null) {
+                                                            playerHost.playerData.playerTable[j] =playerHost.playerData.playerTable[j];
+                                                            playerInvitated.playerData.playerTable[i]=null;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             SendMsg();
 
                                             break;
@@ -700,6 +769,25 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("Invalidar", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            //Secrets Variables
+                                            //Assistans
+                                            invitatedAssistans=false;
+                                            //EyesxEyes
+                                            invitatedEyesxEyes=false;
+                                            //Cleaner
+                                            invitatedCleaner=false;
+                                            //Strength
+                                            invitatedStrength=false;
+                                            //Sacrifice
+                                            invitatedSacrifice=false;
+                                            //Graveyard
+                                            invitatedGraveyard=false;
+                                            //TemporalTramp
+                                            invitatedTemporalTramp=false;
+                                            //Gas
+                                            invitatedGas=false;
+                                            //ZombieTramp
+                                            invitatedZombie=false;
                                             SendMsg();
 
                                             break;
@@ -707,21 +795,27 @@ public class Server extends Thread {
                                             playerHost.playerData.historial.insertLDE("Anulacion", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            invitatedFreeze=true;
+                                            //Supreme power
+                                            invitatedSupremePower=3;
+                                            //Shield
+                                            invitatedShield=false;
                                             SendMsg();
 
                                             break;
                                         case "Contrarrestar":
                                             playerHost.playerData.historial.insertLDE("Contrarrestar", "Host", "Invocar");
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
+                                            hostCounterAttack=true;
                                             playerHost.playerData.playerHand.deleteNode(action);
                                             SendMsg();
 
                                             break;
                                         case "Duplicar":
                                             playerHost.playerData.historial.insertLDE("Duplicar", "Host", "Invocar");
-
                                             playerHost.playerData.mana-=playerHost.playerData.playerHand.getNode(action).fact.getManaCost();
                                             playerHost.playerData.playerHand.deleteNode(action);
+                                            hostDoubleAttack=true;
                                             SendMsg();
 
                                             break;
@@ -851,52 +945,64 @@ public class Server extends Thread {
                         //Get enemy hand card
                         for (int i=0;i<5;i++) {
                             if(i<playerInvitated.playerData.playerTable.length && playerInvitated.playerData.playerTable[i]!=null) {
-                                if (invitatedShield) {
-                                    if (playerInvitated.playerData.playerTable[i].name.equals(action)) {
-                                        playerInvitated.playerData.playerTable[i].healt -= attacker.damage;
-                                        if (playerInvitated.playerData.playerTable[i].healt <= 0) {
-                                            if (invitatedGraveyard == true && playerInvitated.playerData.playerHand.sizeLCDE < 10) {
-                                                Minion card = Factory.Master().minion[0];
-                                                for (int c = 0; c <= 20; c++) {
-                                                    if (Factory.Master().minion[c].name.equals(action)) {
-                                                        card = Factory.Master().minion[c];
-                                                    }
-                                                }
-                                                playerInvitated.playerData.playerHand.insert(card);
-                                                invitatedGraveyard = false;
-                                                SendMsg();
-                                            }
-                                            playerInvitated.playerData.playerTable[i] = null;
-                                            if (invitatedEyesxEyes == true) {
-                                                for (int c = 0; c < 5; c++) {
-                                                    //Get self hand card
-                                                    if (playerHost.playerData.playerTable[c].name.equals(attacker.name)) {
-                                                        playerHost.playerData.playerTable[c] = null;
-                                                        c = 5;
-                                                        invitatedEyesxEyes = false;
+                                if (invitatedShield==false) {
+                                    if (hostDoubleAttack==false){
+                                        if(!invitatedCounterAttack) {
+                                            if (playerInvitated.playerData.playerTable[i].name.equals(action)) {
+                                                playerInvitated.playerData.playerTable[i].healt -= attacker.damage;
+                                                if (playerInvitated.playerData.playerTable[i].healt <= 0) {
+                                                    if (invitatedGraveyard == true && playerInvitated.playerData.playerHand.sizeLCDE < 10) {
+                                                        Minion card = Factory.Master().minion[0];
+                                                        for (int c = 0; c <= 20; c++) {
+                                                            if (Factory.Master().minion[c].name.equals(action)) {
+                                                                card = Factory.Master().minion[c];
+                                                            }
+                                                        }
+                                                        playerInvitated.playerData.playerHand.insert(card);
+                                                        invitatedGraveyard = false;
                                                         SendMsg();
-                                                        break;
+                                                    }
+                                                    playerInvitated.playerData.playerTable[i] = null;
+                                                    if (invitatedEyesxEyes == true) {
+                                                        for (int c = 0; c < 5; c++) {
+                                                            //Get self hand card
+                                                            if (playerHost.playerData.playerTable[c].name.equals(attacker.name)) {
+                                                                playerHost.playerData.playerTable[c] = null;
+                                                                c = 5;
+                                                                invitatedEyesxEyes = false;
+                                                                SendMsg();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (invitatedSacrifice == true) {
+                                                        if (playerInvitated.playerData.mana <= 700) {
+                                                            playerInvitated.playerData.mana += 300;
+                                                            invitatedSacrifice = false;
+                                                            SendMsg();
+                                                        } else {
+                                                            playerInvitated.playerData.mana = 1000;
+                                                            invitatedSacrifice = false;
+                                                            SendMsg();
+                                                        }
+
                                                     }
                                                 }
+                                                SendMsg();
+                                                hostMaxAttack--;
+                                                break;
                                             }
-                                            if (invitatedSacrifice == true) {
-                                                if (playerInvitated.playerData.mana <= 700) {
-                                                    playerInvitated.playerData.mana += 300;
-                                                    invitatedSacrifice = false;
-                                                    SendMsg();
-                                                } else {
-                                                    playerInvitated.playerData.mana = 1000;
-                                                    invitatedSacrifice = false;
-                                                    SendMsg();
-                                                }
-
-                                            }
+                                        }else{
+                                            playerHost.playerData.playerTable[i].healt -= attacker.damage;
+                                            SendMsg();
                                         }
+                                    } else{
+                                        playerInvitated.playerData.playerTable[i].healt -= attacker.damage;
+                                        playerInvitated.playerData.playerTable[i].healt -= attacker.damage;
                                         SendMsg();
-                                        hostMaxAttack--;
-                                        break;
                                     }
-                                }else{
+
+                                } else{
                                     hostMaxAttack--;
                                     SendMsg();
                                 }

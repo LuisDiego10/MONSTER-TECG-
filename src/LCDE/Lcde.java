@@ -103,7 +103,9 @@ public class Lcde {
             currentNode = currentNode.nextNode;
         }
         if (currentNode.nextNode == start && prev1 == null) {
-            sizeLCDE--;
+            sizeLCDE=0;
+            start= null;
+            end= null;
             return;
         }
         if (currentNode == start) {
@@ -133,11 +135,13 @@ public class Lcde {
      */
     public void display() {
         Node aux = start;
-        while (aux.nextNode != start) {
-            System.out.printf("%s ", aux.fact.getName());
-            aux = aux.nextNode;
+        if(aux!=null) {
+            while (aux.nextNode != start) {
+                System.out.printf("%s ", aux.fact.getName());
+                aux = aux.nextNode;
+            }
+            System.out.printf("%s \n ", aux.fact.getName());
         }
-        System.out.printf("%s \n ", aux.fact.getName());
     }
 
     /**

@@ -44,6 +44,8 @@ public class Lde {
             newNode.prevNodeLDE = null;
             start = newNode;
             lastNode=newNode;
+            sizeLDE++;
+
             return;
         }
         NodeLDE newNode = new NodeLDE();
@@ -52,6 +54,7 @@ public class Lde {
         newNode.action = action;
         newNode.prevNodeLDE = lastNode;
         lastNode.nextNodeLDE = newNode;
+        lastNode=newNode ;
         sizeLDE++;
     }
     /**

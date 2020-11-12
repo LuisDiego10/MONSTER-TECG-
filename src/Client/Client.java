@@ -308,7 +308,7 @@ public class Client {
                 }
 
                 public void mouseClicked(MouseEvent e) {
-                    if (SwingUtilities.isRightMouseButton(e)&&e.getClickCount()==1){
+                    if (SwingUtilities.isLeftMouseButton(e)&&e.getClickCount()==1){
                         if (actualH==null){
                             actualH=Client.getUserData().historial.start;
                         }else if (actualH==Client.getUserData().historial.start && actualH.nextNodeLDE!=null){
@@ -426,7 +426,9 @@ public class Client {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        out.writeUTF("invoke"+Client.getUserData().playerHand.getStart().fact.name);
+                        if (Client.getUserData().playerHand.getStart()!=null) {
+                            out.writeUTF("invoke" + Client.getUserData().playerHand.getStart().fact.name);
+                        }
 
                     } catch (IOException ex) {
                         logger.error("error while client invoke card"+ex);
@@ -658,17 +660,18 @@ public class Client {
             while(a<
                     data.playerHand.sizeLCDE) {
                 try {
-                    Node node = data.playerHand.getStart();
-                    for (int i = 0; i < a; i++) {
-                        node = node.nextNode;
-                    }
-                    if (node.fact != null) {
-                        card = node.fact;
-                        buttons[a].setText(getCardText(card));
-                    }
-                    a++;
+                        Node node = data.playerHand.getStart();
+                        for (int i = 0; i < a; i++) {
+                            node = node.nextNode;
+                        }
+                        if (node.fact != null) {
+                            card = node.fact;
+                            buttons[a].setText(getCardText(card));
+                        }
+                        a++;
                 } catch (NullPointerException e) {
-                    logger.error( "getting a card"+e);
+                    buttons[0].setText("card");
+                    logger.error( "getting a card (1)"+e);
                     break;
 
                 }
@@ -683,7 +686,8 @@ public class Client {
                 buttons[a].setText("Card");
                 a--;}
                  catch (NullPointerException e) {
-                        logger.error( "getting a card"+e);
+                        buttons[0].setText("card");
+                        logger.error( "getting a card (2)"+e);
                         break;
 
                     }
@@ -763,6 +767,9 @@ public class Client {
             text.append("cost: ").append(card.getManaCost()).append("<br>");
             text.append("<html>");
             return text.toString();
+        }
+        public void win(){
+            labelHealt.setText("You win");
         }
     }
 
@@ -871,9 +878,12 @@ class SocketListen extends Thread{
                 String msg;
                 msg=input.readUTF();
                 logger.debug("socket receive"+msg);
-                if (msg.equals("turn")){
+                if (msg.contains("turn")){
                     Client.startTurn();
-                }else{
+                }else if(msg.equals("win")){
+
+                }
+                else{
                     Client.updatePlayerData(mapp.readValue(msg,Userdata.class));
                     Client.getUserData().playerHand.display();
                 }

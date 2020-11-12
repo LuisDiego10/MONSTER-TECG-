@@ -514,9 +514,10 @@ public class Server extends Thread {
                                     attackPlayer=false;
                                     if (!hostShield) {
 
-                                        if (!invitatedDoubleAttack) {
+                                        if (invitatedDoubleAttack) {
                                             playerHost.playerData.playerTable[i].healt -= attacker.damage;
                                             playerHost.playerData.playerTable[i].healt -= attacker.damage;
+                                            invitatedDoubleAttack = false;
                                         } else {
                                             playerHost.playerData.playerTable[i].healt -= attacker.damage;
                                         }
